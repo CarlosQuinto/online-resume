@@ -22,22 +22,24 @@ Sin credenciales de Firebase en `.env` el sitio corre en **modo local**: el cont
 1. Consola de Firebase → Configuración del proyecto → *Tus apps* → añade una app **Web** y copia el `firebaseConfig` a `.env` (`VITE_FIREBASE_*`).
 2. **Firestore** → crea la base de datos en modo producción.
 3. **Authentication** → Métodos de acceso → habilita **Anónimo**.
-4. Arranca `npm run dev`, entra a `/admin` con el PIN local, pestaña **Ajustes**, genera el hash de tu PIN real y crea en Firestore el documento `config/admin` con el campo `pinHash` (string).
-5. Publica reglas y hosting:
+4. Despliega reglas y crea el PIN + semilla:
 
 ```bash
 firebase login
 firebase use carlos-carballo-awesome-resume
 firebase deploy --only firestore:rules
-npm run deploy            # build + hosting + reglas
+node scripts/seed-firestore.mjs        # primera vez: crea config/admin con un PIN y publica la semilla
+node scripts/seed-firestore.mjs 123456 # después: pasa el PIN actual para republicar la semilla
+npm run deploy                          # build + hosting + reglas
 ```
 
-6. Entra a `https://<tu-sitio>.web.app/admin`, pon el PIN real y pulsa **Publicar** para subir la semilla a `portfolio/main`.
+5. Entra a `https://<tu-sitio>.web.app/admin` con el PIN. Para cambiarlo: pestaña **Ajustes**.
 
 ### Cómo funciona el PIN
 
 - El cliente inicia sesión anónima y escribe `unlock/{uid}` con el PIN.
 - Las reglas de Firestore solo aceptan esa escritura si `sha256(pin)` coincide con `config/admin.pinHash` (documento no legible desde el cliente).
+- `config/admin` solo puede crearse una vez (bootstrap) y solo puede actualizarse desde una sesión ya desbloqueada.
 - Escribir `portfolio/main` exige que exista `unlock/{uid}`.
 - El PIN nunca viaja en el bundle ni se guarda en documentos públicos. Usa una frase de 8+ caracteres; para producción seria cambia el gate por Firebase Auth con email/contraseña.
 

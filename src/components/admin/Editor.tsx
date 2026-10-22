@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import type { PortfolioData } from '../../data/schema'
 import { seed } from '../../data/seed'
 import { savePortfolio } from '../../lib/content'
-import { lock, sha256Hex } from '../../lib/admin'
+import { lock, setPin } from '../../lib/admin'
 import { firebaseEnabled } from '../../lib/firebase'
 import { ListEditor, Select, Tags, Text, Toggle, uid } from './fields'
 
@@ -332,34 +332,36 @@ export default function Editor({ initial, onLock }: { initial: PortfolioData; on
   )
 }
 
-/** Genera el hash que debes guardar en Firestore: config/admin.pinHash */
+/** Cambia el PIN guardado en Firestore (config/admin.pinHash). */
 function PinHashHelper() {
-  const [pin, setPin] = useState('')
-  const [hash, setHash] = useState('')
+  const [pin, setPinValue] = useState('')
+  const [confirm, setConfirm] = useState('')
+  const [msg, setMsg] = useState<string | null>(null)
   return (
     <div className="grid max-w-xl gap-4">
-      <h2 className="text-lg font-semibold">Configurar el PIN en Firestore</h2>
-      <ol className="list-decimal space-y-2 pl-5 text-sm text-fg-muted">
-        <li>Escribe aquí el PIN (mejor una frase de 8+ caracteres) y copia el hash.</li>
-        <li>
-          En la consola de Firestore crea el documento <code className="font-mono text-fg">config/admin</code> con el campo{' '}
-          <code className="font-mono text-fg">pinHash</code> (string) = ese hash.
-        </li>
-        <li>Activa el proveedor «Anónimo» en Authentication → Métodos de acceso.</li>
-      </ol>
-      <Text label="PIN" value={pin} onChange={setPin} />
+      <h2 className="text-lg font-semibold">Cambiar el PIN</h2>
+      <p className="text-sm text-fg-muted">
+        El PIN se guarda como hash SHA-256 en Firestore y nunca viaja en el código del sitio. Usa una frase de 8+ caracteres. Solo
+        puedes cambiarlo desde una sesión ya desbloqueada.
+      </p>
+      <Text label="Nuevo PIN" value={pin} onChange={setPinValue} />
+      <Text label="Confirmar PIN" value={confirm} onChange={setConfirm} />
       <button
-        onClick={async () => setHash(await sha256Hex(pin.trim()))}
-        disabled={!pin}
+        onClick={async () => {
+          if (pin !== confirm) return setMsg('Los PIN no coinciden.')
+          const r = await setPin(pin)
+          setMsg(r.ok ? 'PIN actualizado ✓' : r.reason ?? 'Error')
+          if (r.ok) {
+            setPinValue('')
+            setConfirm('')
+          }
+        }}
+        disabled={!pin || !confirm}
         className="w-fit rounded-full bg-surface-2 px-5 py-2 text-sm font-semibold hover:bg-border disabled:opacity-40"
       >
-        Generar hash
+        Guardar PIN
       </button>
-      {hash && (
-        <code className="field break-all font-mono text-xs" onClick={() => navigator.clipboard?.writeText(hash)}>
-          {hash}
-        </code>
-      )}
+      {msg && <p className="text-sm text-fg-muted">{msg}</p>}
     </div>
   )
 }

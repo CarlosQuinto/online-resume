@@ -12,7 +12,19 @@ service cloud.firestore {
     }
 
     // Hash del PIN. Nadie lo lee desde el cliente; solo las reglas vía get().
-    match /config/{docId} {
+    // - create: solo la primera vez (bootstrap). Un create falla si el documento ya existe.
+    // - update: solo quien ya desbloqueó con el PIN vigente (cambio de PIN desde /admin).
+    match /config/admin {
+      allow read, delete: if false;
+      allow create: if request.auth != null
+        && request.resource.data.pinHash is string
+        && request.resource.data.pinHash.size() == 64;
+      allow update: if request.auth != null
+        && exists(/databases/$(database)/documents/unlock/$(request.auth.uid))
+        && request.resource.data.pinHash is string
+        && request.resource.data.pinHash.size() == 64;
+    }
+    match /config/{other} {
       allow read, write: if false;
     }
 

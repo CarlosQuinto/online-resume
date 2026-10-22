@@ -53,10 +53,34 @@ export function lock() {
   sessionStorage.removeItem(SESSION_KEY)
 }
 
-/** Calcula sha256 en hex. Útil para generar `config/admin.pinHash` desde /admin. */
+/** Calcula sha256 en hex. */
 export async function sha256Hex(text: string) {
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text))
   return Array.from(new Uint8Array(buf))
     .map((b) => b.toString(16).padStart(2, '0'))
     .join('')
+}
+
+/**
+ * Guarda el hash del PIN en `config/admin`.
+ * - Primera vez: cualquier sesión anónima puede crearlo (bootstrap); después nadie puede sobreescribirlo
+ *   salvo quien ya haya desbloqueado con el PIN vigente.
+ * - Tras guardarlo, también desbloquea la sesión actual con el nuevo PIN.
+ */
+export async function setPin(newPin: string): Promise<{ ok: boolean; reason?: string }> {
+  const clean = newPin.trim()
+  if (clean.length < 4) return { ok: false, reason: 'Usa al menos 4 caracteres (mejor 8+).' }
+  if (!firebaseEnabled || !db || !auth) return { ok: false, reason: 'Modo local: edita VITE_ADMIN_PIN en .env.' }
+  try {
+    const cred = auth.currentUser ?? (await signInAnonymously(auth)).user
+    const pinHash = await sha256Hex(clean)
+    await setDoc(doc(db, 'config', 'admin'), { pinHash, updatedAt: serverTimestamp() })
+    await setDoc(doc(db, 'unlock', cred.uid), { pin: clean, at: serverTimestamp() })
+    sessionStorage.setItem(SESSION_KEY, '1')
+    return { ok: true }
+  } catch (err) {
+    const code = (err as { code?: string }).code ?? ''
+    if (code.includes('permission-denied')) return { ok: false, reason: 'Ya existe un PIN: desbloquea con el actual antes de cambiarlo.' }
+    return { ok: false, reason: `Error: ${code || (err as Error).message}` }
+  }
 }
