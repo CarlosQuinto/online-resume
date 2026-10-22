@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 import type { Theme } from '../hooks/useTheme'
 
 const items = [
-  { href: '#pilares', label: 'Qué hago' },
   { href: '#experiencia', label: 'Experiencia' },
   { href: '#proyectos', label: 'Proyectos' },
+  { href: '#que-hago', label: 'Qué hago' },
   { href: '#sobre-mi', label: 'Sobre mí' },
 ]
 

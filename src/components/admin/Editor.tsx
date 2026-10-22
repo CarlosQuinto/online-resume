@@ -6,6 +6,7 @@ import { savePortfolio } from '../../lib/content'
 import { lock, setPin } from '../../lib/admin'
 import { firebaseEnabled } from '../../lib/firebase'
 import { ListEditor, Select, Tags, Text, Toggle, uid } from './fields'
+import CoverCropper from './CoverCropper'
 
 type Tab =
   | 'perfil'
@@ -140,7 +141,7 @@ export default function Editor({ initial, onLock }: { initial: PortfolioData; on
             <ListEditor
               items={data.experience}
               onChange={(experience) => patch({ experience })}
-              create={() => ({ id: uid('exp'), company: '', role: '', start: '', end: null, location: '', summary: '', highlights: [], stack: [] })}
+              create={() => ({ id: uid('exp'), company: '', role: '', start: '', end: null, location: '', summary: '', highlights: [], stack: [], coverUrl: '', cover: { x: 50, y: 50, scale: 1 }, color: '#115E59' })}
               title={(e) => `${e.role} · ${e.company}`}
               render={(e, up) => (
                 <>
@@ -154,6 +155,7 @@ export default function Editor({ initial, onLock }: { initial: PortfolioData; on
                   <Text label="Resumen" value={e.summary} onChange={(v) => up({ summary: v })} multiline />
                   <Tags label="Logros" value={e.highlights} onChange={(v) => up({ highlights: v })} separator={'\n'} />
                   <Tags label="Stack" value={e.stack} onChange={(v) => up({ stack: v })} />
+                  <CoverCropper exp={e} onChange={up} />
                 </>
               )}
             />

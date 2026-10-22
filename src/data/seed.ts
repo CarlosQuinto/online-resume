@@ -1,4 +1,16 @@
-import type { PortfolioData } from './schema'
+import type { Experience, PortfolioData } from './schema'
+
+/** Color de marca por empresa para las tarjetas sin imagen. Sustituye por coverUrl desde /admin. */
+const brand: Record<string, Partial<Experience>> = {
+  'exp-ntt': { color: '#0B5FFF' },
+  'exp-sfdc': { color: '#00A1E0' },
+  'exp-csi': { color: '#6D28D9' },
+  'exp-tcs': { color: '#1E3A8A' },
+  'exp-intugo': { color: '#0F766E' },
+  'exp-freelance': { color: '#B45309' },
+  'exp-pemex': { color: '#166534' },
+}
+const withBrand = (list: Experience[]) => list.map((e) => ({ coverUrl: '', cover: { x: 50, y: 50, scale: 1 }, ...brand[e.id], ...e }))
 
 /**
  * Datos semilla, generados a partir del perfil de LinkedIn
@@ -27,7 +39,7 @@ export const seed: PortfolioData = {
       { label: 'Email', url: 'mailto:carloscarballod@gmail.com' },
     ],
   },
-  experience: [
+  experience: withBrand([
     {
       id: 'exp-ntt',
       company: 'NTT DATA Services',
@@ -129,7 +141,7 @@ export const seed: PortfolioData = {
       highlights: ['Metodología RUP y arquitectura en N capas dentro de un equipo de desarrollo.'],
       stack: ['C#', 'Visual Basic', 'RUP'],
     },
-  ],
+  ]),
   education: [
     {
       id: 'edu-tecmilenio',

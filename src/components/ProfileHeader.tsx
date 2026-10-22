@@ -1,0 +1,57 @@
+import { motion } from 'framer-motion'
+import type { Profile } from '../data/schema'
+
+/** Cabecera de perfil al estilo Dribbble: avatar a la izquierda, nombre, ubicación, línea de skills y acciones. */
+export default function ProfileHeader({ profile }: { profile: Profile }) {
+  const initials = profile.name
+    .split(' ')
+    .map((p) => p[0])
+    .slice(0, 2)
+    .join('')
+  const email = profile.links.find((l) => l.url.startsWith('mailto:'))
+  const social = profile.links.filter((l) => !l.url.startsWith('mailto:'))
+
+  return (
+    <section id="top" className="bg-bg pt-10 pb-6">
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+        className="container-narrow flex flex-col items-center gap-6 text-center sm:flex-row sm:items-start sm:text-left"
+      >
+        {profile.avatarUrl ? (
+          <img src={profile.avatarUrl} alt={profile.name} className="h-28 w-28 shrink-0 rounded-full object-cover shadow-card" />
+        ) : (
+          <div className="grid h-28 w-28 shrink-0 place-items-center rounded-full bg-accent text-3xl font-extrabold text-on-accent shadow-card">
+            {initials}
+          </div>
+        )}
+        <div className="min-w-0 flex-1">
+          <h1 className="text-3xl font-extrabold tracking-tight">{profile.name}</h1>
+          <p className="mt-1 text-fg-subtle">{profile.location}</p>
+          <p className="mt-2 text-lg text-fg-muted">{profile.headline}</p>
+          <p className="mt-1 max-w-2xl text-fg-muted">{profile.tagline}</p>
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-2 sm:justify-start">
+            {email && (
+              <a href={email.url} className="btn-primary hover:scale-[1.02]">
+                Escríbeme
+              </a>
+            )}
+            {social.map((l) => (
+              <a key={l.label} href={l.url} target="_blank" rel="noreferrer" className="btn-outline hover:bg-accent-soft">
+                {l.label}
+              </a>
+            ))}
+            <span className="ml-1 inline-flex items-center gap-2 text-sm text-fg-subtle">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+              </span>
+              {profile.availability}
+            </span>
+          </div>
+        </div>
+      </motion.div>
+    </section>
+  )
+}

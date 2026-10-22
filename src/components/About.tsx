@@ -15,7 +15,7 @@ export default function About({ hobbies, pets, education }: { hobbies: Hobby[]; 
   const current = hobbies.find((h) => h.id === active) ?? hobbies[0]
 
   return (
-    <Section id="sobre-mi" title="Fuera del IDE" intro="Ajedrez, fútbol, mar y tres perros. Lo que me mantiene curioso.">
+    <Section id="panel-sobre-mi" title="Fuera del IDE" intro="Ajedrez, fútbol, mar y tres perros. Lo que me mantiene curioso.">
       {/* Hobbies: 4 iconos circulares + detalle */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4" role="tablist" aria-label="Hobbies">
         {hobbies.map((h, i) => {

@@ -11,7 +11,7 @@ const host = (url: string) => {
 export default function Projects({ items }: { items: Project[] }) {
   const sorted = [...items].sort((a, b) => Number(b.featured) - Number(a.featured))
   return (
-    <Section id="proyectos" title="Mis proyectos" intro="Productos propios y trabajo reciente. Cada tarjeta, una idea.">
+    <Section id="panel-proyectos" title="Mis proyectos" intro="Productos propios y trabajo reciente. Cada tarjeta, una idea.">
       <div className={`grid gap-5 sm:grid-cols-2 ${sorted.length === 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3'}`}>
         {sorted.map((p, i) => (
           <motion.article

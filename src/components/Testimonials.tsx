@@ -20,7 +20,7 @@ export default function Testimonials({ items }: { items: Recommendation[] }) {
     .join('')
 
   return (
-    <Section id="recomendaciones" title="Recomendaciones" intro="Lo que dicen las personas con las que he trabajado." tone="soft">
+    <Section id="panel-recomendaciones" title="Recomendaciones" intro="Lo que dicen las personas con las que he trabajado.">
       <div className="mx-auto max-w-3xl text-center">
         <AnimatePresence mode="wait">
           <motion.figure

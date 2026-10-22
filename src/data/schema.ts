@@ -13,6 +13,13 @@ export interface Profile {
   links: { label: string; url: string }[]
 }
 
+/** Encuadre de la imagen de portada: foco (x, y en %) y zoom (1 = cubrir). */
+export interface Cover {
+  x: number
+  y: number
+  scale: number
+}
+
 export interface Experience {
   id: string
   company: string
@@ -23,7 +30,14 @@ export interface Experience {
   summary: string
   highlights: string[]
   stack: string[]
+  /** URL de la imagen de portada de la tarjeta (opcional). */
+  coverUrl?: string
+  cover?: Cover
+  /** Color de marca para la tarjeta cuando no hay imagen. */
+  color?: string
 }
+
+export const DEFAULT_COVER: Cover = { x: 50, y: 50, scale: 1 }
 
 export interface Education {
   id: string
