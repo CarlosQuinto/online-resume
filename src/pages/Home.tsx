@@ -9,6 +9,7 @@ import Skills from '../components/Skills'
 import Projects from '../components/Projects'
 import Testimonials from '../components/Testimonials'
 import About from '../components/About'
+import Contact from '../components/Contact'
 import Footer from '../components/Footer'
 import { usePortfolio } from '../hooks/usePortfolio'
 import { useTheme } from '../hooks/useTheme'
@@ -20,6 +21,7 @@ const TABS = [
   { id: 'que-hago', label: 'Qué hago' },
   { id: 'recomendaciones', label: 'Recomendaciones' },
   { id: 'sobre-mi', label: 'Sobre mí' },
+  { id: 'contacto', label: 'Contacto' },
 ]
 
 export default function Home() {
@@ -31,7 +33,7 @@ export default function Home() {
 
   return (
     <>
-      <Nav name={data.profile.name} theme={theme} onToggleTheme={toggle} />
+      <Nav theme={theme} onToggleTheme={toggle} />
       <main>
         <ProfileHeader profile={data.profile} />
         <Tabs
@@ -70,6 +72,7 @@ export default function Home() {
               )}
               {active === 'recomendaciones' && <Testimonials items={data.recommendations ?? []} />}
               {active === 'sobre-mi' && <About hobbies={data.hobbies} pets={data.pets} education={data.education} />}
+              {active === 'contacto' && <Contact profile={data.profile} />}
             </motion.div>
           </AnimatePresence>
         </div>
