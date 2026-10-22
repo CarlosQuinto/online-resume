@@ -4,6 +4,9 @@ Portafolio personal en modo oscuro con un panel `/admin` protegido por PIN que e
 
 **Stack:** React 19 + Vite · Tailwind CSS v4 · Framer Motion · React Router · Firebase (Hosting, Firestore, Auth anónimo).
 
+- **Sitio:** https://carlos-carballo-awesome-resume.web.app
+- **Diseño en Figma** (tokens, estilos de texto y página desktop): https://www.figma.com/design/mXS81Jd12LtRPHD2zFnuUz
+
 ## Correr en local
 
 ```bash
