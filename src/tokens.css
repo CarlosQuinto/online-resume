@@ -1,65 +1,94 @@
 /* ==========================================================
-   Tokens de diseño · Dark mode · WCAG AAA
+   Tokens de diseño · Claro por defecto, oscuro opcional
    ----------------------------------------------------------
-   Escala tipográfica modular basada en la proporción áurea
-   (φ = 1.618) a partir de 16 px. Espaciado en múltiplos de 8
-   con pasos "macro" (secciones) y "micro" (componentes).
-   Contrastes sobre --bg (#0B0F14):
-     --fg       #E8EDF2  ≈ 16.9 : 1  (AAA)
-     --fg-muted #A3B0BF  ≈  9.1 : 1  (AAA)
-     --accent   #2DD4BF  ≈ 11.5 : 1  (AAA)
+   Inspirado en la densidad y limpieza de mattfarley.ca:
+   contenedor de 60rem, texto centrado, bandas de color como
+   separadores y tarjetas blancas montadas sobre la banda.
+   Contrastes (modo claro, sobre #FFFFFF):
+     --fg        #141C3A  ≈ 15.4 : 1  (AAA)
+     --fg-muted  #475467  ≈  7.6 : 1  (AAA)
+     --accent    #115E59  ≈  7.3 : 1  (AAA)
+     blanco sobre --band #115E59 ≈ 7.3 : 1 (AAA)
    ========================================================== */
 @import "tailwindcss";
 
-@theme {
-  /* Color */
-  --color-bg: #0B0F14;
-  --color-surface: #121820;
-  --color-surface-2: #182230;
-  --color-border: #243040;
-  --color-fg: #E8EDF2;
-  --color-fg-muted: #A3B0BF;
-  --color-fg-subtle: #7C8A99;
-  --color-accent: #2DD4BF;
-  --color-accent-strong: #5EEAD4;
-  --color-accent-ink: #042F2E;
-  --color-green: #86EFAC;
-  --color-amber: #FCD34D;
-  --color-violet: #C4B5FD;
-  --color-danger: #FCA5A5;
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
-  /* Tipografía — escala φ */
+@theme {
+  /* Color · claro */
+  --color-bg: #FFFFFF;
+  --color-surface: #FFFFFF;
+  --color-surface-2: #F4F7FA;
+  --color-border: #E4E9F0;
+  --color-fg: #141C3A;
+  --color-fg-muted: #475467;
+  --color-fg-subtle: #667085;
+  --color-accent: #115E59;
+  --color-accent-soft: #CCFBF1;
+  --color-accent-ink: #042F2E;
+  --color-on-accent: #FFFFFF;
+  --color-band: #115E59;
+  --color-band-fg: #FFFFFF;
+  --color-band-fg-muted: #CCFBF1;
+  --color-mint: #99F6E4;
+  --color-green: #15803D;
+  --color-amber: #B45309;
+  --color-violet: #6D28D9;
+  --color-danger: #B91C1C;
+
+  /* Tipografía · escala corta, como en sitios "limpios" */
   --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  --text-xs: 0.618rem;    /* 9.9px */
-  --text-sm: 0.764rem;    /* 12.2px */
-  --text-base: 1rem;      /* 16px */
-  --text-lg: 1.236rem;    /* 19.8px */
-  --text-xl: 1.618rem;    /* 25.9px */
-  --text-2xl: 2.618rem;   /* 41.9px */
-  --text-3xl: 4.236rem;   /* 67.8px */
+  --text-xs: 0.75rem;     /* 12 */
+  --text-sm: 0.875rem;    /* 14 */
+  --text-base: 1rem;      /* 16 */
+  --text-lg: 1.125rem;    /* 18 · cuerpo destacado */
+  --text-xl: 1.375rem;    /* 22 */
+  --text-2xl: 1.875rem;   /* 30 · títulos de sección */
+  --text-3xl: 2.5rem;     /* 40 · hero */
   --text-base--line-height: 1.6;
-  --text-lg--line-height: 1.5;
-  --text-xl--line-height: 1.3;
-  --text-2xl--line-height: 1.1;
-  --text-3xl--line-height: 1.0;
+  --text-lg--line-height: 1.55;
+  --text-xl--line-height: 1.35;
+  --text-2xl--line-height: 1.2;
+  --text-3xl--line-height: 1.15;
 
-  /* Espaciado macro (secciones) y micro (componentes) */
+  /* Espaciado */
   --spacing-micro: 0.75rem;
   --spacing-gutter: 1.5rem;
-  --spacing-macro: 6rem;
-  --spacing-macro-lg: 9.708rem; /* 96px · φ */
+  --spacing-section: 4rem;      /* 64 · secciones compactas */
+  --spacing-section-lg: 5rem;   /* 80 */
 
-  /* Radio y sombras */
-  --radius-card: 1rem;
+  --radius-card: 0.75rem;
   --radius-pill: 999px;
-  --shadow-card: 0 1px 0 0 rgb(255 255 255 / 0.04) inset, 0 12px 40px -12px rgb(0 0 0 / 0.6);
-
-  /* Movimiento */
+  --shadow-card: 0 1px 2px rgb(20 28 58 / 0.04), 0 8px 24px -12px rgb(20 28 58 / 0.18);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @layer base {
+  /* Modo oscuro: sobreescribe los tokens, los componentes no cambian */
+  :root[data-theme="dark"] {
+    --color-bg: #0B0F14;
+    --color-surface: #121820;
+    --color-surface-2: #182230;
+    --color-border: #243040;
+    --color-fg: #E8EDF2;
+    --color-fg-muted: #A3B0BF;
+    --color-fg-subtle: #7C8A99;
+    --color-accent: #2DD4BF;
+    --color-accent-soft: #134E4A;
+    --color-accent-ink: #042F2E;
+    --color-on-accent: #042F2E;
+    --color-band: #0F3D3A;
+    --color-band-fg: #F0FDFA;
+    --color-band-fg-muted: #99F6E4;
+    --color-mint: #134E4A;
+    --color-green: #86EFAC;
+    --color-amber: #FCD34D;
+    --color-violet: #C4B5FD;
+    --color-danger: #FCA5A5;
+    --shadow-card: 0 1px 0 0 rgb(255 255 255 / 0.04) inset, 0 12px 40px -12px rgb(0 0 0 / 0.6);
+  }
+
   html { scroll-behavior: smooth; }
   body {
     background-color: var(--color-bg);
@@ -67,8 +96,9 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
-  ::selection { background: var(--color-accent); color: var(--color-accent-ink); }
+  ::selection { background: var(--color-mint); color: var(--color-accent-ink); }
   :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; border-radius: 4px; }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
@@ -77,7 +107,7 @@
 
 @utility container-narrow {
   width: 100%;
-  max-width: 72rem;
+  max-width: 60rem;
   margin-inline: auto;
   padding-inline: var(--spacing-gutter);
 }
@@ -98,16 +128,62 @@
   color: var(--color-fg-muted);
   font-size: var(--text-sm);
   font-weight: 500;
-  padding: 0.25rem 0.75rem;
+  padding: 0.2rem 0.65rem;
   line-height: 1.4;
+}
+
+@utility link-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border-radius: 0.375rem;
+  background-color: var(--color-accent-soft);
+  color: var(--color-accent);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
 }
 
 @utility eyebrow {
   font-family: var(--font-mono);
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-accent);
+}
+
+@utility icon-circle {
+  display: grid;
+  place-items: center;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 999px;
+  background-color: var(--color-mint);
+  color: var(--color-accent-ink);
+  font-size: 1.75rem;
+}
+
+@utility btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-accent);
+  color: var(--color-on-accent);
+  font-weight: 600;
+  padding: 0.7rem 1.4rem;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+@utility btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--color-accent);
+  color: var(--color-accent);
+  font-weight: 600;
+  padding: 0.7rem 1.4rem;
+  transition: background-color 0.15s ease;
 }
 
 @utility field {
@@ -124,4 +200,10 @@
   font-size: var(--text-sm);
   color: var(--color-fg-muted);
   margin-bottom: 0.25rem;
+}
+@utility clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }

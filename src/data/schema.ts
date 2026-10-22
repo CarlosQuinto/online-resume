@@ -76,6 +76,15 @@ export interface Pet {
   bio: string
 }
 
+/** Tarjeta "pilar" montada sobre la banda: qué hago, con qué, y datos clave. */
+export interface Pillar {
+  id: string
+  title: string
+  emoji: string
+  description: string
+  lists: { label: string; items: string[] }[]
+}
+
 export interface Recommendation {
   id: string
   name: string
@@ -91,6 +100,7 @@ export interface PortfolioData {
   experience: Experience[]
   education: Education[]
   certifications: Certification[]
+  pillars: Pillar[]
   skillGroups: SkillGroup[]
   projects: Project[]
   recommendations: Recommendation[]

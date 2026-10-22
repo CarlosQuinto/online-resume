@@ -158,6 +158,38 @@ export const seed: PortfolioData = {
     { id: 'cert-pentest', name: 'CompTIA PenTest+: Reconnaissance, Scoping & Engagement, Professionalism', issuer: 'Skillsoft', date: 'jun 2025', url: '' },
     { id: 'cert-prompt', name: 'Case Studies in Prompt Engineering', issuer: 'Skillsoft', date: 'jun 2025', url: '' },
   ],
+  pillars: [
+    {
+      id: 'pil-auto',
+      title: 'Automatización',
+      emoji: '🧪',
+      description: 'Diseño frameworks de pruebas que otros equipos adoptan como estándar y mantengo suites que no se rompen.',
+      lists: [
+        { label: 'Lo que automatizo', items: ['UI web', 'API', 'Móvil', 'Seguridad', 'Rendimiento'] },
+        { label: 'Herramientas', items: ['Playwright', 'Selenium', 'Cucumber', 'TestNG', 'Postman', 'JMeter', 'OWASP ZAP'] },
+      ],
+    },
+    {
+      id: 'pil-ci',
+      title: 'CI/CD & Calidad',
+      emoji: '🚀',
+      description: 'Integro las pruebas en el pipeline para que cada release salga con evidencia, no con fe.',
+      lists: [
+        { label: 'Lenguajes', items: ['Java', 'C#', 'TypeScript', 'Python', 'SQL'] },
+        { label: 'Plataformas', items: ['Azure DevOps', 'Jenkins', 'GitHub Actions', 'Docker'] },
+      ],
+    },
+    {
+      id: 'pil-ai',
+      title: 'IA aplicada',
+      emoji: '🤖',
+      description: 'Uso IA para migrar pruebas más rápido, generar escenarios y revisar código, y lo estudio en una maestría.',
+      lists: [
+        { label: 'En la práctica', items: ['Migración de tests 50 % más rápida', 'Revisiones asistidas por IA', 'Generación de escenarios'] },
+        { label: 'Formación', items: ['Maestría en IA · Tecmilenio', 'ISTQB CT-GenAI', 'GitHub Copilot'] },
+      ],
+    },
+  ],
   skillGroups: [
     { id: 'sg-auto', name: 'Automatización', skills: ['Playwright', 'Selenium', 'Cucumber / BDD', 'TestNG', 'Robot Framework', 'Postman', 'JMeter', 'OWASP ZAP'] },
     { id: 'sg-lang', name: 'Lenguajes', skills: ['Java', 'C#', 'TypeScript', 'JavaScript', 'Python', 'SQL'] },

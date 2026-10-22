@@ -12,6 +12,7 @@ type Tab =
   | 'experiencia'
   | 'educacion'
   | 'certificaciones'
+  | 'pilares'
   | 'skills'
   | 'proyectos'
   | 'recomendaciones'
@@ -24,6 +25,7 @@ const tabs: { id: Tab; label: string }[] = [
   { id: 'experiencia', label: 'Experiencia' },
   { id: 'educacion', label: 'Educación' },
   { id: 'certificaciones', label: 'Certificaciones' },
+  { id: 'pilares', label: 'Pilares' },
   { id: 'skills', label: 'Skills' },
   { id: 'proyectos', label: 'Proyectos' },
   { id: 'recomendaciones', label: 'Recomendaciones' },
@@ -190,6 +192,45 @@ export default function Editor({ initial, onLock }: { initial: PortfolioData; on
                   <Text label="Emisor" value={c.issuer} onChange={(v) => up({ issuer: v })} />
                   <Text label="Fecha" value={c.date} onChange={(v) => up({ date: v })} />
                   <Text label="URL de verificación" value={c.url} onChange={(v) => up({ url: v })} />
+                </>
+              )}
+            />
+          )}
+
+          {tab === 'pilares' && (
+            <ListEditor
+              items={data.pillars ?? []}
+              onChange={(pillars) => patch({ pillars })}
+              create={() => ({ id: uid('pil'), title: '', emoji: '✨', description: '', lists: [{ label: 'Herramientas', items: [] }] })}
+              title={(p) => `${p.emoji} ${p.title}`}
+              render={(p, up) => (
+                <>
+                  <div className="grid grid-cols-[5rem_1fr] gap-4">
+                    <Text label="Emoji" value={p.emoji} onChange={(v) => up({ emoji: v })} />
+                    <Text label="Título" value={p.title} onChange={(v) => up({ title: v })} />
+                  </div>
+                  <Text label="Descripción" value={p.description} onChange={(v) => up({ description: v })} multiline />
+                  {p.lists.map((l, li) => (
+                    <div key={li} className="grid gap-2 rounded-lg border border-border p-3">
+                      <Text
+                        label={`Lista ${li + 1} · etiqueta`}
+                        value={l.label}
+                        onChange={(v) => up({ lists: p.lists.map((x, j) => (j === li ? { ...x, label: v } : x)) })}
+                      />
+                      <Tags
+                        label="Elementos"
+                        value={l.items}
+                        onChange={(v) => up({ lists: p.lists.map((x, j) => (j === li ? { ...x, items: v } : x)) })}
+                      />
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => up({ lists: [...p.lists, { label: 'Nueva lista', items: [] }] })}
+                    className="w-fit text-sm text-accent hover:underline"
+                  >
+                    + Añadir lista
+                  </button>
                 </>
               )}
             />

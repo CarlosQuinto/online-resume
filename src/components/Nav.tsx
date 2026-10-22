@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import type { Theme } from '../hooks/useTheme'
 
 const items = [
+  { href: '#pilares', label: 'Qué hago' },
   { href: '#experiencia', label: 'Experiencia' },
-  { href: '#skills', label: 'Skills' },
   { href: '#proyectos', label: 'Proyectos' },
   { href: '#sobre-mi', label: 'Sobre mí' },
-  { href: '#contacto', label: 'Contacto' },
 ]
 
-export default function Nav({ name }: { name: string }) {
+export default function Nav({ name, theme, onToggleTheme }: { name: string; theme: Theme; onToggleTheme: () => void }) {
   const [scrolled, setScrolled] = useState(false)
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24)
+    const onScroll = () => setScrolled(window.scrollY > 16)
     onScroll()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
@@ -26,13 +26,13 @@ export default function Nav({ name }: { name: string }) {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-40 transition-colors duration-300 ${
-        scrolled ? 'bg-bg/80 backdrop-blur border-b border-border' : 'bg-transparent'
+      className={`sticky top-0 z-40 transition-[background-color,box-shadow] duration-300 ${
+        scrolled ? 'bg-bg/90 backdrop-blur shadow-[0_1px_0_var(--color-border)]' : 'bg-bg'
       }`}
     >
       <nav className="container-narrow flex h-16 items-center justify-between" aria-label="Principal">
-        <a href="#top" className="flex items-center gap-3 font-semibold">
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-accent text-accent-ink font-mono text-sm font-bold">
+        <a href="#top" className="flex items-center gap-2.5 font-semibold">
+          <span className="grid h-9 w-9 place-items-center rounded-xl border-2 border-accent font-mono text-sm font-bold text-accent">
             {initials}
           </span>
           <span className="hidden sm:inline">{name}</span>
@@ -40,19 +40,28 @@ export default function Nav({ name }: { name: string }) {
         <ul className="hidden items-center gap-6 md:flex">
           {items.map((it) => (
             <li key={it.href}>
-              <a href={it.href} className="text-sm text-fg-muted transition-colors hover:text-fg">
+              <a href={it.href} className="text-sm font-medium text-fg-muted transition-colors hover:text-accent">
                 {it.label}
               </a>
             </li>
           ))}
         </ul>
-        <Link
-          to="/admin"
-          className="rounded-full border border-border px-3 py-1.5 text-sm text-fg-muted transition-colors hover:border-accent hover:text-accent"
-          aria-label="Panel de administración"
-        >
-          Admin
-        </Link>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={onToggleTheme}
+            aria-label={theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
+            className="grid h-9 w-9 place-items-center rounded-full border border-border text-fg-muted transition-colors hover:text-accent"
+          >
+            {theme === 'dark' ? '☀' : '☾'}
+          </button>
+          <a href="#contacto" className="btn-outline hidden px-4 py-1.5 text-sm sm:inline-flex">
+            Contacto
+          </a>
+          <Link to="/admin" className="text-xs text-fg-subtle hover:text-accent" aria-label="Panel de administración">
+            Admin
+          </Link>
+        </div>
       </nav>
     </header>
   )

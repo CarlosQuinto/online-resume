@@ -1,63 +1,45 @@
-import { motion } from 'framer-motion'
 import type { Certification, SkillGroup } from '../data/schema'
-import Section, { fadeUp } from './Section'
+import Section from './Section'
 
+/** Stack completo en una sola tarjeta densa + certificaciones como fila de chips. */
 export default function Skills({ groups, certifications }: { groups: SkillGroup[]; certifications: Certification[] }) {
   return (
-    <Section
-      id="skills"
-      eyebrow="Skills"
-      title="Herramientas y práctica"
-      intro="Agrupadas por proximidad: cada bloque es un dominio, cada pastilla una herramienta que uso a diario."
-    >
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {groups.map((g, i) => (
-          <motion.div
-            key={g.id}
-            variants={fadeUp}
-            custom={i}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: '-60px' }}
-            className="card p-6"
-          >
-            <h3 className="font-semibold">{g.name}</h3>
-            <div className="mt-4 flex flex-wrap gap-2">
+    <Section id="skills" title="Stack y validaciones" intro="Todo lo que uso, agrupado por dominio, y las certificaciones que lo respaldan.">
+      <div className="card divide-y divide-border">
+        {groups.map((g) => (
+          <div key={g.id} className="grid gap-2 px-5 py-3.5 md:grid-cols-[11rem_1fr] md:items-center">
+            <p className="text-sm font-semibold text-accent">{g.name}</p>
+            <div className="flex flex-wrap gap-1.5">
               {g.skills.map((s) => (
-                <span key={s} className="pill transition-colors hover:border-accent hover:text-fg">
+                <span key={s} className="pill">
                   {s}
                 </span>
               ))}
             </div>
-          </motion.div>
+          </div>
         ))}
       </div>
 
       {certifications.length > 0 && (
-        <div className="mt-12">
-          <p className="eyebrow mb-4">Validaciones</p>
-          <ul className="grid gap-3 sm:grid-cols-2">
-            {certifications.map((c) => (
-              <li key={c.id} className="flex items-start gap-3 rounded-xl border border-border bg-surface px-4 py-3">
-                <span className="mt-0.5 text-accent" aria-hidden>
+        <ul className="mt-6 flex flex-wrap justify-center gap-2">
+          {certifications.map((c) => (
+            <li key={c.id}>
+              <a
+                href={c.url || undefined}
+                target={c.url ? '_blank' : undefined}
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3.5 py-1.5 text-sm transition-colors hover:border-accent"
+                title={`${c.issuer} · ${c.date}`}
+              >
+                <span className="text-accent" aria-hidden>
                   ✓
                 </span>
-                <div>
-                  {c.url ? (
-                    <a href={c.url} target="_blank" rel="noreferrer" className="font-medium hover:text-accent">
-                      {c.name}
-                    </a>
-                  ) : (
-                    <span className="font-medium">{c.name}</span>
-                  )}
-                  <p className="text-sm text-fg-muted">
-                    {c.issuer} · {c.date}
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
+                <span className="font-medium">{c.name}</span>
+                <span className="text-fg-subtle">· {c.issuer}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
       )}
     </Section>
   )
