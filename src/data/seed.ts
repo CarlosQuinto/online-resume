@@ -1,23 +1,26 @@
 import type { PortfolioData } from './schema'
 
 /**
- * Datos semilla. Los campos marcados con [EDITAR] son placeholders
- * para completar desde /admin con tu información real de LinkedIn.
+ * Datos semilla, generados a partir del perfil de LinkedIn
+ * (https://www.linkedin.com/in/carloscarballod/) el 2026-10-22.
+ * Todo es editable desde /admin.
  */
 export const seed: PortfolioData = {
-  version: 1,
+  version: 2,
   updatedAt: '2026-10-22',
   profile: {
     name: 'Carlos Carballo',
-    headline: 'QA Automation Engineer · SDET',
-    tagline: 'Construyo pipelines de calidad que dejan dormir tranquilo a los equipos de producto.',
-    location: 'Sonora, México',
+    headline: 'SDET · QA Automation Engineer',
+    tagline:
+      'Diseño frameworks de automatización, los integro en CI/CD y ayudo a los equipos a lanzar con confianza. Java, C#, Playwright y Selenium, con IA como copiloto.',
+    location: 'Sonora, México · Remoto',
     summary:
-      'Ingeniero de automatización de pruebas enfocado en frameworks mantenibles, CI/CD y calidad medible. ' +
-      'Actualmente curso una Maestría en Inteligencia Artificial en Tecmilenio, explorando cómo los LLMs ' +
-      'pueden acelerar el diseño y mantenimiento de suites de pruebas. [EDITAR: ajusta con tu resumen de LinkedIn]',
+      'Ingeniero de automatización de pruebas enfocado en construir automatización confiable y mantenible con Java y Azure DevOps. ' +
+      'Diseño frameworks, integro pruebas en pipelines de CI/CD y ayudo a los equipos a lanzar con confianza. ' +
+      'Curso una Maestría en Inteligencia Artificial en Universidad Tecmilenio y aplico lo que aprendo para llevar enfoques de IA al testing y al desarrollo. ' +
+      'Fuera del trabajo construyo mis propios productos, como Rondo, una app web y móvil para organizar ligas de fútbol amateur.',
     avatarUrl: '',
-    availability: 'Abierto a proyectos remotos',
+    availability: 'Abierto a roles de QA Automation / SDET',
     links: [
       { label: 'GitHub', url: 'https://github.com/CarlosQuinto' },
       { label: 'LinkedIn', url: 'https://www.linkedin.com/in/carloscarballod/' },
@@ -26,146 +29,239 @@ export const seed: PortfolioData = {
   },
   experience: [
     {
-      id: 'exp-1',
+      id: 'exp-ntt',
       company: 'NTT DATA Services',
       role: 'QA Automation Engineer',
-      start: '2024-01',
+      start: '2023-06',
       end: null,
-      location: 'Remoto · México',
-      summary:
-        'Parte del equipo de Quality Engineering: automatización de backlog, migración del framework legado a BDD y mejoras continuas al pipeline de CI/CD. [EDITAR: fecha de inicio y detalles desde LinkedIn]',
+      location: 'México · Remoto',
+      summary: 'Proyecto UPS. Automatización UI/API sobre sistemas empresariales, seguridad y rendimiento, con CI/CD en Azure DevOps.',
       highlights: [
-        'Migración completa de la automatización legada a un framework BDD: nuevos step definitions, escenarios y pipeline.',
-        'Contribución al esfuerzo de equipo que llevó la cobertura de pruebas de ~95 % a 100 % en un año.',
-        'Uso de IA para acelerar la migración de pruebas y la generación de escenarios.',
+        'Diseñé más de 300 escenarios de prueba y automaticé ~100 flujos UI/API con Java, TestNG y Cucumber.',
+        'Automaticé la prueba de más de 100 endpoints con Postman y ejecuté evaluaciones de vulnerabilidades UI/API con OWASP ZAP.',
+        'Colaboré en la migración del framework de Selenium a Playwright (TypeScript/JavaScript) y apoyé pruebas de rendimiento con JMeter.',
+        'Gestioné repositorios y pipelines de CI/CD en Azure DevOps y participé activamente en las ceremonias Scrum.',
       ],
-      stack: ['BDD / Gherkin', 'Automatización E2E', 'CI/CD', 'IA aplicada a QA'],
+      stack: ['Java', 'TestNG', 'Cucumber', 'Playwright', 'TypeScript', 'Postman', 'JMeter', 'OWASP ZAP', 'Azure DevOps'],
     },
     {
-      id: 'exp-2',
-      company: '[EDITAR: Empresa anterior]',
-      role: 'QA Engineer',
-      start: '2020-06',
-      end: '2022-12',
-      location: 'Hermosillo, Sonora',
-      summary: 'Pruebas manuales y automatizadas para aplicaciones web y móviles.',
+      id: 'exp-sfdc',
+      company: 'Salesforce',
+      role: 'QA Automation Engineer',
+      start: '2025-06',
+      end: '2026-08',
+      location: 'México · Remoto',
+      summary: 'Automatización para una aplicación core del ecosistema Salesforce, con pipelines en GitHub y Jenkins.',
       highlights: [
-        'Creación de planes de prueba y casos basados en riesgo.',
-        'Primeras suites automatizadas con Selenium y Java.',
+        'Mejoré un framework de automatización en Java: migré 80 casos legados, soporte para 3 ambientes y reportes diarios automatizados.',
+        'Reduje el tiempo de regresión automatizando más de 110 escenarios API/UI.',
+        'Integré la automatización en pipelines de GitHub/Jenkins y reforcé la calidad del código con revisiones asistidas por IA.',
       ],
-      stack: ['Selenium', 'Java', 'JIRA', 'SQL'],
+      stack: ['Java', 'Salesforce', 'GitHub', 'Jenkins', 'Cursor AI'],
+    },
+    {
+      id: 'exp-csi',
+      company: 'Creative Software International',
+      role: 'QA Automation Engineer',
+      start: '2022-05',
+      end: '2023-06',
+      location: 'México · Remoto',
+      summary: 'Estandaricé los procesos de QA del departamento y construí el framework base de automatización de la empresa.',
+      highlights: [
+        'Mentoría al equipo para estructurar planes, suites y casos de prueba desde cero.',
+        'Diseñé un framework de automatización reutilizable adoptado como arquitectura estándar para los nuevos proyectos internos.',
+        'Automaticé más de 100 casos en 3 proyectos del cliente TurboTec, con suites de regresión previas al despliegue.',
+      ],
+      stack: ['Automatización', 'Pipelines', 'Test Planning', 'Mentoría'],
+    },
+    {
+      id: 'exp-tcs',
+      company: 'Tata Consultancy Services',
+      role: 'QA Automation Engineer',
+      start: '2021-06',
+      end: '2022-06',
+      location: 'México · Remoto',
+      summary: 'Automatización con C# y Selenium dentro de un framework empresarial para PwC y un proyecto interno.',
+      highlights: [
+        'Automaticé más de 100 escenarios en 2 proyectos con C# y Selenium.',
+        'Vinculé las ejecuciones automatizadas de Jenkins con los escenarios en Azure DevOps para trazabilidad de CI/CD.',
+        'Mentoría al equipo de QA en el uso del framework y apoyo en estrategia de pruebas y ceremonias ágiles.',
+      ],
+      stack: ['C#', 'Selenium', 'Jenkins', 'Azure DevOps'],
+    },
+    {
+      id: 'exp-intugo',
+      company: 'Intugo',
+      role: 'QA Engineer',
+      start: '2020-03',
+      end: '2021-06',
+      location: 'Hermosillo, Sonora · Remoto',
+      summary:
+        'Estrategias de automatización para API, escritorio, móvil y web con Robot Framework y Selenium para Internet Brands (plataforma Demandforce), con validación cruzada en Salesforce.',
+      highlights: [
+        'Certificación de releases, seguimiento de incidencias y revisiones de código en entornos ágiles.',
+      ],
+      stack: ['Robot Framework', 'Selenium', 'Salesforce', 'Web', 'Mobile', 'API'],
+    },
+    {
+      id: 'exp-freelance',
+      company: 'Freelance',
+      role: 'Software Engineer',
+      start: '2019-06',
+      end: '2019-12',
+      location: 'Remoto',
+      summary: 'Software a medida para una pesquera (Inversiones Bacochibampo) y un consultorio de psicología.',
+      highlights: [
+        'Depuración de datos duplicados y coincidencias de ubicación en dispositivos de navegación marítima (XML, Java).',
+        'Sistema distribuido para agenda de sesiones, estado de pacientes y reportes (Java, MariaDB, REST en PHP).',
+        'Lectura por puerto serial de un GPS marino antiguo y conversión a formato moderno (Java y C#).',
+      ],
+      stack: ['Java', 'C#', 'PHP', 'MariaDB'],
+    },
+    {
+      id: 'exp-pemex',
+      company: 'Pemex',
+      role: 'Software Engineer · Prácticas',
+      start: '2018-09',
+      end: '2019-05',
+      location: 'Presencial',
+      summary: 'Sistemas de gestión de investigaciones y demandas laborales con roles de usuario, historial de cambios y reportes.',
+      highlights: ['Metodología RUP y arquitectura en N capas dentro de un equipo de desarrollo.'],
+      stack: ['C#', 'Visual Basic', 'RUP'],
     },
   ],
   education: [
     {
-      id: 'edu-1',
+      id: 'edu-tecmilenio',
       institution: 'Universidad Tecmilenio',
       degree: 'Maestría',
       field: 'Inteligencia Artificial',
       start: '2025-01',
-      end: null,
-      note: 'En curso. Enfoque en ML aplicado y agentes LLM para ingeniería de calidad.',
+      end: '2027-12',
+      note: 'En curso. Aplico lo aprendido para llevar enfoques de IA al testing y al desarrollo.',
     },
     {
-      id: 'edu-2',
-      institution: '[EDITAR: Universidad]',
+      id: 'edu-itson',
+      institution: 'Instituto Tecnológico de Sonora',
       degree: 'Ingeniería',
-      field: '[EDITAR: Sistemas / Software]',
-      start: '2014-08',
+      field: 'Ingeniería de Software',
+      start: '2015-08',
       end: '2019-06',
       note: '',
     },
   ],
   certifications: [
-    { id: 'cert-1', name: 'ISTQB Foundation Level', issuer: 'ISTQB', date: '2021', url: '' },
-    { id: 'cert-2', name: '[EDITAR: Certificación]', issuer: '[EDITAR]', date: '2024', url: '' },
+    { id: 'cert-istqb-genai', name: 'ISTQB® CT-GenAI: Core Principles for Generative AI in Software Testing', issuer: 'Skillsoft', date: 'sep 2026', url: '' },
+    { id: 'cert-copilot', name: 'GitHub Copilot', issuer: 'Microsoft', date: 'mar 2026', url: '' },
+    { id: 'cert-ai-tecmilenio', name: 'Fundamentals and Applications of Artificial Intelligence', issuer: 'Universidad Tecmilenio', date: 'jun 2025', url: '' },
+    { id: 'cert-genai-ntt', name: 'GenAI Academy: Yellow Belt Level 2 for Engineers', issuer: 'NTT DATA Services', date: 'jun 2025', url: '' },
+    { id: 'cert-pentest', name: 'CompTIA PenTest+: Reconnaissance, Scoping & Engagement, Professionalism', issuer: 'Skillsoft', date: 'jun 2025', url: '' },
+    { id: 'cert-prompt', name: 'Case Studies in Prompt Engineering', issuer: 'Skillsoft', date: 'jun 2025', url: '' },
   ],
   skillGroups: [
-    { id: 'sg-1', name: 'Automatización', skills: ['Playwright', 'Cypress', 'Selenium', 'Appium', 'REST Assured'] },
-    { id: 'sg-2', name: 'Lenguajes', skills: ['TypeScript', 'JavaScript', 'Python', 'Java', 'SQL'] },
-    { id: 'sg-3', name: 'CI/CD & Infra', skills: ['GitHub Actions', 'Jenkins', 'Docker', 'Firebase', 'AWS'] },
-    { id: 'sg-4', name: 'IA aplicada', skills: ['LLMs', 'Prompt Engineering', 'LangChain', 'scikit-learn'] },
-    { id: 'sg-5', name: 'Proceso', skills: ['Scrum', 'Test Strategy', 'Risk-based Testing', 'BDD / Gherkin'] },
+    { id: 'sg-auto', name: 'Automatización', skills: ['Playwright', 'Selenium', 'Cucumber / BDD', 'TestNG', 'Robot Framework', 'Postman', 'JMeter', 'OWASP ZAP'] },
+    { id: 'sg-lang', name: 'Lenguajes', skills: ['Java', 'C#', 'TypeScript', 'JavaScript', 'Python', 'SQL'] },
+    { id: 'sg-ci', name: 'CI/CD & Infra', skills: ['Azure DevOps', 'Jenkins', 'GitHub Actions', 'Docker', 'PostgreSQL', 'Firebase', 'Kong API Gateway'] },
+    { id: 'sg-ai', name: 'IA aplicada', skills: ['AI-Assisted Automation', 'Prompt Engineering', 'GitHub Copilot', 'Cursor', 'LLMs'] },
+    { id: 'sg-process', name: 'Proceso y producto', skills: ['Scrum', 'Test Strategy', 'Test Planning', 'Salesforce Ecosystem', 'Capacitor (mobile)'] },
   ],
   projects: [
     {
-      id: 'proj-1',
+      id: 'proj-rondo-app',
       title: 'Rondo · App nativa (iOS y Android)',
       description:
-        'App móvil de Rondo, SaaS para organizar ligas y clubes de fútbol amateur. Construida con Capacitor 8 sobre el frontend React existente: un solo código para web, iOS y Android. Multi-tenant, deep links (Universal / App Links), notificaciones push (FCM y APNs), share nativo, splash y caché offline de la última organización.',
-      stack: ['Capacitor 8', 'React', 'TypeScript', 'FCM / APNs', 'Deep links'],
+        'App móvil de Rondo, SaaS para organizar ligas y clubes de fútbol amateur. Construida con Capacitor 8 sobre el frontend React existente: un solo código para web, iOS y Android. Multi-tenant, deep links, notificaciones push (FCM y APNs), share nativo y caché offline. Cumple las reglas de App Store y Google Play, con CI/CD en GitHub Actions para builds Android e iOS y subidas automáticas a TestFlight. Enviada a revisión de App Store en octubre de 2026.',
+      stack: ['Capacitor 8', 'React', 'TypeScript', 'FCM / APNs', 'GitHub Actions', 'TestFlight'],
       repoUrl: '',
       liveUrl: 'https://rondo.com.mx',
       featured: true,
     },
     {
-      id: 'proj-2',
+      id: 'proj-rondo-web',
       title: 'Rondo.com.mx',
       description:
-        'Plataforma web para administrar y operar ligas de fútbol amateur desde un solo lugar: clubes, jugadores, temporadas, categorías, torneos, calendarios, tablas de posiciones, partidos en vivo con goles y tarjetas, sedes y gestión de clubes.',
-      stack: ['React', 'TypeScript', 'Firebase', 'Tailwind'],
+        'Plataforma web para administrar y operar ligas de fútbol amateur desde un solo lugar: clubes, jugadores, temporadas, torneos, calendarios, tablas, partidos en vivo con goles y tarjetas, sedes, finanzas, galerías, invitaciones por correo y experiencia PWA. Arquitectura self-hosted con capas separadas, diseñada para salir por completo de Firebase hacia PostgreSQL, storage y servicios en contenedores.',
+      stack: ['React', 'TypeScript', 'Vite', 'PostgreSQL', 'PostgREST', 'Kong', 'Docker', 'PWA'],
       repoUrl: '',
       liveUrl: 'https://rondo.com.mx',
       featured: true,
     },
     {
-      id: 'proj-3',
+      id: 'proj-jbfc',
       title: 'Joga Bonito FC · Gestión de club',
       description:
-        'Aplicación full-stack para la gestión integral de un club deportivo amateur: coordinación en tiempo real de partidos, rutinas de entrenamiento, estadísticas de jugadores, alineaciones, inventario y finanzas, con control de acceso por roles sobre Firebase Firestore.',
-      stack: ['React', 'Firebase Firestore', 'RBAC', 'Tiempo real'],
+        'Aplicación full-stack para la gestión integral de un club deportivo amateur: partidos, entrenamientos, estadísticas, alineaciones tácticas interactivas, inventario y finanzas, con sincronización en tiempo real vía Firestore, permisos por rol (administradores, managers y jugadores) y configuración PWA instalable.',
+      stack: ['React', 'TypeScript', 'Vite', 'Firebase Firestore', 'Firebase Auth', 'PWA'],
       repoUrl: '',
       liveUrl: '',
       featured: false,
     },
     {
-      id: 'proj-4',
+      id: 'proj-portfolio',
       title: 'Este portafolio · mini-CMS',
-      description: 'React + Firestore con panel /admin protegido por PIN para editar el contenido en vivo. Tokens de diseño con escala áurea y contraste AAA.',
+      description:
+        'React + Firestore con panel /admin protegido por PIN para editar el contenido en vivo. Tokens de diseño con escala áurea y contraste AAA.',
       stack: ['React', 'Vite', 'Tailwind', 'Framer Motion', 'Firebase'],
       repoUrl: 'https://github.com/CarlosQuinto/online-resume',
-      liveUrl: '',
+      liveUrl: 'https://carlos-carballo-awesome-resume.web.app',
       featured: false,
     },
   ],
   recommendations: [
     {
-      id: 'rec-1',
-      name: 'Daniel Luján',
-      role: 'Colega · LinkedIn',
-      url: 'https://mx.linkedin.com/in/danielujan',
-      text:
-        'I highly recommend him as a QA Automation Engineer. Carlos has a strong technical background in test automation and software quality, consistently delivering reliable, well-designed solutions while maintaining a high standard of quality. He takes ownership of his work, collaborates effectively with cross-functional teams, and approaches challenges with a proactive and solution-oriented mindset.',
-    },
-    {
-      id: 'rec-2',
+      id: 'rec-pritesh',
       name: 'Priteshkumar Mahajan',
-      role: 'Quality Engineering team · LinkedIn',
+      role: 'Senior Test Automation Engineer · Salesforce QA Leader · lo dirigió directamente',
       url: 'https://www.linkedin.com/in/priteshkumarmahajan90',
       text:
-        "One of the most reliable and growth-minded engineers I've collaborated with. Carlos was a key contributor to our test automation efforts — from the Backlog Automation initiative to migrating our legacy test automation to a BDD framework, adding new step definitions, test scenarios, and CI/CD pipeline improvements. He was part of a team effort that took our test coverage from ~95% to 100% in one year.",
+        "One of the most reliable and growth-minded engineers I've collaborated with. Carlos was a key contributor to our test automation efforts, from the Backlog Automation initiative to migrating our legacy test automation to a BDD framework. He was part of a team effort that took our test coverage from ~95% to 100% in one year, leveraging AI to migrate tests 50% faster and cut automation execution time by 75%.",
+    },
+    {
+      id: 'rec-daniel',
+      name: 'Daniel Luján',
+      role: 'Senior SDET / QA Automation Lead · trabajó en el mismo equipo',
+      url: 'https://mx.linkedin.com/in/danielujan',
+      text:
+        'I highly recommend him as a QA Automation Engineer. Carlos has a strong technical background in test automation and software quality, consistently delivering reliable, well-designed solutions while maintaining a high standard of quality. He takes ownership of his work, collaborates effectively with cross-functional teams, and is always willing to share knowledge and support others.',
+    },
+    {
+      id: 'rec-zohreh',
+      name: 'Zohreh Malek',
+      role: 'Sr Technical Program Manager · lo dirigió en Internet Brands (Demandforce)',
+      url: '',
+      text:
+        'I had the pleasure of working with Carlos for two years at Internet Brands on the Demandforce team. He is an exceptionally talented and knowledgeable QA engineer, as well as a collaborative and dependable team player. Carlos played a key role in our Agile environment by developing robust testing strategies for APIs, microservices, web, and mobile applications.',
+    },
+    {
+      id: 'rec-marcelino',
+      name: 'Marcelino Martínez',
+      role: 'QA Engineer · colega',
+      url: '',
+      text:
+        'Carlos es un profesional excepcional en el campo de QA Automation. Su sólido conocimiento técnico, su atención meticulosa a los detalles y su pasión por la calidad hacen de él un recurso valioso en cualquier proyecto. Ha demostrado habilidades sobresalientes en el diseño y ejecución de casos de prueba, la identificación de problemas y la resolución de errores.',
     },
   ],
   hobbies: [
     {
-      id: 'hob-1',
+      id: 'hob-chess',
       title: 'Árbitro de ajedrez',
       emoji: '♞',
       description: 'Árbitro activo en FENAMAC.',
       detail:
-        'Dirijo torneos y aplico el reglamento FIDE. El ajedrez entrena la misma paciencia y pensamiento sistemático que uso al diseñar pruebas.',
+        'Organizo y arbitro torneos estatales y locales. Fui organizador voluntario de la Liga Municipal de Ajedrez de Guaymas (2023–2024), promoviendo el ajedrez en escuelas y espacios públicos, y antes instructor de un grupo de 30 niños en la Biblioteca Pública Municipal. El ajedrez entrena la misma paciencia y pensamiento sistemático que uso al diseñar pruebas.',
       accent: 'accent',
     },
     {
-      id: 'hob-2',
+      id: 'hob-futbol',
       title: 'Fútbol',
       emoji: '⚽',
       description: 'Juego cada semana.',
-      detail: 'Trabajo en equipo, lectura del juego y resistencia. Mediocampo, normalmente.',
+      detail:
+        'Trabajo en equipo, lectura del juego y resistencia. De esa pasión nació Rondo, la plataforma que uso para organizar ligas amateur.',
       accent: 'green',
     },
     {
-      id: 'hob-3',
+      id: 'hob-camping',
       title: 'Camping y pesca',
       emoji: '🎣',
       description: 'Playas de Sonora.',
@@ -174,7 +270,7 @@ export const seed: PortfolioData = {
       accent: 'amber',
     },
     {
-      id: 'hob-4',
+      id: 'hob-gaming',
       title: 'Gaming',
       emoji: '🎮',
       description: 'Estrategia y competitivos.',
@@ -183,8 +279,8 @@ export const seed: PortfolioData = {
     },
   ],
   pets: [
-    { id: 'pet-1', name: 'Burbuja', breed: 'Pug', emoji: '🐶', bio: 'Jefa de la casa. Ronca más fuerte que el aire acondicionado.' },
-    { id: 'pet-2', name: 'Calceta', breed: 'Mestiza', emoji: '🐕', bio: 'Velocista oficial. Nunca pierde una pelota.' },
-    { id: 'pet-3', name: 'Nieve', breed: 'Mestiza', emoji: '🦮', bio: 'La más tranquila. Supervisa el home office desde el sillón.' },
+    { id: 'pet-burbuja', name: 'Burbuja', breed: 'Pug', emoji: '🐶', bio: 'Jefa de la casa. Ronca más fuerte que el aire acondicionado.' },
+    { id: 'pet-calceta', name: 'Calceta', breed: 'Mestiza', emoji: '🐕', bio: 'Velocista oficial. Nunca pierde una pelota.' },
+    { id: 'pet-nieve', name: 'Nieve', breed: 'Mestiza', emoji: '🦮', bio: 'La más tranquila. Supervisa el home office desde el sillón.' },
   ],
 }
