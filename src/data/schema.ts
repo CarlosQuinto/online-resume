@@ -76,6 +76,14 @@ export interface Pet {
   bio: string
 }
 
+export interface Recommendation {
+  id: string
+  name: string
+  role: string
+  url: string
+  text: string
+}
+
 export interface PortfolioData {
   version: number
   updatedAt: string
@@ -85,6 +93,7 @@ export interface PortfolioData {
   certifications: Certification[]
   skillGroups: SkillGroup[]
   projects: Project[]
+  recommendations: Recommendation[]
   hobbies: Hobby[]
   pets: Pet[]
 }

@@ -7,7 +7,18 @@ import { lock, sha256Hex } from '../../lib/admin'
 import { firebaseEnabled } from '../../lib/firebase'
 import { ListEditor, Select, Tags, Text, Toggle, uid } from './fields'
 
-type Tab = 'perfil' | 'experiencia' | 'educacion' | 'certificaciones' | 'skills' | 'proyectos' | 'hobbies' | 'mascotas' | 'json' | 'ajustes'
+type Tab =
+  | 'perfil'
+  | 'experiencia'
+  | 'educacion'
+  | 'certificaciones'
+  | 'skills'
+  | 'proyectos'
+  | 'recomendaciones'
+  | 'hobbies'
+  | 'mascotas'
+  | 'json'
+  | 'ajustes'
 const tabs: { id: Tab; label: string }[] = [
   { id: 'perfil', label: 'Perfil' },
   { id: 'experiencia', label: 'Experiencia' },
@@ -15,6 +26,7 @@ const tabs: { id: Tab; label: string }[] = [
   { id: 'certificaciones', label: 'Certificaciones' },
   { id: 'skills', label: 'Skills' },
   { id: 'proyectos', label: 'Proyectos' },
+  { id: 'recomendaciones', label: 'Recomendaciones' },
   { id: 'hobbies', label: 'Hobbies' },
   { id: 'mascotas', label: 'Mascotas' },
   { id: 'json', label: 'JSON' },
@@ -212,6 +224,23 @@ export default function Editor({ initial, onLock }: { initial: PortfolioData; on
                   <Text label="Repositorio" value={p.repoUrl} onChange={(v) => up({ repoUrl: v })} />
                   <Text label="Demo" value={p.liveUrl} onChange={(v) => up({ liveUrl: v })} />
                   <Toggle label="Destacado" value={p.featured} onChange={(v) => up({ featured: v })} />
+                </>
+              )}
+            />
+          )}
+
+          {tab === 'recomendaciones' && (
+            <ListEditor
+              items={data.recommendations ?? []}
+              onChange={(recommendations) => patch({ recommendations })}
+              create={() => ({ id: uid('rec'), name: '', role: '', url: '', text: '' })}
+              title={(r) => r.name}
+              render={(r, up) => (
+                <>
+                  <Text label="Nombre" value={r.name} onChange={(v) => up({ name: v })} />
+                  <Text label="Rol / relación" value={r.role} onChange={(v) => up({ role: v })} />
+                  <Text label="URL del perfil" value={r.url} onChange={(v) => up({ url: v })} />
+                  <Text label="Texto" value={r.text} onChange={(v) => up({ text: v })} multiline />
                 </>
               )}
             />

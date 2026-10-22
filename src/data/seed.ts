@@ -27,18 +27,19 @@ export const seed: PortfolioData = {
   experience: [
     {
       id: 'exp-1',
-      company: '[EDITAR: Empresa actual]',
-      role: 'QA Automation Engineer / SDET',
-      start: '2023-01',
+      company: 'NTT DATA Services',
+      role: 'QA Automation Engineer',
+      start: '2024-01',
       end: null,
-      location: 'Remoto',
-      summary: 'Diseño y mantenimiento de frameworks de automatización end-to-end y de API.',
+      location: 'Remoto · México',
+      summary:
+        'Parte del equipo de Quality Engineering: automatización de backlog, migración del framework legado a BDD y mejoras continuas al pipeline de CI/CD. [EDITAR: fecha de inicio y detalles desde LinkedIn]',
       highlights: [
-        'Automatización E2E con Playwright y Cypress integrada en CI/CD.',
-        'Pruebas de API con Postman/REST Assured y contratos.',
-        'Reducción del tiempo de regresión mediante paralelización y selección inteligente de pruebas.',
+        'Migración completa de la automatización legada a un framework BDD: nuevos step definitions, escenarios y pipeline.',
+        'Contribución al esfuerzo de equipo que llevó la cobertura de pruebas de ~95 % a 100 % en un año.',
+        'Uso de IA para acelerar la migración de pruebas y la generación de escenarios.',
       ],
-      stack: ['Playwright', 'TypeScript', 'GitHub Actions', 'Postman', 'Docker'],
+      stack: ['BDD / Gherkin', 'Automatización E2E', 'CI/CD', 'IA aplicada a QA'],
     },
     {
       id: 'exp-2',
@@ -89,30 +90,60 @@ export const seed: PortfolioData = {
   projects: [
     {
       id: 'proj-1',
-      title: 'Portafolio con mini-CMS',
-      description: 'Este sitio: React + Firestore con panel /admin protegido por PIN para editar contenido en vivo.',
-      stack: ['React', 'Vite', 'Tailwind', 'Framer Motion', 'Firebase'],
-      repoUrl: 'https://github.com/CarlosQuinto/online-resume',
-      liveUrl: '',
+      title: 'Rondo · App nativa (iOS y Android)',
+      description:
+        'App móvil de Rondo, SaaS para organizar ligas y clubes de fútbol amateur. Construida con Capacitor 8 sobre el frontend React existente: un solo código para web, iOS y Android. Multi-tenant, deep links (Universal / App Links), notificaciones push (FCM y APNs), share nativo, splash y caché offline de la última organización.',
+      stack: ['Capacitor 8', 'React', 'TypeScript', 'FCM / APNs', 'Deep links'],
+      repoUrl: '',
+      liveUrl: 'https://rondo.com.mx',
       featured: true,
     },
     {
       id: 'proj-2',
-      title: '[EDITAR: Framework de automatización]',
-      description: 'Framework E2E con reportes, reintentos inteligentes y ejecución paralela en CI.',
-      stack: ['Playwright', 'TypeScript', 'Allure'],
+      title: 'Rondo.com.mx',
+      description:
+        'Plataforma web para administrar y operar ligas de fútbol amateur desde un solo lugar: clubes, jugadores, temporadas, categorías, torneos, calendarios, tablas de posiciones, partidos en vivo con goles y tarjetas, sedes y gestión de clubes.',
+      stack: ['React', 'TypeScript', 'Firebase', 'Tailwind'],
       repoUrl: '',
-      liveUrl: '',
+      liveUrl: 'https://rondo.com.mx',
       featured: true,
     },
     {
       id: 'proj-3',
-      title: '[EDITAR: Proyecto de IA]',
-      description: 'Generación asistida de casos de prueba a partir de historias de usuario con LLMs.',
-      stack: ['Python', 'LangChain', 'Claude API'],
+      title: 'Joga Bonito FC · Gestión de club',
+      description:
+        'Aplicación full-stack para la gestión integral de un club deportivo amateur: coordinación en tiempo real de partidos, rutinas de entrenamiento, estadísticas de jugadores, alineaciones, inventario y finanzas, con control de acceso por roles sobre Firebase Firestore.',
+      stack: ['React', 'Firebase Firestore', 'RBAC', 'Tiempo real'],
       repoUrl: '',
       liveUrl: '',
       featured: false,
+    },
+    {
+      id: 'proj-4',
+      title: 'Este portafolio · mini-CMS',
+      description: 'React + Firestore con panel /admin protegido por PIN para editar el contenido en vivo. Tokens de diseño con escala áurea y contraste AAA.',
+      stack: ['React', 'Vite', 'Tailwind', 'Framer Motion', 'Firebase'],
+      repoUrl: 'https://github.com/CarlosQuinto/online-resume',
+      liveUrl: '',
+      featured: false,
+    },
+  ],
+  recommendations: [
+    {
+      id: 'rec-1',
+      name: 'Daniel Luján',
+      role: 'Colega · LinkedIn',
+      url: 'https://mx.linkedin.com/in/danielujan',
+      text:
+        'I highly recommend him as a QA Automation Engineer. Carlos has a strong technical background in test automation and software quality, consistently delivering reliable, well-designed solutions while maintaining a high standard of quality. He takes ownership of his work, collaborates effectively with cross-functional teams, and approaches challenges with a proactive and solution-oriented mindset.',
+    },
+    {
+      id: 'rec-2',
+      name: 'Priteshkumar Mahajan',
+      role: 'Quality Engineering team · LinkedIn',
+      url: 'https://www.linkedin.com/in/priteshkumarmahajan90',
+      text:
+        "One of the most reliable and growth-minded engineers I've collaborated with. Carlos was a key contributor to our test automation efforts — from the Backlog Automation initiative to migrating our legacy test automation to a BDD framework, adding new step definitions, test scenarios, and CI/CD pipeline improvements. He was part of a team effort that took our test coverage from ~95% to 100% in one year.",
     },
   ],
   hobbies: [
