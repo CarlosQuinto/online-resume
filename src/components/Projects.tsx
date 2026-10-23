@@ -16,7 +16,7 @@ export default function Projects({ items }: { items: Project[] }) {
 
   return (
     <Section id="panel-proyectos" title={t.projectsTitle} intro={t.projectsIntro}>
-      <div className="grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {sorted.map((p, i) => (
           <motion.div
             key={p.id}
