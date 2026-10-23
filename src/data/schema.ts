@@ -53,6 +53,11 @@ export interface Education {
   start: string
   end: string | null
   note: string
+  /** Descripción de la tarjeta; si falta se muestra la nota. */
+  description?: string
+  /** Texto corto bajo las fechas (p. ej. «Especialización», «Sonora, México»). */
+  meta?: string
+  emoji?: string
 }
 
 export interface Certification {

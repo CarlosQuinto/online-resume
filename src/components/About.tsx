@@ -70,6 +70,52 @@ function HobbyCard({ h, i }: { h: Hobby; i: number }) {
   )
 }
 
+const thisMonth = () => new Date().toISOString().slice(0, 7)
+
+/** Título académico: barra de color (en curso o completado), ícono, estado, institución y fechas a la derecha. */
+function EducationCard({ e, i }: { e: Education; i: number }) {
+  const { t } = useLang()
+  const ongoing = !e.end || e.end > thisMonth()
+  const text = e.description || e.note
+  return (
+    <motion.li
+      variants={fadeUp}
+      custom={i}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true }}
+      className={`card grid grid-cols-[auto_1fr] gap-x-4 gap-y-3 border-l-4 p-5 md:grid-cols-[auto_1fr_auto] md:gap-x-5 md:p-6 ${
+        ongoing ? 'border-l-accent' : 'border-l-violet'
+      }`}
+    >
+      <span className="grid h-11 w-11 place-items-center rounded-xl bg-surface-2 text-xl" aria-hidden>
+        {e.emoji || '🎓'}
+      </span>
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
+          <h3 className="text-lg font-bold tracking-tight">{t.degreeIn(e.degree, e.field)}</h3>
+          <span
+            className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 font-mono text-[11px] ${
+              ongoing ? 'bg-accent-soft text-accent' : 'bg-surface-2 text-fg-subtle'
+            }`}
+          >
+            {ongoing && <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden />}
+            {ongoing ? t.inProgress : t.completed}
+          </span>
+        </div>
+        <p className="mt-0.5 text-sm font-semibold text-accent">{e.institution}</p>
+        {text && <p className="mt-2.5 max-w-3xl text-sm leading-relaxed text-fg-muted">{text}</p>}
+      </div>
+      <div className="col-start-2 font-mono md:col-start-auto md:text-right">
+        <p className="text-sm font-semibold">
+          {e.start.slice(0, 4)} — {e.end ? e.end.slice(0, 4) : t.present}
+        </p>
+        {e.meta && <p className={`mt-0.5 text-xs ${ongoing ? 'text-accent' : 'text-fg-subtle'}`}>{e.meta}</p>}
+      </div>
+    </motion.li>
+  )
+}
+
 export default function About({ hobbies, education }: { hobbies: Hobby[]; education: Education[] }) {
   const { t } = useLang()
 
@@ -82,18 +128,14 @@ export default function About({ hobbies, education }: { hobbies: Hobby[]; educat
       </div>
 
       {education.length > 0 && (
-        <div className="mt-12 max-w-3xl">
-          <p className="eyebrow mb-3">{t.education}</p>
-          <ul className="card divide-y divide-border">
-            {education.map((e) => (
-              <li key={e.id} className="px-4 py-3.5">
-                <p className="font-semibold">{t.degreeIn(e.degree, e.field)}</p>
-                <p className="text-sm text-fg-muted">{e.institution}</p>
-                <p className="mt-0.5 font-mono text-xs text-fg-subtle">
-                  {e.start.slice(0, 4)} — {e.end ? e.end.slice(0, 4) : t.present}
-                  {e.note ? ` · ${e.note}` : ''}
-                </p>
-              </li>
+        <div className="mt-14">
+          <p className="mb-4 font-mono text-xs tracking-[0.12em] uppercase">
+            <span className="font-semibold text-accent">{t.education}</span>
+            <span className="text-fg-subtle"> · {t.educationSub}</span>
+          </p>
+          <ul className="grid gap-4">
+            {education.map((e, i) => (
+              <EducationCard key={e.id} e={e} i={i} />
             ))}
           </ul>
         </div>

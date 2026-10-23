@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import type { Hobby, PortfolioData, Recommendation } from '../../data/schema'
+import type { Education, Hobby, PortfolioData, Recommendation } from '../../data/schema'
 import { seed } from '../../data/seed'
 import { withSeedDefaults } from '../../data/defaults'
 import { savePortfolio } from '../../lib/content'
@@ -204,7 +204,7 @@ export default function Editor({ initial, onLock }: { initial: PortfolioData; on
             <ListEditor
               items={data.education}
               onChange={(education) => patch({ education })}
-              create={() => ({ id: uid('edu'), institution: '', degree: '', field: '', start: '', end: null, note: '' })}
+              create={(): Education => ({ id: uid('edu'), institution: '', degree: '', field: '', start: '', end: null, note: '', description: '', meta: '', emoji: '🎓' })}
               title={(e) => `${e.degree} · ${e.institution}`}
               render={(e, up) => (
                 <>
@@ -215,7 +215,12 @@ export default function Editor({ initial, onLock }: { initial: PortfolioData; on
                     <Text label="Inicio" value={e.start} onChange={(v) => up({ start: v })} />
                     <Text label="Fin (vacío = en curso)" value={e.end ?? ''} onChange={(v) => up({ end: v || null })} />
                   </div>
-                  <Text label="Nota" value={e.note} onChange={(v) => up({ note: v })} multiline />
+                  <div className="grid grid-cols-[5rem_1fr] gap-4">
+                    <Text label="Emoji" value={e.emoji ?? ''} onChange={(v) => up({ emoji: v })} placeholder="🎓" />
+                    <Text label="Texto bajo las fechas" value={e.meta ?? ''} onChange={(v) => up({ meta: v })} placeholder="Sonora, México" />
+                  </div>
+                  <Text label="Descripción" value={e.description ?? ''} onChange={(v) => up({ description: v })} multiline />
+                  <Text label="Nota (se muestra si no hay descripción)" value={e.note} onChange={(v) => up({ note: v })} multiline />
                 </>
               )}
             />

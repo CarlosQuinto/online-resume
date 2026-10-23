@@ -16,5 +16,6 @@ export function withSeedDefaults(data: PortfolioData): PortfolioData {
     experience: withDefaults(data.experience, seed.experience),
     projects: withDefaults(data.projects, seed.projects),
     hobbies: withDefaults(data.hobbies, seed.hobbies),
+    education: withDefaults(data.education, seed.education),
   }
 }

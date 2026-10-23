@@ -156,6 +156,10 @@ export const seed: PortfolioData = {
       start: '2025-01',
       end: '2027-12',
       note: 'En curso. Aplico lo aprendido para llevar enfoques de IA al testing y al desarrollo.',
+      description:
+        'Aplico frameworks de machine learning e integraciones con LLM directamente en flujos de pruebas automatizadas, scripts de Playwright que se reparan solos y suites de regresión inteligentes.',
+      meta: 'Especialización',
+      emoji: '🧠',
     },
     {
       id: 'edu-itson',
@@ -165,6 +169,10 @@ export const seed: PortfolioData = {
       start: '2015-08',
       end: '2019-06',
       note: '',
+      description:
+        'Base sólida en ciencias de la computación, arquitectura de software, patrones de diseño orientado a objetos, gestión de bases de datos y verificación sistemática de la calidad.',
+      meta: 'Sonora, México',
+      emoji: '🎓',
     },
   ],
   certifications: [

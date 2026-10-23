@@ -178,4 +178,9 @@ export const bundledEn: [string, string][] = [
   ["Árbitro activo en FENAMAC", "Active arbiter at FENAMAC"],
   ["Liga semanal", "Weekly league"],
   ["Costa de Sonora", "Sonora coast"],
+  // Formación: descripciones y texto bajo las fechas.
+  ["Aplico frameworks de machine learning e integraciones con LLM directamente en flujos de pruebas automatizadas, scripts de Playwright que se reparan solos y suites de regresión inteligentes.", "I apply machine learning frameworks and LLM integrations directly to automated testing workflows, self-healing Playwright scripts and smart regression suites."],
+  ["Especialización", "Specialized track"],
+  ["Base sólida en ciencias de la computación, arquitectura de software, patrones de diseño orientado a objetos, gestión de bases de datos y verificación sistemática de la calidad.", "Rigorous core foundation in computer science, software architecture, object-oriented design patterns, database management and systematic quality verification."],
+  ["Sonora, México", "Sonora, Mexico"],
 ]

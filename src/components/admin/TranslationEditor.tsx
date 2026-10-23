@@ -17,7 +17,7 @@ const FIELD: Record<string, string> = {
   headline: 'Titular', tagline: 'Tagline', summary: 'Resumen', location: 'Ubicación', availability: 'Disponibilidad',
   links: 'Enlace', label: 'Etiqueta', role: 'Puesto', title: 'Título', name: 'Nombre', degree: 'Grado', field: 'Área',
   breed: 'Raza', description: 'Descripción', detail: 'Detalle', bio: 'Bio', note: 'Nota', text: 'Texto',
-  highlights: 'Logro', kicker: 'Encabezado', tags: 'Etiqueta', lists: 'Lista', items: 'Elemento', skills: 'Skill', stack: 'Tecnología', date: 'Fecha',
+  highlights: 'Logro', kicker: 'Encabezado', tags: 'Etiqueta', meta: 'Bajo las fechas', lists: 'Lista', items: 'Elemento', skills: 'Skill', stack: 'Tecnología', date: 'Fecha',
 }
 
 /** "experience/exp-ntt/highlights/0" → "NTT DATA Services · Logro 1" */
