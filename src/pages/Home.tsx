@@ -4,8 +4,7 @@ import Nav from '../components/Nav'
 import ProfileHeader from '../components/ProfileHeader'
 import Tabs, { useTab } from '../components/Tabs'
 import Experience, { type ExpOrder } from '../components/Experience'
-import Pillars from '../components/Pillars'
-import Skills from '../components/Skills'
+import WhatIDo from '../components/WhatIDo'
 import Projects from '../components/Projects'
 import Testimonials from '../components/Testimonials'
 import About from '../components/About'
@@ -81,10 +80,14 @@ export default function Home() {
               {active === 'experiencia' && <Experience items={data.experience} order={order} />}
               {active === 'proyectos' && <Projects items={data.projects} />}
               {active === 'que-hago' && (
-                <div className="grid gap-8" id="panel-que-hago" role="tabpanel" aria-labelledby="tab-que-hago">
-                  <p className="max-w-4xl text-lg text-fg-muted">{data.profile.summary}</p>
-                  <Pillars pillars={data.pillars} />
-                  <Skills groups={data.skillGroups} certifications={data.certifications} />
+                <div id="panel-que-hago" role="tabpanel" aria-labelledby="tab-que-hago">
+                  <WhatIDo
+                    summary={data.profile.summary}
+                    stats={data.stats ?? []}
+                    pillars={data.pillars}
+                    groups={data.skillGroups}
+                    certifications={data.certifications}
+                  />
                 </div>
               )}
               {active === 'recomendaciones' && <Testimonials items={data.recommendations ?? []} />}

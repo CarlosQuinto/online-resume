@@ -74,6 +74,18 @@ export interface SkillGroup {
   id: string
   name: string
   skills: string[]
+  /** Años de experiencia por skill, alineados por posición con `skills` (0 = no se muestra). */
+  years?: number[]
+  /** Ícono de línea (ver components/Icon.tsx). */
+  icon?: string
+}
+
+/** Cifra destacada de «Qué hago» (p. ej. «50 %» · «Reducción en el tiempo de migración»). */
+export interface Stat {
+  id: string
+  icon?: string
+  value: string
+  label: string
 }
 
 export interface Project extends Coverable {
@@ -106,6 +118,7 @@ export interface Pillar {
   emoji: string
   description: string
   lists: { label: string; items: string[] }[]
+  icon?: string
 }
 
 export interface Recommendation {
@@ -137,6 +150,7 @@ export interface PortfolioData {
   projects: Project[]
   recommendations: Recommendation[]
   hobbies: Hobby[]
+  stats?: Stat[]
   /** Traducciones del contenido por ruta (ver src/i18n/content.ts). El español es el original. */
   translations?: { en?: Record<string, Translation> }
 }

@@ -183,4 +183,10 @@ export const bundledEn: [string, string][] = [
   ["Especialización", "Specialized track"],
   ["Base sólida en ciencias de la computación, arquitectura de software, patrones de diseño orientado a objetos, gestión de bases de datos y verificación sistemática de la calidad.", "Rigorous core foundation in computer science, software architecture, object-oriented design patterns, database management and systematic quality verification."],
   ["Sonora, México", "Sonora, Mexico"],
+  // Qué hago: cifras destacadas.
+  ["50 %", "50%"],
+  ["Reducción en el tiempo de migración de pruebas", "Less time spent migrating tests"],
+  ["Pruebas integradas en el flujo de entrega", "Tests built into the delivery flow"],
+  ["Full stack de testing", "Full-stack testing"],
+  ["UI, API, móvil y seguridad", "UI, API, mobile and security"],
 ]

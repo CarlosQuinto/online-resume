@@ -184,9 +184,15 @@ export const seed: PortfolioData = {
     { id: 'cert-pentest', name: 'CompTIA PenTest+: Reconnaissance, Scoping & Engagement, Professionalism', issuer: 'Skillsoft', date: 'jun 2025', url: '' },
     { id: 'cert-prompt', name: 'Case Studies in Prompt Engineering', issuer: 'Skillsoft', date: 'jun 2025', url: '' },
   ],
+  stats: [
+    { id: 'stat-migration', icon: 'bolt', value: '50 %', label: 'Reducción en el tiempo de migración de pruebas' },
+    { id: 'stat-cicd', icon: 'infinity', value: 'CI/CD', label: 'Pruebas integradas en el flujo de entrega' },
+    { id: 'stat-fullstack', icon: 'shield', value: 'Full stack de testing', label: 'UI, API, móvil y seguridad' },
+  ],
   pillars: [
     {
       id: 'pil-auto',
+      icon: 'gear',
       title: 'Automatización',
       emoji: '🧪',
       description: 'Diseño frameworks de pruebas que otros equipos adoptan como estándar y mantengo suites que no se rompen.',
@@ -197,6 +203,7 @@ export const seed: PortfolioData = {
     },
     {
       id: 'pil-ci',
+      icon: 'code',
       title: 'CI/CD & Calidad',
       emoji: '🚀',
       description: 'Integro las pruebas en el pipeline para que cada release salga con evidencia, no con fe.',
@@ -207,6 +214,7 @@ export const seed: PortfolioData = {
     },
     {
       id: 'pil-ai',
+      icon: 'brain',
       title: 'IA aplicada',
       emoji: '🤖',
       description: 'Uso IA para migrar pruebas más rápido, generar escenarios y revisar código, y lo estudio en una maestría.',
@@ -217,11 +225,11 @@ export const seed: PortfolioData = {
     },
   ],
   skillGroups: [
-    { id: 'sg-auto', name: 'Automatización', skills: ['Playwright', 'Selenium', 'Cucumber / BDD', 'TestNG', 'Robot Framework', 'Postman', 'JMeter', 'OWASP ZAP'] },
-    { id: 'sg-lang', name: 'Lenguajes', skills: ['Java', 'C#', 'TypeScript', 'JavaScript', 'Python', 'SQL'] },
-    { id: 'sg-ci', name: 'CI/CD & Infra', skills: ['Azure DevOps', 'Jenkins', 'GitHub Actions', 'Docker', 'PostgreSQL', 'Firebase', 'Kong API Gateway'] },
-    { id: 'sg-ai', name: 'IA aplicada', skills: ['AI-Assisted Automation', 'Prompt Engineering', 'GitHub Copilot', 'Cursor', 'LLMs'] },
-    { id: 'sg-process', name: 'Proceso y producto', skills: ['Scrum', 'Test Strategy', 'Test Planning', 'Salesforce Ecosystem', 'Capacitor (mobile)'] },
+    { id: 'sg-auto', icon: 'gear', name: 'Automatización', skills: ['Playwright', 'Selenium', 'Cucumber / BDD', 'TestNG', 'Robot Framework', 'Postman', 'JMeter', 'OWASP ZAP'] },
+    { id: 'sg-lang', icon: 'code', name: 'Lenguajes', skills: ['Java', 'C#', 'TypeScript', 'JavaScript', 'Python', 'SQL'] },
+    { id: 'sg-ci', icon: 'cloud', name: 'CI/CD & Infra', skills: ['Azure DevOps', 'Jenkins', 'GitHub Actions', 'Docker', 'PostgreSQL', 'Firebase', 'Kong API Gateway'] },
+    { id: 'sg-ai', icon: 'brain', name: 'IA aplicada', skills: ['AI-Assisted Automation', 'Prompt Engineering', 'GitHub Copilot', 'Cursor', 'LLMs'] },
+    { id: 'sg-process', icon: 'layers', name: 'Proceso y producto', skills: ['Scrum', 'Test Strategy', 'Test Planning', 'Salesforce Ecosystem', 'Capacitor (mobile)'] },
   ],
   projects: withBrand([
     {

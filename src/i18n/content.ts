@@ -10,7 +10,7 @@ export type TranslationMap = Record<string, Translation>
 
 /** Campos que nunca se traducen: técnicos, nombres propios y fechas en formato máquina. */
 const SKIP = new Set([
-  'id', 'url', 'phone', 'repoUrl', 'liveUrl', 'coverUrl', 'avatarUrl', 'color', 'start', 'end',
+  'id', 'url', 'phone', 'icon', 'years', 'repoUrl', 'liveUrl', 'coverUrl', 'avatarUrl', 'color', 'start', 'end',
   'emoji', 'accent', 'cover', 'avatarCover', 'photoUrl', 'photoCover', 'featured', 'version', 'updatedAt', 'translations',
 ])
 const SKIP_IN: Record<string, string[]> = {
@@ -23,10 +23,10 @@ const SKIP_IN: Record<string, string[]> = {
 
 /** Orden de secciones y campos para que el admin las liste como en el sitio. */
 const ORDER = [
-  'profile', 'experience', 'projects', 'pillars', 'skillGroups', 'certifications', 'education', 'recommendations', 'hobbies',
+  'profile', 'stats', 'experience', 'projects', 'pillars', 'skillGroups', 'certifications', 'education', 'recommendations', 'hobbies',
   'headline', 'tagline', 'summary', 'location', 'availability', 'links', 'label',
   'role', 'title', 'name', 'degree', 'field', 'breed', 'description', 'detail', 'bio', 'note', 'text',
-  'meta', 'kicker', 'highlights', 'lists', 'items', 'skills', 'tags', 'stack', 'date',
+  'value', 'meta', 'kicker', 'highlights', 'lists', 'items', 'skills', 'tags', 'stack', 'date',
 ]
 const rank = (k: string) => {
   const i = ORDER.indexOf(k)

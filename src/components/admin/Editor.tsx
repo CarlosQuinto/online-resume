@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import type { Education, Hobby, PortfolioData, Recommendation } from '../../data/schema'
+import type { Education, Hobby, PortfolioData, Recommendation, Stat } from '../../data/schema'
+import { ICON_NAMES, type IconName } from '../Icon'
 import { seed } from '../../data/seed'
 import { withSeedDefaults } from '../../data/defaults'
 import { savePortfolio } from '../../lib/content'
@@ -250,54 +251,105 @@ export default function Editor({ initial, onLock }: { initial: PortfolioData; on
           )}
 
           {tab === 'pilares' && (
-            <ListEditor
-              items={data.pillars ?? []}
-              onChange={(pillars) => patch({ pillars })}
-              create={() => ({ id: uid('pil'), title: '', emoji: '✨', description: '', lists: [{ label: 'Herramientas', items: [] }] })}
-              title={(p) => `${p.emoji} ${p.title}`}
-              render={(p, up) => (
-                <>
-                  <div className="grid grid-cols-[5rem_1fr] gap-4">
-                    <Text label="Emoji" value={p.emoji} onChange={(v) => up({ emoji: v })} />
-                    <Text label="Título" value={p.title} onChange={(v) => up({ title: v })} />
-                  </div>
-                  <Text label="Descripción" value={p.description} onChange={(v) => up({ description: v })} multiline />
-                  {p.lists.map((l, li) => (
-                    <div key={li} className="grid gap-2 rounded-lg border border-border p-3">
-                      <Text
-                        label={`Lista ${li + 1} · etiqueta`}
-                        value={l.label}
-                        onChange={(v) => up({ lists: p.lists.map((x, j) => (j === li ? { ...x, label: v } : x)) })}
-                      />
-                      <Tags
-                        label="Elementos"
-                        value={l.items}
-                        onChange={(v) => up({ lists: p.lists.map((x, j) => (j === li ? { ...x, items: v } : x)) })}
-                      />
+            <div className="grid gap-4">
+              <p className="text-sm font-semibold">Cifras destacadas</p>
+              <ListEditor
+                items={data.stats ?? []}
+                onChange={(stats) => patch({ stats })}
+                create={(): Stat => ({ id: uid('stat'), icon: 'bolt', value: '', label: '' })}
+                title={(s) => s.value || 'Cifra'}
+                render={(s, up) => (
+                  <>
+                    <div className="grid grid-cols-[10rem_1fr] gap-4">
+                      <Select label="Ícono" value={(s.icon as IconName) ?? 'bolt'} options={ICON_NAMES} onChange={(v) => up({ icon: v })} />
+                      <Text label="Cifra" value={s.value} onChange={(v) => up({ value: v })} placeholder="50 %" />
                     </div>
-                  ))}
-                  <button
-                    type="button"
-                    onClick={() => up({ lists: [...p.lists, { label: 'Nueva lista', items: [] }] })}
-                    className="w-fit text-sm text-accent hover:underline"
-                  >
-                    + Añadir lista
-                  </button>
-                </>
-              )}
-            />
+                    <Text label="Texto" value={s.label} onChange={(v) => up({ label: v })} />
+                  </>
+                )}
+              />
+              <p className="mt-6 text-sm font-semibold">Áreas de enfoque</p>
+              <ListEditor
+                items={data.pillars ?? []}
+                onChange={(pillars) => patch({ pillars })}
+                create={() => ({ id: uid('pil'), title: '', emoji: '✨', description: '', lists: [{ label: 'Herramientas', items: [] }] })}
+                title={(p) => `${p.emoji} ${p.title}`}
+                render={(p, up) => (
+                  <>
+                    <div className="grid grid-cols-[5rem_1fr] gap-4">
+                      <Text label="Emoji" value={p.emoji} onChange={(v) => up({ emoji: v })} />
+                      <Text label="Título" value={p.title} onChange={(v) => up({ title: v })} />
+                    </div>
+                    <Select label="Ícono" value={(p.icon as IconName) ?? 'layers'} options={ICON_NAMES} onChange={(v) => up({ icon: v })} />
+                    <Text label="Descripción" value={p.description} onChange={(v) => up({ description: v })} multiline />
+                    <p className="text-xs text-fg-subtle">En el sitio se muestran los elementos de la primera lista bajo la descripción.</p>
+                    {p.lists.map((l, li) => (
+                      <div key={li} className="grid gap-2 rounded-lg border border-border p-3">
+                        <Text
+                          label={`Lista ${li + 1} · etiqueta`}
+                          value={l.label}
+                          onChange={(v) => up({ lists: p.lists.map((x, j) => (j === li ? { ...x, label: v } : x)) })}
+                        />
+                        <Tags
+                          label="Elementos"
+                          value={l.items}
+                          onChange={(v) => up({ lists: p.lists.map((x, j) => (j === li ? { ...x, items: v } : x)) })}
+                        />
+                      </div>
+                    ))}
+                    <button
+                      type="button"
+                      onClick={() => up({ lists: [...p.lists, { label: 'Nueva lista', items: [] }] })}
+                      className="w-fit text-sm text-accent hover:underline"
+                    >
+                      + Añadir lista
+                    </button>
+                  </>
+                )}
+              />
+            </div>
           )}
 
           {tab === 'skills' && (
             <ListEditor
               items={data.skillGroups}
               onChange={(skillGroups) => patch({ skillGroups })}
-              create={() => ({ id: uid('sg'), name: '', skills: [] })}
+              create={() => ({ id: uid('sg'), name: '', skills: [], years: [], icon: 'layers' })}
               title={(g) => g.name}
               render={(g, up) => (
                 <>
-                  <Text label="Grupo" value={g.name} onChange={(v) => up({ name: v })} />
-                  <Tags label="Skills" value={g.skills} onChange={(v) => up({ skills: v })} />
+                  <div className="grid grid-cols-[1fr_10rem] gap-4">
+                    <Text label="Grupo" value={g.name} onChange={(v) => up({ name: v })} />
+                    <Select label="Ícono" value={(g.icon as IconName) ?? 'layers'} options={ICON_NAMES} onChange={(v) => up({ icon: v })} />
+                  </div>
+                  <Tags
+                    label="Skills"
+                    value={g.skills}
+                    // Los años viajan con su skill aunque se reordene o se borre otro.
+                    onChange={(v) => up({ skills: v, years: v.map((s) => g.years?.[g.skills.indexOf(s)] ?? 0) })}
+                  />
+                  {g.skills.length > 0 && (
+                    <div>
+                      <p className="field-label">Años de experiencia (vacío = no se muestra)</p>
+                      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                        {g.skills.map((s, i) => (
+                          <label key={s} className="flex items-center gap-2 rounded-lg border border-border py-1.5 pr-1.5 pl-3 text-sm">
+                            <span className="min-w-0 flex-1 truncate">{s}</span>
+                            <input
+                              type="number"
+                              min={0}
+                              max={40}
+                              step={0.5}
+                              value={g.years?.[i] || ''}
+                              onChange={(e) => up({ years: g.skills.map((_, j) => (j === i ? Number(e.target.value) || 0 : (g.years?.[j] ?? 0))) })}
+                              className="field w-16 px-2 py-1 text-right text-sm"
+                              aria-label={`Años con ${s}`}
+                            />
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </>
               )}
             />

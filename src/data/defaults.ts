@@ -13,7 +13,10 @@ export function withSeedDefaults(data: PortfolioData): PortfolioData {
   return {
     ...data,
     profile: { phone: seed.profile.phone, ...data.profile },
-    pillars: data.pillars?.length ? data.pillars : seed.pillars,
+    pillars: withDefaults(data.pillars?.length ? data.pillars : seed.pillars, seed.pillars),
+    skillGroups: withDefaults(data.skillGroups, seed.skillGroups),
+    // Una lista vacía guardada a propósito se respeta; solo falta en documentos antiguos.
+    stats: data.stats ?? seed.stats,
     experience: withDefaults(data.experience, seed.experience),
     projects: withDefaults(data.projects, seed.projects),
     hobbies: withDefaults(data.hobbies, seed.hobbies),
