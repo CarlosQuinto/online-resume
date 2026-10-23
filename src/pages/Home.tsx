@@ -58,7 +58,7 @@ export default function Home() {
             ) : null
           }
         />
-        <div className="container-wide min-h-[60vh] py-8">
+        <div className="container-wide min-h-[60vh] pt-12 pb-16">
           <AnimatePresence mode="wait">
             <motion.div
               key={active}

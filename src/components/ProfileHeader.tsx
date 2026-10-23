@@ -10,15 +10,15 @@ export default function ProfileHeader({ profile }: { profile: Profile }) {
   const social = profile.links.filter((l) => !l.url.startsWith('mailto:'))
 
   return (
-    <section id="top" className="bg-bg pt-10 pb-6">
+    <section id="top" className="bg-bg pt-12 pb-12">
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-        className="container-narrow flex flex-col items-center gap-6 text-center sm:flex-row sm:items-start sm:text-left"
+        className="container-narrow flex flex-col items-center gap-8 text-center sm:flex-row sm:items-start sm:justify-center sm:text-left"
       >
         <Avatar url={profile.avatarUrl} cover={profile.avatarCover} name={profile.name} />
-        <div className="min-w-0 flex-1">
+        <div className="min-w-0 max-w-2xl">
           <h1 className="text-3xl font-extrabold tracking-tight">{profile.name}</h1>
           <p className="mt-1 text-fg-subtle">{profile.location}</p>
           <p className="mt-2 text-lg text-fg-muted">{profile.headline}</p>
