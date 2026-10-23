@@ -119,7 +119,7 @@
   margin-inline: auto;
   padding-inline: var(--spacing-gutter);
   /* El margen lateral crece con la pantalla: más aire en monitores anchos, igual en móvil. */
-  @media (width >= 64rem) { padding-inline: clamp(2rem, 4vw, 5rem); }
+  @media (width >= 64rem) { padding-inline: clamp(2rem, 6vw, 7.5rem); }
 }
 
 @utility card {
