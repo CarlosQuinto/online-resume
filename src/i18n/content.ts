@@ -10,7 +10,7 @@ export type TranslationMap = Record<string, Translation>
 
 /** Campos que nunca se traducen: técnicos, nombres propios y fechas en formato máquina. */
 const SKIP = new Set([
-  'id', 'url', 'repoUrl', 'liveUrl', 'coverUrl', 'avatarUrl', 'color', 'start', 'end',
+  'id', 'url', 'phone', 'repoUrl', 'liveUrl', 'coverUrl', 'avatarUrl', 'color', 'start', 'end',
   'emoji', 'accent', 'cover', 'avatarCover', 'photoUrl', 'photoCover', 'featured', 'version', 'updatedAt', 'translations',
 ])
 const SKIP_IN: Record<string, string[]> = {

@@ -38,6 +38,7 @@ export const seed: PortfolioData = {
       'Fuera del trabajo construyo mis propios productos, como Rondo, una app web y móvil para organizar ligas de fútbol amateur.',
     avatarUrl: '',
     availability: 'Abierto a roles de QA Automation / SDET',
+    phone: '+52 622 152 63 70',
     links: [
       { label: 'GitHub', url: 'https://github.com/CarlosQuinto' },
       { label: 'LinkedIn', url: 'https://www.linkedin.com/in/carloscarballod/' },

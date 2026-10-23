@@ -49,6 +49,7 @@ const es = {
   contactTitle: '¿Construimos algo con calidad?',
   contactIntro: 'Automatización, SDET, IA aplicada a QA… o una partida de ajedrez. Respondo rápido.',
   availability: 'Disponibilidad',
+  phone: 'Teléfono',
 }
 
 export type Dict = typeof es
@@ -103,6 +104,7 @@ const en: Dict = {
   contactTitle: 'Shall we build something with quality?',
   contactIntro: 'Automation, SDET, AI applied to QA… or a game of chess. I reply fast.',
   availability: 'Availability',
+  phone: 'Phone',
 }
 
 export type Lang = 'en' | 'es'

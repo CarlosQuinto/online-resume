@@ -12,6 +12,8 @@ export interface Profile {
   /** Encuadre de la foto dentro del círculo (foco + zoom). */
   avatarCover?: Cover
   availability: string
+  /** Teléfono tal como se muestra (p. ej. «+52 622 152 63 70»); vacío = no se muestra. */
+  phone?: string
   links: { label: string; url: string }[]
 }
 

@@ -160,6 +160,12 @@ export default function Editor({ initial, onLock }: { initial: PortfolioData; on
               <Text label="Resumen (Sobre mí)" value={data.profile.summary} onChange={(v) => patch({ profile: { ...data.profile, summary: v } })} multiline />
               <Text label="Ubicación" value={data.profile.location} onChange={(v) => patch({ profile: { ...data.profile, location: v } })} />
               <Text label="Disponibilidad" value={data.profile.availability} onChange={(v) => patch({ profile: { ...data.profile, availability: v } })} />
+              <Text
+                label="Teléfono (se muestra en Contacto; vacío = oculto)"
+                value={data.profile.phone ?? ''}
+                onChange={(v) => patch({ profile: { ...data.profile, phone: v } })}
+                placeholder="+52 622 152 63 70"
+              />
               <p className="field-label mt-4">Enlaces</p>
               <ListEditor
                 items={data.profile.links.map((l, i) => ({ ...l, id: `link-${i}` }))}

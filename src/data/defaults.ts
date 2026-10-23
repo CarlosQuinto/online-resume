@@ -12,6 +12,7 @@ const withDefaults = <T extends { id: string }>(items: T[] = [], defaults: T[]):
 export function withSeedDefaults(data: PortfolioData): PortfolioData {
   return {
     ...data,
+    profile: { phone: seed.profile.phone, ...data.profile },
     pillars: data.pillars?.length ? data.pillars : seed.pillars,
     experience: withDefaults(data.experience, seed.experience),
     projects: withDefaults(data.projects, seed.projects),

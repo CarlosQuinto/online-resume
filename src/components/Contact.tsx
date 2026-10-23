@@ -8,6 +8,7 @@ const icon = (label: string) => {
   if (l.includes('github')) return '⌥'
   if (l.includes('linkedin')) return 'in'
   if (l.includes('mail')) return '✉'
+  if (l.includes('tel') || l.includes('phone')) return '☎'
   return '↗'
 }
 
@@ -15,6 +16,12 @@ const icon = (label: string) => {
 export default function Contact({ profile }: { profile: Profile }) {
   const { t } = useLang()
   const email = profile.links.find((l) => l.url.startsWith('mailto:'))
+  // El teléfono va al final de la lista; tel: usa solo dígitos y el +, y se muestra tal como se escribió.
+  const phone = profile.phone?.trim()
+  const links: { label: string; url: string; shown?: string }[] = [
+    ...profile.links,
+    ...(phone ? [{ label: t.phone, url: `tel:${phone.replace(/[^\d+]/g, '')}`, shown: phone }] : []),
+  ]
   return (
     <Section id="panel-contacto" title={t.contactTitle} intro={t.contactIntro}>
       <div className="grid gap-5 md:grid-cols-[1.2fr_1fr]">
@@ -40,7 +47,7 @@ export default function Contact({ profile }: { profile: Profile }) {
           )}
         </motion.div>
         <ul className="grid gap-3">
-          {profile.links.map((l, i) => (
+          {links.map((l, i) => (
             <motion.li key={l.label} variants={fadeUp} custom={i + 1} initial="hidden" animate="show">
               <a
                 href={l.url}
@@ -53,7 +60,7 @@ export default function Contact({ profile }: { profile: Profile }) {
                 </span>
                 <span className="min-w-0">
                   <span className="block font-semibold">{l.label}</span>
-                  <span className="block truncate text-sm text-fg-muted">{l.url.replace(/^mailto:|^https?:\/\//, '')}</span>
+                  <span className="block truncate text-sm text-fg-muted">{l.shown ?? l.url.replace(/^mailto:|^https?:\/\//, '')}</span>
                 </span>
               </a>
             </motion.li>
