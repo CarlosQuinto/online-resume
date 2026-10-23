@@ -17,7 +17,7 @@ export default function Testimonials({ items }: { items: Recommendation[] }) {
 
   return (
     <Section id="panel-recomendaciones" title={t.recsTitle} intro={t.recsIntro}>
-      <ul className="grid gap-x-8 gap-y-10 md:grid-cols-2">
+      <ul className="grid grid-cols-1 gap-x-8 gap-y-10 md:grid-cols-2">
         {items.map((r, i) => (
           <motion.li
             key={r.id}

@@ -5,7 +5,14 @@ import Section from './Section'
 import { Chips, Modal, Tile } from './gallery'
 import { useLang } from '../i18n/lang'
 
-const host = (url: string) => url.replace(/^https?:\/\//, '').replace(/\/$/, '')
+/** Solo el dominio en el pie de tarjeta: las rutas largas (p. ej. App Store) no aportan. */
+const host = (url: string) => {
+  try {
+    return new URL(url).hostname.replace(/^www\./, '')
+  } catch {
+    return url.replace(/^https?:\/\//, '').replace(/\/$/, '')
+  }
+}
 
 /** Galería de proyectos: mismas tarjetas que la experiencia, con enlaces en el modal. */
 export default function Projects({ items }: { items: Project[] }) {
@@ -16,7 +23,7 @@ export default function Projects({ items }: { items: Project[] }) {
 
   return (
     <Section id="panel-proyectos" title={t.projectsTitle} intro={t.projectsIntro}>
-      <div className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {sorted.map((p, i) => (
           <motion.div
             key={p.id}
