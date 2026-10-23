@@ -9,6 +9,7 @@ import Testimonials from '../components/Testimonials'
 import About from '../components/About'
 import Contact from '../components/Contact'
 import Footer from '../components/Footer'
+import BackToTop from '../components/BackToTop'
 import { usePortfolio } from '../hooks/usePortfolio'
 import { useTheme } from '../hooks/useTheme'
 import { withSeedDefaults } from '../data/defaults'
@@ -150,6 +151,7 @@ export default function Home() {
         </div>
       </main>
       <Footer profile={data.profile} updatedAt={data.updatedAt} />
+      <BackToTop />
     </>
   )
 }
