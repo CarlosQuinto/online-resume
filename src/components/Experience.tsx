@@ -2,17 +2,19 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 import type { Experience as Exp } from '../data/schema'
 import { Chips, Modal, Tile } from './gallery'
+import { useLang } from '../i18n/lang'
+import type { Dict } from '../i18n/ui'
 
-export const fmt = (ym: string | null) => {
-  if (!ym) return 'Actual'
+export const fmt = (ym: string | null, t: Dict) => {
+  if (!ym) return t.present
   const [y, m] = ym.split('-')
-  const months = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic']
-  return `${months[Number(m) - 1] ?? ''} ${y}`.trim()
+  return `${t.months[Number(m) - 1] ?? ''} ${y}`.trim()
 }
 
 export type ExpOrder = 'recent' | 'oldest'
 
 export default function Experience({ items, order = 'recent' }: { items: Exp[]; order?: ExpOrder }) {
+  const { t } = useLang()
   const [openId, setOpenId] = useState<string | null>(null)
   // "Actual" (end null) va primero en orden reciente; después por fecha de inicio.
   const key = (e: Exp) => (e.end ?? '9999-99') + e.start
@@ -33,7 +35,7 @@ export default function Experience({ items, order = 'recent' }: { items: Exp[]; 
               id={`exp-${exp.id}`}
               item={exp}
               label={exp.company}
-              ariaLabel={`${exp.role} en ${exp.company}: ver detalles`}
+              ariaLabel={t.viewDetails(t.roleAt(exp.role, exp.company))}
               onOpen={() => setOpenId(exp.id)}
               overlay={
                 <>
@@ -48,7 +50,7 @@ export default function Experience({ items, order = 'recent' }: { items: Exp[]; 
                   <p className="flex items-baseline gap-2 text-sm text-fg-muted">
                     <span className="truncate">{exp.role}</span>
                     <span className="shrink-0 font-mono text-xs text-fg-subtle">
-                      {fmt(exp.start)} — {fmt(exp.end)}
+                      {fmt(exp.start, t)} — {fmt(exp.end, t)}
                     </span>
                   </p>
                 </>
@@ -66,7 +68,7 @@ export default function Experience({ items, order = 'recent' }: { items: Exp[]; 
                 {current.role}
               </h3>
               <span className="font-mono text-xs text-fg-subtle">
-                {fmt(current.start)} — {fmt(current.end)}
+                {fmt(current.start, t)} — {fmt(current.end, t)}
               </span>
             </div>
             <p className="mt-1 text-fg-muted">
@@ -75,7 +77,7 @@ export default function Experience({ items, order = 'recent' }: { items: Exp[]; 
             <p className="mt-4">{current.summary}</p>
             {current.highlights.length > 0 && (
               <>
-                <p className="eyebrow mt-6 mb-2">Lo que hice</p>
+                <p className="eyebrow mt-6 mb-2">{t.whatIDid}</p>
                 <ul className="space-y-2">
                   {current.highlights.map((h) => (
                     <li key={h} className="flex gap-2.5">
@@ -86,7 +88,7 @@ export default function Experience({ items, order = 'recent' }: { items: Exp[]; 
                 </ul>
               </>
             )}
-            <p className="eyebrow mt-6 mb-2">Tecnologías</p>
+            <p className="eyebrow mt-6 mb-2">{t.technologies}</p>
             <div className="flex flex-wrap gap-1.5">
               {current.stack.map((s) => (
                 <span key={s} className="pill">

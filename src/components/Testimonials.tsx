@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import type { Recommendation } from '../data/schema'
 import Section from './Section'
+import { useLang } from '../i18n/lang'
 
 const initialsOf = (name: string) =>
   name
@@ -11,10 +12,11 @@ const initialsOf = (name: string) =>
 
 /** Recomendaciones de dos en dos, cada una en un globo de diálogo con su autor debajo. */
 export default function Testimonials({ items }: { items: Recommendation[] }) {
+  const { t } = useLang()
   if (items.length === 0) return null
 
   return (
-    <Section id="panel-recomendaciones" title="Recomendaciones" intro="Lo que dicen las personas con las que he trabajado.">
+    <Section id="panel-recomendaciones" title={t.recsTitle} intro={t.recsIntro}>
       <ul className="grid gap-x-6 gap-y-8 md:grid-cols-2">
         {items.map((r, i) => (
           <motion.li

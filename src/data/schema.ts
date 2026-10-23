@@ -113,6 +113,12 @@ export interface Recommendation {
   text: string
 }
 
+/** Traducción de un texto: `src` es el español que se tradujo (si cambia, la traducción caduca). */
+export interface Translation {
+  src: string
+  text: string
+}
+
 export interface PortfolioData {
   version: number
   updatedAt: string
@@ -126,4 +132,6 @@ export interface PortfolioData {
   recommendations: Recommendation[]
   hobbies: Hobby[]
   pets: Pet[]
+  /** Traducciones del contenido por ruta (ver src/i18n/content.ts). El español es el original. */
+  translations?: { en?: Record<string, Translation> }
 }

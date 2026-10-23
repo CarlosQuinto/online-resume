@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import type { Profile } from '../data/schema'
 import Section, { fadeUp } from './Section'
+import { useLang } from '../i18n/lang'
 
 const icon = (label: string) => {
   const l = label.toLowerCase()
@@ -12,13 +13,14 @@ const icon = (label: string) => {
 
 /** Pestaña Contacto: llamada a la acción y todas las vías de contacto en tarjetas. */
 export default function Contact({ profile }: { profile: Profile }) {
+  const { t } = useLang()
   const email = profile.links.find((l) => l.url.startsWith('mailto:'))
   return (
-    <Section id="panel-contacto" title="¿Construimos algo con calidad?" intro="Automatización, SDET, IA aplicada a QA… o una partida de ajedrez. Respondo rápido.">
+    <Section id="panel-contacto" title={t.contactTitle} intro={t.contactIntro}>
       <div className="grid gap-5 md:grid-cols-[1.2fr_1fr]">
         <motion.div variants={fadeUp} custom={0} initial="hidden" animate="show" className="card flex flex-col justify-between gap-6 p-6 md:p-8">
           <div>
-            <p className="eyebrow mb-2">Disponibilidad</p>
+            <p className="eyebrow mb-2">{t.availability}</p>
             <p className="flex items-center gap-2 text-lg font-semibold">
               <span className="relative flex h-2.5 w-2.5">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
@@ -31,7 +33,7 @@ export default function Contact({ profile }: { profile: Profile }) {
           {email && (
             <div className="flex flex-wrap items-center gap-3">
               <a href={email.url} className="btn-primary hover:scale-[1.02]">
-                Escríbeme
+                {t.emailMe}
               </a>
               <span className="font-mono text-sm text-fg-muted">{email.url.replace('mailto:', '')}</span>
             </div>

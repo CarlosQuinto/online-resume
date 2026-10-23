@@ -1,10 +1,12 @@
 import type { Certification, SkillGroup } from '../data/schema'
 import Section from './Section'
+import { useLang } from '../i18n/lang'
 
 /** Stack completo en una sola tarjeta densa + certificaciones como fila de chips. */
 export default function Skills({ groups, certifications }: { groups: SkillGroup[]; certifications: Certification[] }) {
+  const { t } = useLang()
   return (
-    <Section id="skills" title="Stack y validaciones" intro="Todo lo que uso, agrupado por dominio, y las certificaciones que lo respaldan.">
+    <Section id="skills" title={t.skillsTitle} intro={t.skillsIntro}>
       <div className="card divide-y divide-border">
         {groups.map((g) => (
           <div key={g.id} className="grid gap-2 px-5 py-3.5 md:grid-cols-[11rem_1fr] md:items-center">

@@ -3,17 +3,19 @@ import { useState } from 'react'
 import type { Project } from '../data/schema'
 import Section from './Section'
 import { Chips, Modal, Tile } from './gallery'
+import { useLang } from '../i18n/lang'
 
 const host = (url: string) => url.replace(/^https?:\/\//, '').replace(/\/$/, '')
 
 /** Galería de proyectos: mismas tarjetas que la experiencia, con enlaces en el modal. */
 export default function Projects({ items }: { items: Project[] }) {
+  const { t } = useLang()
   const [openId, setOpenId] = useState<string | null>(null)
   const sorted = [...items].sort((a, b) => Number(b.featured) - Number(a.featured))
   const current = items.find((p) => p.id === openId) ?? null
 
   return (
-    <Section id="panel-proyectos" title="Mis proyectos" intro="Productos propios y trabajo reciente. Pasa el cursor para ver de qué va, haz clic para los detalles.">
+    <Section id="panel-proyectos" title={t.projectsTitle} intro={t.projectsIntro}>
       <div className="grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {sorted.map((p, i) => (
           <motion.div
@@ -26,7 +28,7 @@ export default function Projects({ items }: { items: Project[] }) {
               id={`proj-${p.id}`}
               item={p}
               label={p.title}
-              ariaLabel={`${p.title}: ver detalles`}
+              ariaLabel={t.viewDetails(p.title)}
               featured={p.featured}
               onOpen={() => setOpenId(p.id)}
               overlay={
@@ -40,10 +42,10 @@ export default function Projects({ items }: { items: Project[] }) {
                 <>
                   <p className="flex items-baseline justify-between gap-2">
                     <span className="truncate font-semibold">{p.title}</span>
-                    {p.featured && <span className="shrink-0 text-xs font-semibold text-accent">Destacado</span>}
+                    {p.featured && <span className="shrink-0 text-xs font-semibold text-accent">{t.featured}</span>}
                   </p>
                   <p className="truncate text-sm text-fg-muted">
-                    {p.liveUrl ? host(p.liveUrl) : p.repoUrl ? 'código abierto' : 'proyecto privado'}
+                    {p.liveUrl ? host(p.liveUrl) : p.repoUrl ? t.openSource : t.privateProject}
                   </p>
                 </>
               }
@@ -59,10 +61,10 @@ export default function Projects({ items }: { items: Project[] }) {
               <h3 id={`proj-title-${current.id}`} className="text-xl font-bold">
                 {current.title}
               </h3>
-              {current.featured && <span className="pill border-accent/40 text-accent">Destacado</span>}
+              {current.featured && <span className="pill border-accent/40 text-accent">{t.featured}</span>}
             </div>
             <p className="mt-4 whitespace-pre-line">{current.description}</p>
-            <p className="eyebrow mt-6 mb-2">Tecnologías</p>
+            <p className="eyebrow mt-6 mb-2">{t.technologies}</p>
             <div className="flex flex-wrap gap-1.5">
               {current.stack.map((s) => (
                 <span key={s} className="pill">
@@ -74,12 +76,12 @@ export default function Projects({ items }: { items: Project[] }) {
               <div className="mt-6 flex flex-wrap gap-2">
                 {current.liveUrl && (
                   <a href={current.liveUrl} target="_blank" rel="noreferrer" className="btn-primary text-sm">
-                    ↗ Ver sitio
+                    ↗ {t.visitSite}
                   </a>
                 )}
                 {current.repoUrl && (
                   <a href={current.repoUrl} target="_blank" rel="noreferrer" className="btn-outline text-sm">
-                    ⌥ Código
+                    ⌥ {t.code}
                   </a>
                 )}
               </div>

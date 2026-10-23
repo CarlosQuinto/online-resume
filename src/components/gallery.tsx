@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import { useEffect, type ReactNode } from 'react'
 import { DEFAULT_COVER, type Coverable } from '../data/schema'
+import { useLang } from '../i18n/lang'
 
 /** Oscurece un color hex para el degradado de las tarjetas sin imagen. */
 function shade(hex: string, amount = 0.4) {
@@ -111,6 +112,7 @@ export function Modal({
   onClose: () => void
   children: ReactNode
 }) {
+  const { t } = useLang()
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose()
     window.addEventListener('keydown', onKey)
@@ -143,7 +145,7 @@ export function Modal({
           <CoverImage item={item} label={label} />
           <button
             onClick={onClose}
-            aria-label="Cerrar"
+            aria-label={t.close}
             className="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-black/50 text-white backdrop-blur transition-colors hover:bg-black/70"
           >
             ✕

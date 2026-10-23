@@ -8,6 +8,8 @@ import { firebaseEnabled } from '../../lib/firebase'
 import { ListEditor, Select, Tags, Text, Toggle, uid } from './fields'
 import CoverCropper from './CoverCropper'
 import AvatarEditor from './AvatarEditor'
+import TranslationEditor from './TranslationEditor'
+import { materialize, translationRows } from '../../i18n/content'
 
 type Tab =
   | 'perfil'
@@ -20,6 +22,7 @@ type Tab =
   | 'recomendaciones'
   | 'hobbies'
   | 'mascotas'
+  | 'ingles'
   | 'json'
   | 'ajustes'
 const tabs: { id: Tab; label: string }[] = [
@@ -33,19 +36,21 @@ const tabs: { id: Tab; label: string }[] = [
   { id: 'recomendaciones', label: 'Recomendaciones' },
   { id: 'hobbies', label: 'Hobbies' },
   { id: 'mascotas', label: 'Mascotas' },
+  { id: 'ingles', label: 'Inglés' },
   { id: 'json', label: 'JSON' },
   { id: 'ajustes', label: 'Ajustes' },
 ]
 
 export default function Editor({ initial, onLock }: { initial: PortfolioData; onLock: () => void }) {
-  const [data, setData] = useState<PortfolioData>(initial)
+  const [data, setData] = useState<PortfolioData>(() => materialize(initial))
   const [tab, setTab] = useState<Tab>('perfil')
   const [dirty, setDirty] = useState(false)
   const [status, setStatus] = useState<string | null>(null)
   const [json, setJson] = useState('')
+  const untranslated = translationRows(data).filter((r) => r.status !== 'ok').length
 
   useEffect(() => {
-    if (!dirty) setData(initial)
+    if (!dirty) setData(materialize(initial))
   }, [initial, dirty])
 
   const patch = (p: Partial<PortfolioData>) => {
@@ -109,6 +114,9 @@ export default function Editor({ initial, onLock }: { initial: PortfolioData; on
               }`}
             >
               {t.label}
+              {t.id === 'ingles' && untranslated > 0 && (
+                <span className="ml-2 rounded-full bg-amber/15 px-1.5 py-0.5 text-xs font-semibold text-amber">{untranslated}</span>
+              )}
             </button>
           ))}
         </nav>
@@ -329,6 +337,10 @@ export default function Editor({ initial, onLock }: { initial: PortfolioData; on
                 </>
               )}
             />
+          )}
+
+          {tab === 'ingles' && (
+            <TranslationEditor data={data} onChange={(en) => patch({ translations: { ...data.translations, en } })} />
           )}
 
           {tab === 'json' && (

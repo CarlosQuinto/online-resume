@@ -1,9 +1,11 @@
 import { motion } from 'framer-motion'
 import type { Profile } from '../data/schema'
 import Avatar from './Avatar'
+import { useLang } from '../i18n/lang'
 
 /** Cabecera de perfil al estilo Dribbble: avatar a la izquierda, nombre, ubicación, línea de skills y acciones. */
 export default function ProfileHeader({ profile }: { profile: Profile }) {
+  const { t } = useLang()
   const email = profile.links.find((l) => l.url.startsWith('mailto:'))
   const social = profile.links.filter((l) => !l.url.startsWith('mailto:'))
 
@@ -24,7 +26,7 @@ export default function ProfileHeader({ profile }: { profile: Profile }) {
           <div className="mt-5 flex flex-wrap items-center justify-center gap-2 sm:justify-start">
             {email && (
               <a href={email.url} className="btn-primary hover:scale-[1.02]">
-                Escríbeme
+                {t.emailMe}
               </a>
             )}
             {social.map((l) => (

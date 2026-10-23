@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { useEffect, useState, type ReactNode } from 'react'
+import { useLang } from '../i18n/lang'
 
 export interface TabDef {
   id: string
@@ -42,10 +43,11 @@ export default function Tabs({
   onSelect: (id: string) => void
   right?: ReactNode
 }) {
+  const { t } = useLang()
   return (
     <div className="sticky top-0 z-30 border-b border-border bg-bg/95 backdrop-blur">
       <div className="container-wide flex items-center justify-between gap-4 py-2">
-        <div role="tablist" aria-label="Secciones" className="-mx-1 flex overflow-x-auto px-1">
+        <div role="tablist" aria-label={t.tabsLabel} className="-mx-1 flex overflow-x-auto px-1">
           {tabs.map((t) => {
             const selected = t.id === active
             return (

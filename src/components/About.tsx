@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useState } from 'react'
 import type { Education, Hobby, Pet } from '../data/schema'
 import Section, { fadeUp } from './Section'
+import { useLang } from '../i18n/lang'
 
 const accentText: Record<Hobby['accent'], string> = {
   accent: 'text-accent',
@@ -11,11 +12,12 @@ const accentText: Record<Hobby['accent'], string> = {
 }
 
 export default function About({ hobbies, pets, education }: { hobbies: Hobby[]; pets: Pet[]; education: Education[] }) {
+  const { t } = useLang()
   const [active, setActive] = useState<string | null>(hobbies[0]?.id ?? null)
   const current = hobbies.find((h) => h.id === active) ?? hobbies[0]
 
   return (
-    <Section id="panel-sobre-mi" title="Fuera del IDE" intro="Ajedrez, fútbol, mar y tres perros. Lo que me mantiene curioso.">
+    <Section id="panel-sobre-mi" title={t.aboutTitle} intro={t.aboutIntro}>
       {/* Hobbies: 4 iconos circulares + detalle */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4" role="tablist" aria-label="Hobbies">
         {hobbies.map((h, i) => {
@@ -65,7 +67,7 @@ export default function About({ hobbies, pets, education }: { hobbies: Hobby[]; 
       <div className="mt-12 grid gap-8 md:grid-cols-[1.2fr_1fr]">
         {pets.length > 0 && (
           <div>
-            <p className="eyebrow mb-3 text-center md:text-left">El equipo de soporte</p>
+            <p className="eyebrow mb-3 text-center md:text-left">{t.supportTeam}</p>
             <div className="grid gap-3 sm:grid-cols-3">
               {pets.map((p, i) => (
                 <motion.div
@@ -91,16 +93,16 @@ export default function About({ hobbies, pets, education }: { hobbies: Hobby[]; 
         )}
         {education.length > 0 && (
           <div>
-            <p className="eyebrow mb-3 text-center md:text-left">Formación</p>
+            <p className="eyebrow mb-3 text-center md:text-left">{t.education}</p>
             <ul className="card divide-y divide-border">
               {education.map((e) => (
                 <li key={e.id} className="px-4 py-3.5">
                   <p className="font-semibold">
-                    {e.degree} en {e.field}
+                    {t.degreeIn(e.degree, e.field)}
                   </p>
                   <p className="text-sm text-fg-muted">{e.institution}</p>
                   <p className="mt-0.5 font-mono text-xs text-fg-subtle">
-                    {e.start.slice(0, 4)} — {e.end ? e.end.slice(0, 4) : 'Actual'}
+                    {e.start.slice(0, 4)} — {e.end ? e.end.slice(0, 4) : t.present}
                     {e.note ? ` · ${e.note}` : ''}
                   </p>
                 </li>
