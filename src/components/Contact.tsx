@@ -12,7 +12,7 @@ const icon = (label: string) => {
   return '↗'
 }
 
-/** Pestaña Contacto: llamada a la acción y todas las vías de contacto en tarjetas. */
+/** Pestaña Contacto: un solo bloque con la disponibilidad y la llamada a la acción a un lado y las vías de contacto al otro. */
 export default function Contact({ profile }: { profile: Profile }) {
   const { t } = useLang()
   const email = profile.links.find((l) => l.url.startsWith('mailto:'))
@@ -24,8 +24,14 @@ export default function Contact({ profile }: { profile: Profile }) {
   ]
   return (
     <Section id="panel-contacto" title={t.contactTitle} intro={t.contactIntro}>
-      <div className="grid gap-5 md:grid-cols-[1.2fr_1fr]">
-        <motion.div variants={fadeUp} custom={0} initial="hidden" animate="show" className="card flex flex-col justify-between gap-6 p-6 md:p-8">
+      <motion.div
+        variants={fadeUp}
+        custom={0}
+        initial="hidden"
+        animate="show"
+        className="card grid grid-cols-1 overflow-hidden md:grid-cols-[1.1fr_1fr] md:divide-x md:divide-border"
+      >
+        <div className="flex flex-col justify-between gap-6 p-6 md:p-8">
           <div>
             <p className="eyebrow mb-2">{t.availability}</p>
             <p className="flex items-center gap-2 text-lg font-semibold">
@@ -38,35 +44,35 @@ export default function Contact({ profile }: { profile: Profile }) {
             <p className="mt-2 text-fg-muted">{profile.location}</p>
           </div>
           {email && (
-            <div className="flex flex-wrap items-center gap-3">
-              <a href={email.url} className="btn-primary hover:scale-[1.02]">
-                {t.emailMe}
-              </a>
-              <span className="font-mono text-sm text-fg-muted">{email.url.replace('mailto:', '')}</span>
-            </div>
+            <a href={email.url} className="btn-primary w-fit hover:scale-[1.02]">
+              {t.emailMe}
+            </a>
           )}
-        </motion.div>
-        <ul className="grid gap-3">
-          {links.map((l, i) => (
-            <motion.li key={l.label} variants={fadeUp} custom={i + 1} initial="hidden" animate="show">
+        </div>
+        <ul className="divide-y divide-border border-t border-border md:border-t-0">
+          {links.map((l) => (
+            <li key={l.label}>
               <a
                 href={l.url}
                 target={l.url.startsWith('http') ? '_blank' : undefined}
                 rel="noreferrer"
-                className="card flex items-center gap-4 px-5 py-4 transition-colors hover:border-accent"
+                className="group flex items-center gap-4 px-6 py-4 transition-colors hover:bg-surface-2 md:px-8"
               >
                 <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-accent-soft font-mono text-sm font-bold text-accent" aria-hidden>
                   {icon(l.label)}
                 </span>
-                <span className="min-w-0">
+                <span className="min-w-0 flex-1">
                   <span className="block font-semibold">{l.label}</span>
                   <span className="block truncate text-sm text-fg-muted">{l.shown ?? l.url.replace(/^mailto:|^https?:\/\//, '')}</span>
                 </span>
+                <span className="text-fg-subtle transition-transform group-hover:translate-x-0.5 group-hover:text-accent" aria-hidden>
+                  →
+                </span>
               </a>
-            </motion.li>
+            </li>
           ))}
         </ul>
-      </div>
+      </motion.div>
     </Section>
   )
 }
