@@ -51,7 +51,6 @@ export function Tile({
   overlay,
   caption,
   onOpen,
-  featured,
 }: {
   id: string
   item: Coverable
@@ -60,7 +59,6 @@ export function Tile({
   overlay: ReactNode
   caption: ReactNode
   onOpen: () => void
-  featured?: boolean
 }) {
   return (
     <div>
@@ -68,9 +66,7 @@ export function Tile({
         layoutId={id}
         onClick={onOpen}
         aria-label={ariaLabel}
-        className={`group relative block aspect-[4/3] w-full overflow-hidden rounded-xl border bg-surface text-left shadow-card ${
-          featured ? 'border-accent/50' : 'border-border'
-        }`}
+        className="group relative block aspect-[4/3] w-full overflow-hidden rounded-xl border border-border bg-surface text-left shadow-card"
       >
         <div className="absolute inset-0 transition-transform duration-500 ease-out group-hover:scale-[1.04]">
           <CoverImage item={item} label={label} />

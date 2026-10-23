@@ -368,7 +368,7 @@ export default function Editor({ initial, onLock }: { initial: PortfolioData; on
                   <Tags label="Stack" value={p.stack} onChange={(v) => up({ stack: v })} />
                   <Text label="Repositorio" value={p.repoUrl} onChange={(v) => up({ repoUrl: v })} />
                   <Text label="Demo" value={p.liveUrl} onChange={(v) => up({ liveUrl: v })} />
-                  <Toggle label="Destacado" value={p.featured} onChange={(v) => up({ featured: v })} />
+                  <Toggle label="Mostrar primero en la galería" value={p.featured} onChange={(v) => up({ featured: v })} />
                   <CoverCropper item={p} label={p.title || 'Proyecto'} onChange={up} />
                 </>
               )}

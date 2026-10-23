@@ -18,6 +18,7 @@ const host = (url: string) => {
 export default function Projects({ items }: { items: Project[] }) {
   const { t } = useLang()
   const [openId, setOpenId] = useState<string | null>(null)
+  // «featured» ya no se muestra como etiqueta; solo coloca esos proyectos primero.
   const sorted = [...items].sort((a, b) => Number(b.featured) - Number(a.featured))
   const current = items.find((p) => p.id === openId) ?? null
 
@@ -36,7 +37,6 @@ export default function Projects({ items }: { items: Project[] }) {
               item={p}
               label={p.title}
               ariaLabel={t.viewDetails(p.title)}
-              featured={p.featured}
               onOpen={() => setOpenId(p.id)}
               overlay={
                 <>
@@ -47,10 +47,7 @@ export default function Projects({ items }: { items: Project[] }) {
               }
               caption={
                 <>
-                  <p className="flex items-baseline justify-between gap-2">
-                    <span className="truncate font-semibold">{p.title}</span>
-                    {p.featured && <span className="shrink-0 text-xs font-semibold text-accent">{t.featured}</span>}
-                  </p>
+                  <p className="truncate font-semibold">{p.title}</p>
                   <p className="truncate text-sm text-fg-muted">
                     {p.liveUrl ? host(p.liveUrl) : p.repoUrl ? t.openSource : t.privateProject}
                   </p>
@@ -64,12 +61,9 @@ export default function Projects({ items }: { items: Project[] }) {
       <AnimatePresence>
         {current && (
           <Modal id={`proj-${current.id}`} item={current} label={current.title} titleId={`proj-title-${current.id}`} onClose={() => setOpenId(null)}>
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <h3 id={`proj-title-${current.id}`} className="text-xl font-bold">
-                {current.title}
-              </h3>
-              {current.featured && <span className="pill border-accent/40 text-accent">{t.featured}</span>}
-            </div>
+            <h3 id={`proj-title-${current.id}`} className="text-xl font-bold">
+              {current.title}
+            </h3>
             <p className="mt-4 whitespace-pre-line">{current.description}</p>
             <p className="eyebrow mt-6 mb-2">{t.technologies}</p>
             <div className="flex flex-wrap gap-1.5">
