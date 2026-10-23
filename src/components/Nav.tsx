@@ -1,25 +1,16 @@
-import { Link } from 'react-router-dom'
 import type { Theme } from '../hooks/useTheme'
 import { useLang } from '../i18n/lang'
 import { LANGS } from '../i18n/ui'
 
-/** Barra superior: nombre del sitio a la izquierda; idioma, tema y acceso al admin a la derecha. */
+/** Barra superior: nombre del sitio a la izquierda; idioma y tema a la derecha. El admin se abre en /admin. */
 export default function Nav({ theme, onToggleTheme }: { theme: Theme; onToggleTheme: () => void }) {
   const { lang, setLang, t } = useLang()
   return (
     <header className="bg-bg">
       <nav className="container-wide flex h-16 items-center justify-between gap-3" aria-label={t.utilities}>
-        <a
-          href="/"
-          onClick={(e) => {
-            // Sube al inicio sin recargar ni cambiar de pestaña.
-            e.preventDefault()
-            window.scrollTo({ top: 0, behavior: 'smooth' })
-          }}
-          className="min-w-0 truncate text-base font-extrabold tracking-tight transition-opacity hover:opacity-80 sm:text-lg"
-        >
+        <p className="min-w-0 truncate text-base font-extrabold tracking-tight sm:text-lg">
           Awesome <span className="text-accent">Resume</span>
-        </a>
+        </p>
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           <div role="group" aria-label={t.langLabel} className="flex rounded-full border border-border p-0.5 text-xs font-semibold">
             {LANGS.map((l) => (
@@ -42,9 +33,6 @@ export default function Nav({ theme, onToggleTheme }: { theme: Theme; onToggleTh
           >
             {theme === 'dark' ? '☀' : '☾'}
           </button>
-          <Link to="/admin" className="hidden text-xs text-fg-subtle hover:text-accent sm:inline" aria-label={t.adminLabel}>
-            Admin
-          </Link>
         </div>
       </nav>
     </header>
