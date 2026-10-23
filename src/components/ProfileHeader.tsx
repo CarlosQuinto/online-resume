@@ -1,13 +1,9 @@
 import { motion } from 'framer-motion'
 import type { Profile } from '../data/schema'
+import Avatar from './Avatar'
 
 /** Cabecera de perfil al estilo Dribbble: avatar a la izquierda, nombre, ubicación, línea de skills y acciones. */
 export default function ProfileHeader({ profile }: { profile: Profile }) {
-  const initials = profile.name
-    .split(' ')
-    .map((p) => p[0])
-    .slice(0, 2)
-    .join('')
   const email = profile.links.find((l) => l.url.startsWith('mailto:'))
   const social = profile.links.filter((l) => !l.url.startsWith('mailto:'))
 
@@ -19,13 +15,7 @@ export default function ProfileHeader({ profile }: { profile: Profile }) {
         transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
         className="container-narrow flex flex-col items-center gap-6 text-center sm:flex-row sm:items-start sm:text-left"
       >
-        {profile.avatarUrl ? (
-          <img src={profile.avatarUrl} alt={profile.name} className="h-28 w-28 shrink-0 rounded-full object-cover shadow-card" />
-        ) : (
-          <div className="grid h-28 w-28 shrink-0 place-items-center rounded-full bg-accent text-3xl font-extrabold text-on-accent shadow-card">
-            {initials}
-          </div>
-        )}
+        <Avatar url={profile.avatarUrl} cover={profile.avatarCover} name={profile.name} />
         <div className="min-w-0 flex-1">
           <h1 className="text-3xl font-extrabold tracking-tight">{profile.name}</h1>
           <p className="mt-1 text-fg-subtle">{profile.location}</p>

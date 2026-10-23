@@ -7,6 +7,7 @@ import { lock, setPin } from '../../lib/admin'
 import { firebaseEnabled } from '../../lib/firebase'
 import { ListEditor, Select, Tags, Text, Toggle, uid } from './fields'
 import CoverCropper from './CoverCropper'
+import AvatarEditor from './AvatarEditor'
 
 type Tab =
   | 'perfil'
@@ -115,6 +116,7 @@ export default function Editor({ initial, onLock }: { initial: PortfolioData; on
         <div className="max-w-3xl">
           {tab === 'perfil' && (
             <div className="grid gap-4">
+              <AvatarEditor profile={data.profile} onChange={(p) => patch({ profile: { ...data.profile, ...p } })} />
               <Text label="Nombre" value={data.profile.name} onChange={(v) => patch({ profile: { ...data.profile, name: v } })} />
               <Text label="Titular" value={data.profile.headline} onChange={(v) => patch({ profile: { ...data.profile, headline: v } })} />
               <Text label="Tagline" value={data.profile.tagline} onChange={(v) => patch({ profile: { ...data.profile, tagline: v } })} multiline />

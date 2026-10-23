@@ -9,6 +9,8 @@ export interface Profile {
   location: string
   summary: string
   avatarUrl: string
+  /** Encuadre de la foto dentro del círculo (foco + zoom). */
+  avatarCover?: Cover
   availability: string
   links: { label: string; url: string }[]
 }
