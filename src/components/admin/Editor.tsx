@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import type { PortfolioData } from '../../data/schema'
+import type { PortfolioData, Recommendation } from '../../data/schema'
 import { seed } from '../../data/seed'
 import { savePortfolio } from '../../lib/content'
 import { lock, setPin } from '../../lib/admin'
@@ -309,7 +309,7 @@ export default function Editor({ initial, onLock }: { initial: PortfolioData; on
             <ListEditor
               items={data.recommendations ?? []}
               onChange={(recommendations) => patch({ recommendations })}
-              create={() => ({ id: uid('rec'), name: '', role: '', url: '', text: '' })}
+              create={(): Recommendation => ({ id: uid('rec'), name: '', role: '', url: '', text: '' })}
               title={(r) => r.name}
               render={(r, up) => (
                 <>
