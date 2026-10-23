@@ -16,7 +16,6 @@ const SKIP = new Set([
 const SKIP_IN: Record<string, string[]> = {
   profile: ['name'],
   recommendations: ['name'],
-  pets: ['name'],
   experience: ['company'],
   education: ['institution'],
   certifications: ['name', 'issuer'],
@@ -24,7 +23,7 @@ const SKIP_IN: Record<string, string[]> = {
 
 /** Orden de secciones y campos para que el admin las liste como en el sitio. */
 const ORDER = [
-  'profile', 'experience', 'projects', 'pillars', 'skillGroups', 'certifications', 'education', 'recommendations', 'hobbies', 'pets',
+  'profile', 'experience', 'projects', 'pillars', 'skillGroups', 'certifications', 'education', 'recommendations', 'hobbies',
   'headline', 'tagline', 'summary', 'location', 'availability', 'links', 'label',
   'role', 'title', 'name', 'degree', 'field', 'breed', 'description', 'detail', 'bio', 'note', 'text',
   'highlights', 'lists', 'items', 'skills', 'stack', 'date',

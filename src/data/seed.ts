@@ -327,9 +327,4 @@ export const seed: PortfolioData = {
       accent: 'violet',
     },
   ],
-  pets: [
-    { id: 'pet-burbuja', name: 'Burbuja', breed: 'Pug', emoji: '🐶', bio: 'Jefa de la casa. Ronca más fuerte que el aire acondicionado.' },
-    { id: 'pet-calceta', name: 'Calceta', breed: 'Mestiza', emoji: '🐕', bio: 'Velocista oficial. Nunca pierde una pelota.' },
-    { id: 'pet-nieve', name: 'Nieve', breed: 'Mestiza', emoji: '🦮', bio: 'La más tranquila. Supervisa el home office desde el sillón.' },
-  ],
 }

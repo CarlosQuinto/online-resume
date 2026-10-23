@@ -92,7 +92,7 @@ export default function Home() {
                 </div>
               )}
               {active === 'recomendaciones' && <Testimonials items={data.recommendations ?? []} />}
-              {active === 'sobre-mi' && <About hobbies={data.hobbies} pets={data.pets} education={data.education} />}
+              {active === 'sobre-mi' && <About hobbies={data.hobbies} education={data.education} />}
               {active === 'contacto' && <Contact profile={data.profile} />}
             </motion.div>
           </AnimatePresence>

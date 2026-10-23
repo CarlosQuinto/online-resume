@@ -88,14 +88,6 @@ export interface Hobby {
   accent: 'accent' | 'green' | 'amber' | 'violet'
 }
 
-export interface Pet {
-  id: string
-  name: string
-  breed: string
-  emoji: string
-  bio: string
-}
-
 /** Tarjeta "pilar" montada sobre la banda: qué hago, con qué, y datos clave. */
 export interface Pillar {
   id: string
@@ -134,7 +126,6 @@ export interface PortfolioData {
   projects: Project[]
   recommendations: Recommendation[]
   hobbies: Hobby[]
-  pets: Pet[]
   /** Traducciones del contenido por ruta (ver src/i18n/content.ts). El español es el original. */
   translations?: { en?: Record<string, Translation> }
 }

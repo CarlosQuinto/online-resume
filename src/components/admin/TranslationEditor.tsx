@@ -12,7 +12,6 @@ const SECTION: Record<string, string> = {
   education: 'Educación',
   recommendations: 'Recomendaciones',
   hobbies: 'Hobbies',
-  pets: 'Mascotas',
 }
 const FIELD: Record<string, string> = {
   headline: 'Titular', tagline: 'Tagline', summary: 'Resumen', location: 'Ubicación', availability: 'Disponibilidad',

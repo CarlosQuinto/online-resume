@@ -22,7 +22,6 @@ type Tab =
   | 'proyectos'
   | 'recomendaciones'
   | 'hobbies'
-  | 'mascotas'
   | 'ingles'
   | 'json'
   | 'ajustes'
@@ -36,14 +35,20 @@ const tabs: { id: Tab; label: string }[] = [
   { id: 'proyectos', label: 'Proyectos' },
   { id: 'recomendaciones', label: 'Recomendaciones' },
   { id: 'hobbies', label: 'Hobbies' },
-  { id: 'mascotas', label: 'Mascotas' },
   { id: 'ingles', label: 'Inglés' },
   { id: 'json', label: 'JSON' },
   { id: 'ajustes', label: 'Ajustes' },
 ]
 
+/**
+ * Prepara el documento para editar: quita secciones retiradas del sitio (las mascotas)
+ * para que desaparezcan del documento al publicar, y fija las traducciones por ruta.
+ */
+const load = (d: PortfolioData) =>
+  materialize(Object.fromEntries(Object.entries(d).filter(([k]) => k !== 'pets')) as unknown as PortfolioData)
+
 export default function Editor({ initial, onLock }: { initial: PortfolioData; onLock: () => void }) {
-  const [data, setData] = useState<PortfolioData>(() => materialize(initial))
+  const [data, setData] = useState<PortfolioData>(() => load(initial))
   const [tab, setTab] = useState<Tab>('perfil')
   const [dirty, setDirty] = useState(false)
   const [status, setStatus] = useState<string | null>(null)
@@ -54,7 +59,7 @@ export default function Editor({ initial, onLock }: { initial: PortfolioData; on
   const usage = size / DOC_LIMIT
 
   useEffect(() => {
-    if (!dirty) setData(materialize(initial))
+    if (!dirty) setData(load(initial))
   }, [initial, dirty])
 
   const patch = (p: Partial<PortfolioData>) => {
@@ -348,25 +353,6 @@ export default function Editor({ initial, onLock }: { initial: PortfolioData; on
                   <Text label="Descripción corta" value={h.description} onChange={(v) => up({ description: v })} />
                   <Text label="Detalle" value={h.detail} onChange={(v) => up({ detail: v })} multiline />
                   <Select label="Color" value={h.accent} options={['accent', 'green', 'amber', 'violet']} onChange={(v) => up({ accent: v })} />
-                </>
-              )}
-            />
-          )}
-
-          {tab === 'mascotas' && (
-            <ListEditor
-              items={data.pets}
-              onChange={(pets) => patch({ pets })}
-              create={() => ({ id: uid('pet'), name: '', breed: '', emoji: '🐶', bio: '' })}
-              title={(p) => `${p.emoji} ${p.name}`}
-              render={(p, up) => (
-                <>
-                  <div className="grid grid-cols-[5rem_1fr] gap-4">
-                    <Text label="Emoji" value={p.emoji} onChange={(v) => up({ emoji: v })} />
-                    <Text label="Nombre" value={p.name} onChange={(v) => up({ name: v })} />
-                  </div>
-                  <Text label="Raza" value={p.breed} onChange={(v) => up({ breed: v })} />
-                  <Text label="Bio" value={p.bio} onChange={(v) => up({ bio: v })} multiline />
                 </>
               )}
             />
