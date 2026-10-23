@@ -31,7 +31,7 @@ export function useTab(tabs: TabDef[], fallback: string) {
   return { active, select }
 }
 
-/** Barra de pestañas tipo pastilla, pegajosa bajo el nav, con un extra opcional a la derecha (solo en pantallas anchas). */
+/** Menú tipo pastilla, pegajoso bajo el nav: cada botón lleva a su sección de la página. Extra opcional a la derecha (pantallas anchas). */
 export default function Tabs({
   tabs,
   active,
@@ -45,7 +45,6 @@ export default function Tabs({
 }) {
   const { t } = useLang()
   const list = useRef<HTMLDivElement>(null)
-  const mounted = useRef(false)
 
   // Cuando la barra no cabe (móvil), desplaza la pestaña activa al centro para ver sus vecinas.
   useEffect(() => {
@@ -55,25 +54,22 @@ export default function Tabs({
     const box = el.getBoundingClientRect()
     const b = btn.getBoundingClientRect()
     const left = el.scrollLeft + (b.left - box.left) - (box.width - b.width) / 2
-    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
-    el.scrollTo({ left, behavior: mounted.current && !reduce ? 'smooth' : 'auto' })
-    mounted.current = true
+    // Instantáneo: un desplazamiento suave aquí cancelaría el de la página hacia la sección.
+    el.scrollTo({ left, behavior: 'auto' })
   }, [active])
 
   return (
-    <div className="sticky top-0 z-30 bg-bg/95 backdrop-blur">
+    <div data-tabbar className="sticky top-0 z-30 bg-bg/95 backdrop-blur">
       {/* La línea inferior se alinea con la galería, no con el borde de la ventana (como Dribbble). */}
       <div className="container-wide">
         <div className="flex items-center justify-between gap-4 border-b border-border pt-4 pb-7">
-          <div ref={list} role="tablist" aria-label={t.tabsLabel} className="-mx-1 flex overflow-x-auto px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <nav ref={list} aria-label={t.tabsLabel} className="-mx-1 flex overflow-x-auto px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {tabs.map((t) => {
               const selected = t.id === active
               return (
                 <button
                   key={t.id}
-                  role="tab"
-                  aria-selected={selected}
-                  aria-controls={`panel-${t.id}`}
+                  aria-current={selected ? 'location' : undefined}
                   id={`tab-${t.id}`}
                   onClick={() => onSelect(t.id)}
                   className={`relative shrink-0 rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
@@ -91,7 +87,7 @@ export default function Tabs({
                 </button>
               )
             })}
-          </div>
+          </nav>
           {right && <div className="hidden shrink-0 lg:block">{right}</div>}
         </div>
       </div>

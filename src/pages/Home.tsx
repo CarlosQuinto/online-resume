@@ -1,8 +1,7 @@
-import { AnimatePresence, motion } from 'framer-motion'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Nav from '../components/Nav'
 import ProfileHeader from '../components/ProfileHeader'
-import Tabs, { useTab } from '../components/Tabs'
+import Tabs from '../components/Tabs'
 import Experience, { type ExpOrder } from '../components/Experience'
 import WhatIDo from '../components/WhatIDo'
 import Projects from '../components/Projects'
@@ -19,12 +18,66 @@ import { localize } from '../i18n/content'
 // Los ids van en el hash de la URL: se quedan en español para no romper enlaces.
 const TAB_IDS = ['experiencia', 'proyectos', 'que-hago', 'recomendaciones', 'sobre-mi', 'contacto']
 
+// Separación entre secciones (solo espacio: una línea aquí se doblaría con la del menú fijo).
+const SECTION = 'mt-24'
+
+/**
+ * Menú de una sola página: un clic baja suavemente a la sección y la pestaña activa
+ * sigue al desplazamiento. El hash de la URL (#proyectos…) abre directamente esa sección.
+ */
+function useScrollSpy(ids: string[]) {
+  const fromHash = () => {
+    const h = window.location.hash.replace('#', '')
+    return ids.includes(h) ? h : ids[0]
+  }
+  const [active, setActive] = useState(fromHash)
+  // Mientras dura el desplazamiento animado de un clic, el espía no cambia la pestaña.
+  const lockUntil = useRef(0)
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (Date.now() < lockUntil.current) return
+      const bar = document.querySelector('[data-tabbar]')?.getBoundingClientRect().bottom ?? 0
+      let current = ids[0]
+      for (const id of ids) {
+        const el = document.getElementById(id)
+        if (el && el.getBoundingClientRect().top - bar - 80 <= 0) current = id
+      }
+      // Al final de la página, la última sección (corta) se marca aunque no llegue arriba.
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) current = ids[ids.length - 1]
+      setActive(current)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    const h = window.location.hash.replace('#', '')
+    if (ids.includes(h) && h !== ids[0]) {
+      lockUntil.current = Date.now() + 600
+      setTimeout(() => {
+        const el = document.getElementById(h)
+        const bar = document.querySelector<HTMLElement>('[data-tabbar]')?.offsetHeight ?? 0
+        if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - bar - 32, behavior: 'auto' })
+      }, 300)
+    }
+    return () => window.removeEventListener('scroll', onScroll)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const select = (id: string) => {
+    setActive(id)
+    lockUntil.current = Date.now() + 900
+    const el = document.getElementById(id)
+    const bar = document.querySelector<HTMLElement>('[data-tabbar]')?.offsetHeight ?? 0
+    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - bar - 32, behavior: 'smooth' })
+    history.replaceState(null, '', `#${id}`)
+  }
+  return { active, select }
+}
+
 export default function Home() {
   const { data: raw } = usePortfolio()
   const { theme, toggle } = useTheme()
   const { lang, t } = useLang()
   const tabs = TAB_IDS.map((id) => ({ id, label: t.tabs[id] }))
-  const { active, select } = useTab(tabs, 'experiencia')
+  const { active, select } = useScrollSpy(TAB_IDS)
   const [order, setOrder] = useState<ExpOrder>('recent')
   const data = useMemo(() => {
     // Los valores heredados de la semilla se completan antes de traducir, para que también se traduzcan.
@@ -32,8 +85,7 @@ export default function Home() {
     return lang === 'en' ? localize(base) : base
   }, [raw, lang])
 
-  const sortSelect =
-    active === 'experiencia' ? (
+  const sortSelect = (
       // Flecha propia: la nativa queda pegada al borde y no admite margen.
       <span className="relative inline-flex">
         <select
@@ -58,43 +110,43 @@ export default function Home() {
           <path d="M4 6l4 4 4-4" />
         </svg>
       </span>
-    ) : null
+  )
 
   return (
     <>
       <Nav theme={theme} onToggleTheme={toggle} />
       <main>
         <ProfileHeader profile={data.profile} />
-        <Tabs tabs={tabs} active={active} onSelect={select} right={sortSelect} />
-        <div className="container-wide min-h-[60vh] pt-8 pb-16 lg:pt-12">
-          {/* En pantallas estrechas el orden baja bajo la línea de pestañas, sobre la galería. */}
-          {sortSelect && <div className="mb-8 lg:hidden">{sortSelect}</div>}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={active}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.25 }}
-            >
-              {active === 'experiencia' && <Experience items={data.experience} order={order} />}
-              {active === 'proyectos' && <Projects items={data.projects} />}
-              {active === 'que-hago' && (
-                <div id="panel-que-hago" role="tabpanel" aria-labelledby="tab-que-hago">
-                  <WhatIDo
-                    summary={data.profile.summary}
-                    stats={data.stats ?? []}
-                    pillars={data.pillars}
-                    groups={data.skillGroups}
-                    certifications={data.certifications}
-                  />
-                </div>
-              )}
-              {active === 'recomendaciones' && <Testimonials items={data.recommendations ?? []} />}
-              {active === 'sobre-mi' && <About hobbies={data.hobbies} education={data.education} />}
-              {active === 'contacto' && <Contact profile={data.profile} />}
-            </motion.div>
-          </AnimatePresence>
+        <Tabs tabs={tabs} active={active} onSelect={select} />
+        <div className="container-wide pt-8 pb-16 lg:pt-12">
+          <section id="experiencia">
+            <header className="mb-5 flex flex-wrap items-center justify-between gap-3">
+              <h2 className="text-xl font-bold tracking-tight">{t.tabs.experiencia}</h2>
+              {sortSelect}
+            </header>
+            <Experience items={data.experience} order={order} />
+          </section>
+          <section id="proyectos" className={SECTION}>
+            <Projects items={data.projects} />
+          </section>
+          <section id="que-hago" className={SECTION}>
+            <WhatIDo
+              summary={data.profile.summary}
+              stats={data.stats ?? []}
+              pillars={data.pillars}
+              groups={data.skillGroups}
+              certifications={data.certifications}
+            />
+          </section>
+          <section id="recomendaciones" className={SECTION}>
+            <Testimonials items={data.recommendations ?? []} />
+          </section>
+          <section id="sobre-mi" className={SECTION}>
+            <About hobbies={data.hobbies} education={data.education} />
+          </section>
+          <section id="contacto" className={SECTION}>
+            <Contact profile={data.profile} />
+          </section>
         </div>
       </main>
       <Footer profile={data.profile} updatedAt={data.updatedAt} />
