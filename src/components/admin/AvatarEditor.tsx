@@ -1,21 +1,43 @@
 import { useRef, useState, type PointerEvent } from 'react'
 import Avatar from '../Avatar'
 import ImageSource from './ImageSource'
-import { DEFAULT_COVER, type Cover, type Profile } from '../../data/schema'
+import { DEFAULT_COVER, type Cover } from '../../data/schema'
 
 const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v))
 
 /**
- * Editor de la foto de perfil: URL o archivo local, con recorte circular.
+ * Editor de foto circular (perfil y recomendaciones): URL o archivo local, con recorte.
  * Arrastra para encuadrar y usa el zoom; la vista previa usa el mismo componente que el sitio.
  */
-export default function AvatarEditor({ profile, onChange }: { profile: Profile; onChange: (patch: Partial<Profile>) => void }) {
-  const cover: Cover = profile.avatarCover ?? DEFAULT_COVER
+export default function AvatarEditor({
+  title,
+  url: rawUrl,
+  cover: rawCover,
+  name,
+  onChange,
+  maxSide = 512,
+  emptyHint = 'Sin foto: se muestran tus iniciales',
+  previewClassName = 'h-40 w-40 text-5xl',
+  tone,
+}: {
+  title: string
+  url?: string
+  cover?: Cover
+  name: string
+  onChange: (patch: { url?: string; cover?: Cover }) => void
+  /** Lado mayor tras comprimir: 512 para tu foto, menos para las miniaturas. */
+  maxSide?: number
+  emptyHint?: string
+  previewClassName?: string
+  tone?: 'accent' | 'mint'
+}) {
+  const url = rawUrl ?? ''
+  const cover: Cover = rawCover ?? DEFAULT_COVER
   const box = useRef<HTMLDivElement>(null)
   const drag = useRef<{ x: number; y: number; cx: number; cy: number } | null>(null)
   const [dragging, setDragging] = useState(false)
-  const has = Boolean(profile.avatarUrl)
-  const setCover = (patch: Partial<Cover>) => onChange({ avatarCover: { ...cover, ...patch } })
+  const has = Boolean(url)
+  const setCover = (patch: Partial<Cover>) => onChange({ cover: { ...cover, ...patch } })
 
   const onDown = (e: PointerEvent<HTMLDivElement>) => {
     if (!has) return
@@ -38,7 +60,7 @@ export default function AvatarEditor({ profile, onChange }: { profile: Profile; 
 
   return (
     <div className="grid gap-4 rounded-lg border border-border p-3">
-      <p className="text-sm font-semibold">Foto de perfil</p>
+      <p className="text-sm font-semibold">{title}</p>
       <div className="grid gap-5 sm:grid-cols-[11rem_1fr]">
         <div className="grid content-start justify-items-center gap-3">
           <div
@@ -50,18 +72,18 @@ export default function AvatarEditor({ profile, onChange }: { profile: Profile; 
             className={`touch-none rounded-full ring-2 ring-border ring-offset-4 ring-offset-bg ${has ? (dragging ? 'cursor-grabbing' : 'cursor-grab') : ''}`}
             title={has ? 'Arrastra para encuadrar' : undefined}
           >
-            <Avatar url={profile.avatarUrl} cover={cover} name={profile.name} className="h-40 w-40 text-5xl" />
+            <Avatar url={url} cover={cover} name={name} tone={tone} className={previewClassName} />
           </div>
-          <p className="text-center text-xs text-fg-subtle">{has ? 'Arrastra para encuadrar' : 'Sin foto: se muestran tus iniciales'}</p>
+          <p className="text-center text-xs text-fg-subtle">{has ? 'Arrastra para encuadrar' : emptyHint}</p>
         </div>
 
         <div className="grid content-start gap-3">
           <ImageSource
-            url={profile.avatarUrl}
-            maxSide={512}
-            maxBytes={60_000}
+            url={url}
+            maxSide={maxSide}
+            maxBytes={maxSide >= 512 ? 60_000 : 20_000}
             clearLabel="Quitar foto"
-            onChange={(url, source) => onChange(source === 'url' ? { avatarUrl: url } : { avatarUrl: url, avatarCover: { ...DEFAULT_COVER } })}
+            onChange={(u, source) => onChange(source === 'url' ? { url: u } : { url: u, cover: { ...DEFAULT_COVER } })}
           />
           <label className="block">
             <span className="field-label">Zoom · {cover.scale.toFixed(2)}×</span>
@@ -81,7 +103,7 @@ export default function AvatarEditor({ profile, onChange }: { profile: Profile; 
             Restablecer encuadre
           </button>
           <p className="text-xs text-fg-subtle">
-            Las fotos que subes se reducen a 512 px y se guardan junto con tu contenido, así que no necesitas alojarlas en otro sitio. Recuerda pulsar Publicar.
+            Las fotos que subes se reducen a {maxSide} px y se guardan junto con tu contenido, así que no necesitas alojarlas en otro sitio. Recuerda pulsar Publicar.
           </p>
         </div>
       </div>

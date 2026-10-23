@@ -1,14 +1,8 @@
 import { motion } from 'framer-motion'
 import type { Recommendation } from '../data/schema'
 import Section from './Section'
+import Avatar from './Avatar'
 import { useLang } from '../i18n/lang'
-
-const initialsOf = (name: string) =>
-  name
-    .split(' ')
-    .map((p) => p[0])
-    .slice(0, 2)
-    .join('')
 
 /** Recomendaciones de dos en dos, cada una en un globo de diálogo con su autor debajo. */
 export default function Testimonials({ items }: { items: Recommendation[] }) {
@@ -36,9 +30,7 @@ export default function Testimonials({ items }: { items: Recommendation[] }) {
               </blockquote>
               {/* Autor */}
               <figcaption className="mt-5 flex items-center gap-3 pl-1">
-                <div className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-mint text-sm font-bold text-accent-ink">
-                  {initialsOf(r.name)}
-                </div>
+                <Avatar url={r.photoUrl} cover={r.photoCover} name={r.name} tone="mint" className="h-11 w-11 text-sm" />
                 <div className="min-w-0">
                   {r.url ? (
                     <a href={r.url} target="_blank" rel="noreferrer" className="font-semibold hover:text-accent">

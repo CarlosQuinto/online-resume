@@ -138,7 +138,15 @@ export default function Editor({ initial, onLock }: { initial: PortfolioData; on
         <div className="max-w-3xl">
           {tab === 'perfil' && (
             <div className="grid gap-4">
-              <AvatarEditor profile={data.profile} onChange={(p) => patch({ profile: { ...data.profile, ...p } })} />
+              <AvatarEditor
+                title="Foto de perfil"
+                url={data.profile.avatarUrl}
+                cover={data.profile.avatarCover}
+                name={data.profile.name}
+                onChange={({ url, cover }) =>
+                  patch({ profile: { ...data.profile, ...(url !== undefined && { avatarUrl: url }), ...(cover && { avatarCover: cover }) } })
+                }
+              />
               <Text label="Nombre" value={data.profile.name} onChange={(v) => patch({ profile: { ...data.profile, name: v } })} />
               <Text label="Titular" value={data.profile.headline} onChange={(v) => patch({ profile: { ...data.profile, headline: v } })} />
               <Text label="Tagline" value={data.profile.tagline} onChange={(v) => patch({ profile: { ...data.profile, tagline: v } })} multiline />
@@ -308,6 +316,17 @@ export default function Editor({ initial, onLock }: { initial: PortfolioData; on
                   <Text label="Nombre" value={r.name} onChange={(v) => up({ name: v })} />
                   <Text label="Rol / relación" value={r.role} onChange={(v) => up({ role: v })} />
                   <Text label="URL del perfil" value={r.url} onChange={(v) => up({ url: v })} />
+                  <AvatarEditor
+                    title="Foto"
+                    url={r.photoUrl}
+                    cover={r.photoCover}
+                    name={r.name}
+                    tone="mint"
+                    maxSide={256}
+                    previewClassName="h-28 w-28 text-3xl"
+                    emptyHint="Sin foto: se muestran sus iniciales"
+                    onChange={({ url, cover }) => up({ ...(url !== undefined && { photoUrl: url }), ...(cover && { photoCover: cover }) })}
+                  />
                   <Text label="Texto" value={r.text} onChange={(v) => up({ text: v })} multiline />
                 </>
               )}

@@ -111,6 +111,9 @@ export interface Recommendation {
   role: string
   url: string
   text: string
+  /** Foto de la persona (URL o data URL subida desde el admin); sin ella, iniciales. */
+  photoUrl?: string
+  photoCover?: Cover
 }
 
 /** Traducción de un texto: `src` es el español que se tradujo (si cambia, la traducción caduca). */
