@@ -7,7 +7,12 @@ import { useLang } from '../i18n/lang'
 export default function ProfileHeader({ profile }: { profile: Profile }) {
   const { t } = useLang()
   const email = profile.links.find((l) => l.url.startsWith('mailto:'))
-  const social = profile.links.filter((l) => !l.url.startsWith('mailto:'))
+  // WhatsApp (desde el teléfono del perfil) ocupa el lugar de GitHub; GitHub sigue en Contacto y en el pie.
+  const digits = profile.phone?.replace(/\D/g, '')
+  const social = [
+    ...(digits ? [{ label: 'WhatsApp', url: `https://wa.me/${digits}` }] : []),
+    ...profile.links.filter((l) => !l.url.startsWith('mailto:') && !/github/i.test(l.label + l.url)),
+  ]
 
   return (
     <section id="top" className="bg-bg pt-12 pb-12">
