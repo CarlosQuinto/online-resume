@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { useEffect, useState, type ReactNode } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { useLang } from '../i18n/lang'
 
 export interface TabDef {
@@ -44,12 +44,28 @@ export default function Tabs({
   right?: ReactNode
 }) {
   const { t } = useLang()
+  const list = useRef<HTMLDivElement>(null)
+  const mounted = useRef(false)
+
+  // Cuando la barra no cabe (móvil), desplaza la pestaña activa al centro para ver sus vecinas.
+  useEffect(() => {
+    const el = list.current
+    const btn = el?.querySelector<HTMLElement>(`#tab-${active}`)
+    if (!el || !btn) return
+    const box = el.getBoundingClientRect()
+    const b = btn.getBoundingClientRect()
+    const left = el.scrollLeft + (b.left - box.left) - (box.width - b.width) / 2
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+    el.scrollTo({ left, behavior: mounted.current && !reduce ? 'smooth' : 'auto' })
+    mounted.current = true
+  }, [active])
+
   return (
     <div className="sticky top-0 z-30 bg-bg/95 backdrop-blur">
       {/* La línea inferior se alinea con la galería, no con el borde de la ventana (como Dribbble). */}
       <div className="container-wide">
         <div className="flex items-center justify-between gap-4 border-b border-border pt-4 pb-7">
-          <div role="tablist" aria-label={t.tabsLabel} className="-mx-1 flex overflow-x-auto px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div ref={list} role="tablist" aria-label={t.tabsLabel} className="-mx-1 flex overflow-x-auto px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {tabs.map((t) => {
               const selected = t.id === active
               return (
