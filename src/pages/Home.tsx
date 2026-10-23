@@ -30,6 +30,11 @@ export default function Home() {
   const { active, select } = useTab(TABS, 'experiencia')
   const [order, setOrder] = useState<ExpOrder>('recent')
   const pillars = data.pillars?.length ? data.pillars : seed.pillars
+  // Documentos publicados antes de las portadas heredan color/encuadre de la semilla por id.
+  const withDefaults = <T extends { id: string }>(items: T[], defaults: T[]): T[] =>
+    items.map((it) => ({ ...defaults.find((d) => d.id === it.id), ...it }))
+  const experience = withDefaults(data.experience, seed.experience)
+  const projects = withDefaults(data.projects, seed.projects)
 
   return (
     <>
@@ -61,8 +66,8 @@ export default function Home() {
               exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.25 }}
             >
-              {active === 'experiencia' && <Experience items={data.experience} order={order} />}
-              {active === 'proyectos' && <Projects items={data.projects} />}
+              {active === 'experiencia' && <Experience items={experience} order={order} />}
+              {active === 'proyectos' && <Projects items={projects} />}
               {active === 'que-hago' && (
                 <div className="grid gap-8" id="panel-que-hago" role="tabpanel" aria-labelledby="tab-que-hago">
                   <p className="max-w-3xl text-lg text-fg-muted">{data.profile.summary}</p>

@@ -1,7 +1,7 @@
-import type { Experience, PortfolioData } from './schema'
+import type { Coverable, PortfolioData } from './schema'
 
-/** Color de marca por empresa para las tarjetas sin imagen. Sustituye por coverUrl desde /admin. */
-const brand: Record<string, Partial<Experience>> = {
+/** Color de marca por tarjeta para cuando no hay imagen. Sustituye por coverUrl desde /admin. */
+const brand: Record<string, Partial<Coverable>> = {
   'exp-ntt': { color: '#0B5FFF' },
   'exp-sfdc': { color: '#00A1E0' },
   'exp-csi': { color: '#6D28D9' },
@@ -9,8 +9,13 @@ const brand: Record<string, Partial<Experience>> = {
   'exp-intugo': { color: '#0F766E' },
   'exp-freelance': { color: '#B45309' },
   'exp-pemex': { color: '#166534' },
+  'proj-rondo-app': { color: '#0F766E' },
+  'proj-rondo-web': { color: '#1D4ED8' },
+  'proj-jbfc': { color: '#15803D' },
+  'proj-portfolio': { color: '#6D28D9' },
 }
-const withBrand = (list: Experience[]) => list.map((e) => ({ coverUrl: '', cover: { x: 50, y: 50, scale: 1 }, ...brand[e.id], ...e }))
+const withBrand = <T extends Coverable & { id: string }>(list: T[]): T[] =>
+  list.map((e) => ({ coverUrl: '', cover: { x: 50, y: 50, scale: 1 }, ...brand[e.id], ...e }))
 
 /**
  * Datos semilla, generados a partir del perfil de LinkedIn
@@ -209,7 +214,7 @@ export const seed: PortfolioData = {
     { id: 'sg-ai', name: 'IA aplicada', skills: ['AI-Assisted Automation', 'Prompt Engineering', 'GitHub Copilot', 'Cursor', 'LLMs'] },
     { id: 'sg-process', name: 'Proceso y producto', skills: ['Scrum', 'Test Strategy', 'Test Planning', 'Salesforce Ecosystem', 'Capacitor (mobile)'] },
   ],
-  projects: [
+  projects: withBrand([
     {
       id: 'proj-rondo-app',
       title: 'Rondo · App nativa (iOS y Android)',
@@ -250,7 +255,7 @@ export const seed: PortfolioData = {
       liveUrl: 'https://carlos-carballo-awesome-resume.web.app',
       featured: false,
     },
-  ],
+  ]),
   recommendations: [
     {
       id: 'rec-pritesh',

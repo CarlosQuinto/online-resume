@@ -155,7 +155,7 @@ export default function Editor({ initial, onLock }: { initial: PortfolioData; on
                   <Text label="Resumen" value={e.summary} onChange={(v) => up({ summary: v })} multiline />
                   <Tags label="Logros" value={e.highlights} onChange={(v) => up({ highlights: v })} separator={'\n'} />
                   <Tags label="Stack" value={e.stack} onChange={(v) => up({ stack: v })} />
-                  <CoverCropper exp={e} onChange={up} />
+                  <CoverCropper item={e} label={e.company || 'Empresa'} sublabel={e.role || 'Puesto'} onChange={up} />
                 </>
               )}
             />
@@ -257,7 +257,7 @@ export default function Editor({ initial, onLock }: { initial: PortfolioData; on
             <ListEditor
               items={data.projects}
               onChange={(projects) => patch({ projects })}
-              create={() => ({ id: uid('proj'), title: '', description: '', stack: [], repoUrl: '', liveUrl: '', featured: false })}
+              create={() => ({ id: uid('proj'), title: '', description: '', stack: [], repoUrl: '', liveUrl: '', featured: false, coverUrl: '', cover: { x: 50, y: 50, scale: 1 }, color: '#115E59' })}
               title={(p) => p.title}
               render={(p, up) => (
                 <>
@@ -267,6 +267,7 @@ export default function Editor({ initial, onLock }: { initial: PortfolioData; on
                   <Text label="Repositorio" value={p.repoUrl} onChange={(v) => up({ repoUrl: v })} />
                   <Text label="Demo" value={p.liveUrl} onChange={(v) => up({ liveUrl: v })} />
                   <Toggle label="Destacado" value={p.featured} onChange={(v) => up({ featured: v })} />
+                  <CoverCropper item={p} label={p.title || 'Proyecto'} onChange={up} />
                 </>
               )}
             />

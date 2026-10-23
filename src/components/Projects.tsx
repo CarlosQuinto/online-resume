@@ -1,57 +1,92 @@
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
+import { useState } from 'react'
 import type { Project } from '../data/schema'
-import Section, { fadeUp } from './Section'
+import Section from './Section'
+import { Chips, Modal, Tile } from './gallery'
 
-const host = (url: string) => {
-  const h = url.replace(/^https?:\/\//, '').replace(/\/$/, '')
-  return h.length > 22 ? 'ver sitio' : h
-}
+const host = (url: string) => url.replace(/^https?:\/\//, '').replace(/\/$/, '')
 
-/** Grid de 3 columnas con tarjetas cortas: título, una idea, enlace en pastilla. */
+/** Galería de proyectos: mismas tarjetas que la experiencia, con enlaces en el modal. */
 export default function Projects({ items }: { items: Project[] }) {
+  const [openId, setOpenId] = useState<string | null>(null)
   const sorted = [...items].sort((a, b) => Number(b.featured) - Number(a.featured))
+  const current = items.find((p) => p.id === openId) ?? null
+
   return (
-    <Section id="panel-proyectos" title="Mis proyectos" intro="Productos propios y trabajo reciente. Cada tarjeta, una idea.">
-      <div className={`grid gap-5 sm:grid-cols-2 ${sorted.length === 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3'}`}>
+    <Section id="panel-proyectos" title="Mis proyectos" intro="Productos propios y trabajo reciente. Pasa el cursor para ver de qué va, haz clic para los detalles.">
+      <div className="grid gap-x-5 gap-y-7 sm:grid-cols-2 lg:grid-cols-4">
         {sorted.map((p, i) => (
-          <motion.article
+          <motion.div
             key={p.id}
-            variants={fadeUp}
-            custom={i}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: '-40px' }}
-            whileHover={{ y: -3 }}
-            className={`card flex flex-col items-center px-6 py-8 text-center ${p.featured ? 'border-accent/40' : ''}`}
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.05, duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
           >
-            <h3 className="text-lg font-bold">{p.title}</h3>
-            <p className="clamp-3 mt-3 flex-1 text-sm text-fg-muted" title={p.description}>
-              {p.description}
-            </p>
-            <div className="mt-4 flex flex-wrap justify-center gap-1">
-              {p.stack.slice(0, 4).map((s) => (
-                <span key={s} className="text-xs text-fg-subtle">
+            <Tile
+              id={`proj-${p.id}`}
+              item={p}
+              label={p.title}
+              ariaLabel={`${p.title}: ver detalles`}
+              featured={p.featured}
+              onOpen={() => setOpenId(p.id)}
+              overlay={
+                <>
+                  <p className="font-semibold leading-tight">{p.title}</p>
+                  <p className="clamp-2 mt-1 text-xs leading-snug text-white/85">{p.description}</p>
+                  <Chips items={p.stack} />
+                </>
+              }
+              caption={
+                <>
+                  <p className="flex items-baseline justify-between gap-2">
+                    <span className="truncate font-semibold">{p.title}</span>
+                    {p.featured && <span className="shrink-0 text-xs font-semibold text-accent">Destacado</span>}
+                  </p>
+                  <p className="truncate text-sm text-fg-muted">
+                    {p.liveUrl ? host(p.liveUrl) : p.repoUrl ? 'código abierto' : 'proyecto privado'}
+                  </p>
+                </>
+              }
+            />
+          </motion.div>
+        ))}
+      </div>
+
+      <AnimatePresence>
+        {current && (
+          <Modal id={`proj-${current.id}`} item={current} label={current.title} titleId={`proj-title-${current.id}`} onClose={() => setOpenId(null)}>
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <h3 id={`proj-title-${current.id}`} className="text-xl font-bold">
+                {current.title}
+              </h3>
+              {current.featured && <span className="pill border-accent/40 text-accent">Destacado</span>}
+            </div>
+            <p className="mt-4 whitespace-pre-line">{current.description}</p>
+            <p className="eyebrow mt-6 mb-2">Tecnologías</p>
+            <div className="flex flex-wrap gap-1.5">
+              {current.stack.map((s) => (
+                <span key={s} className="pill">
                   {s}
-                  <span className="mx-1 last:hidden">·</span>
                 </span>
               ))}
             </div>
-            <div className="mt-5 flex gap-2">
-              {p.liveUrl && (
-                <a href={p.liveUrl} target="_blank" rel="noreferrer" className="link-pill">
-                  ↗ {host(p.liveUrl)}
-                </a>
-              )}
-              {p.repoUrl && (
-                <a href={p.repoUrl} target="_blank" rel="noreferrer" className="link-pill">
-                  ⌥ código
-                </a>
-              )}
-              {!p.liveUrl && !p.repoUrl && <span className="pill">privado</span>}
-            </div>
-          </motion.article>
-        ))}
-      </div>
+            {(current.liveUrl || current.repoUrl) && (
+              <div className="mt-6 flex flex-wrap gap-2">
+                {current.liveUrl && (
+                  <a href={current.liveUrl} target="_blank" rel="noreferrer" className="btn-primary text-sm">
+                    ↗ Ver sitio
+                  </a>
+                )}
+                {current.repoUrl && (
+                  <a href={current.repoUrl} target="_blank" rel="noreferrer" className="btn-outline text-sm">
+                    ⌥ Código
+                  </a>
+                )}
+              </div>
+            )}
+          </Modal>
+        )}
+      </AnimatePresence>
     </Section>
   )
 }

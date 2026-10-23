@@ -20,7 +20,16 @@ export interface Cover {
   scale: number
 }
 
-export interface Experience {
+/** Campos de portada compartidos por tarjetas de galería (experiencia, proyectos). */
+export interface Coverable {
+  /** URL de la imagen de portada de la tarjeta (opcional). */
+  coverUrl?: string
+  cover?: Cover
+  /** Color de marca para la tarjeta cuando no hay imagen. */
+  color?: string
+}
+
+export interface Experience extends Coverable {
   id: string
   company: string
   role: string
@@ -30,11 +39,6 @@ export interface Experience {
   summary: string
   highlights: string[]
   stack: string[]
-  /** URL de la imagen de portada de la tarjeta (opcional). */
-  coverUrl?: string
-  cover?: Cover
-  /** Color de marca para la tarjeta cuando no hay imagen. */
-  color?: string
 }
 
 export const DEFAULT_COVER: Cover = { x: 50, y: 50, scale: 1 }
@@ -63,7 +67,7 @@ export interface SkillGroup {
   skills: string[]
 }
 
-export interface Project {
+export interface Project extends Coverable {
   id: string
   title: string
   description: string
