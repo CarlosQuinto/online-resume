@@ -4,7 +4,7 @@ import type { Profile } from '../data/schema'
 export default function Footer({ profile, updatedAt }: { profile: Profile; updatedAt: string }) {
   return (
     <footer className="border-t border-border bg-surface-2">
-      <div className="container-narrow flex flex-col items-center gap-3 py-8 text-center sm:flex-row sm:justify-between sm:text-left">
+      <div className="container-wide flex flex-col items-center gap-3 py-8 text-center sm:flex-row sm:justify-between sm:text-left">
         <p className="font-mono text-xs text-fg-subtle">
           © {new Date().getFullYear()} {profile.name} · actualizado {updatedAt}
         </p>

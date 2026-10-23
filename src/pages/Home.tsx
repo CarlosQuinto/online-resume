@@ -57,7 +57,7 @@ export default function Home() {
             ) : null
           }
         />
-        <div className="container-narrow min-h-[60vh] py-8">
+        <div className="container-wide min-h-[60vh] py-8">
           <AnimatePresence mode="wait">
             <motion.div
               key={active}
@@ -70,7 +70,7 @@ export default function Home() {
               {active === 'proyectos' && <Projects items={projects} />}
               {active === 'que-hago' && (
                 <div className="grid gap-8" id="panel-que-hago" role="tabpanel" aria-labelledby="tab-que-hago">
-                  <p className="max-w-3xl text-lg text-fg-muted">{data.profile.summary}</p>
+                  <p className="max-w-4xl text-lg text-fg-muted">{data.profile.summary}</p>
                   <Pillars pillars={pillars} />
                   <Skills groups={data.skillGroups} certifications={data.certifications} />
                 </div>

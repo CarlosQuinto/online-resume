@@ -44,7 +44,7 @@ export default function Tabs({
 }) {
   return (
     <div className="sticky top-0 z-30 border-b border-border bg-bg/95 backdrop-blur">
-      <div className="container-narrow flex items-center justify-between gap-4 py-2">
+      <div className="container-wide flex items-center justify-between gap-4 py-2">
         <div role="tablist" aria-label="Secciones" className="-mx-1 flex overflow-x-auto px-1">
           {tabs.map((t) => {
             const selected = t.id === active

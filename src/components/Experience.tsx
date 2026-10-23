@@ -21,7 +21,7 @@ export default function Experience({ items, order = 'recent' }: { items: Exp[]; 
 
   return (
     <div id="panel-experiencia" role="tabpanel" aria-labelledby="tab-experiencia">
-      <div className="grid gap-x-5 gap-y-7 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {sorted.map((exp, i) => (
           <motion.div
             key={exp.id}

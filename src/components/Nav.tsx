@@ -5,7 +5,7 @@ import type { Theme } from '../hooks/useTheme'
 export default function Nav({ theme, onToggleTheme }: { theme: Theme; onToggleTheme: () => void }) {
   return (
     <header className="bg-bg">
-      <nav className="container-narrow flex h-12 items-center justify-end gap-3" aria-label="Utilidades">
+      <nav className="container-wide flex h-12 items-center justify-end gap-3" aria-label="Utilidades">
         <button
           type="button"
           onClick={onToggleTheme}

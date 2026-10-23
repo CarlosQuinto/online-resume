@@ -2,8 +2,8 @@
    Tokens de diseño · Claro por defecto, oscuro opcional
    ----------------------------------------------------------
    Inspirado en la densidad y limpieza de mattfarley.ca:
-   contenedor de 60rem, texto centrado, bandas de color como
-   separadores y tarjetas blancas montadas sobre la banda.
+   perfil centrado en 60rem; pestañas y galerías a lo ancho
+   (container-wide, 100rem) para aprovechar la pantalla.
    Contrastes (modo claro, sobre #FFFFFF):
      --fg        #141C3A  ≈ 15.4 : 1  (AAA)
      --fg-muted  #475467  ≈  7.6 : 1  (AAA)
@@ -110,6 +110,15 @@
   max-width: 60rem;
   margin-inline: auto;
   padding-inline: var(--spacing-gutter);
+}
+
+/* Contenedor ancho para las galerías y la barra de pestañas (como el wrapper de Dribbble). */
+@utility container-wide {
+  width: 100%;
+  max-width: 100rem;
+  margin-inline: auto;
+  padding-inline: var(--spacing-gutter);
+  @media (width >= 64rem) { padding-inline: 2rem; }
 }
 
 @utility card {
