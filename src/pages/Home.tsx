@@ -37,30 +37,28 @@ export default function Home() {
   const experience = withDefaults(data.experience, seed.experience)
   const projects = withDefaults(data.projects, seed.projects)
 
+  const sortSelect =
+    active === 'experiencia' ? (
+      <select
+        value={order}
+        onChange={(e) => setOrder(e.target.value as ExpOrder)}
+        aria-label={t.order}
+        className="field w-auto py-1.5 text-sm"
+      >
+        <option value="recent">{t.newest}</option>
+        <option value="oldest">{t.oldest}</option>
+      </select>
+    ) : null
+
   return (
     <>
       <Nav theme={theme} onToggleTheme={toggle} />
       <main>
         <ProfileHeader profile={data.profile} />
-        <Tabs
-          tabs={tabs}
-          active={active}
-          onSelect={select}
-          right={
-            active === 'experiencia' ? (
-              <select
-                value={order}
-                onChange={(e) => setOrder(e.target.value as ExpOrder)}
-                aria-label={t.order}
-                className="field w-auto py-1.5 text-sm"
-              >
-                <option value="recent">{t.newest}</option>
-                <option value="oldest">{t.oldest}</option>
-              </select>
-            ) : null
-          }
-        />
-        <div className="container-wide min-h-[60vh] pt-12 pb-16">
+        <Tabs tabs={tabs} active={active} onSelect={select} right={sortSelect} />
+        <div className="container-wide min-h-[60vh] pt-8 pb-16 lg:pt-12">
+          {/* En pantallas estrechas el orden baja bajo la línea de pestañas, sobre la galería. */}
+          {sortSelect && <div className="mb-8 lg:hidden">{sortSelect}</div>}
           <AnimatePresence mode="wait">
             <motion.div
               key={active}

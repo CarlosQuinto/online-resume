@@ -31,7 +31,7 @@ export function useTab(tabs: TabDef[], fallback: string) {
   return { active, select }
 }
 
-/** Barra de pestañas tipo pastilla, pegajosa bajo el nav, con un extra opcional a la derecha. */
+/** Barra de pestañas tipo pastilla, pegajosa bajo el nav, con un extra opcional a la derecha (solo en pantallas anchas). */
 export default function Tabs({
   tabs,
   active,
@@ -49,7 +49,7 @@ export default function Tabs({
       {/* La línea inferior se alinea con la galería, no con el borde de la ventana (como Dribbble). */}
       <div className="container-wide">
         <div className="flex items-center justify-between gap-4 border-b border-border pt-4 pb-7">
-          <div role="tablist" aria-label={t.tabsLabel} className="-mx-1 flex overflow-x-auto px-1">
+          <div role="tablist" aria-label={t.tabsLabel} className="-mx-1 flex overflow-x-auto px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {tabs.map((t) => {
               const selected = t.id === active
               return (
@@ -76,7 +76,7 @@ export default function Tabs({
               )
             })}
           </div>
-          {right && <div className="shrink-0">{right}</div>}
+          {right && <div className="hidden shrink-0 lg:block">{right}</div>}
         </div>
       </div>
     </div>
