@@ -87,30 +87,30 @@ export default function Home() {
   }, [raw, lang])
 
   const sortSelect = (
-      // Flecha propia: la nativa queda pegada al borde y no admite margen.
-      <span className="relative inline-flex">
-        <select
-          value={order}
-          onChange={(e) => setOrder(e.target.value as ExpOrder)}
-          aria-label={t.order}
-          className="field w-auto cursor-pointer appearance-none py-1.5 pr-10 pl-3.5 text-sm"
-        >
-          <option value="recent">{t.newest}</option>
-          <option value="oldest">{t.oldest}</option>
-        </select>
-        <svg
-          aria-hidden
-          viewBox="0 0 16 16"
-          className="pointer-events-none absolute top-1/2 right-3.5 h-3.5 w-3.5 -translate-y-1/2 text-fg-muted"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M4 6l4 4 4-4" />
-        </svg>
-      </span>
+    // Flecha propia: la nativa queda pegada al borde y no admite margen.
+    <span className="relative inline-flex">
+      <select
+        value={order}
+        onChange={(e) => setOrder(e.target.value as ExpOrder)}
+        aria-label={t.order}
+        className="field w-auto cursor-pointer appearance-none py-1.5 pr-10 pl-3.5 text-sm"
+      >
+        <option value="recent">{t.newest}</option>
+        <option value="oldest">{t.oldest}</option>
+      </select>
+      <svg
+        aria-hidden
+        viewBox="0 0 16 16"
+        className="pointer-events-none absolute top-1/2 right-3.5 h-3.5 w-3.5 -translate-y-1/2 text-fg-muted"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M4 6l4 4 4-4" />
+      </svg>
+    </span>
   )
 
   return (

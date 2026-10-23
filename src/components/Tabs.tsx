@@ -1,34 +1,10 @@
 import { motion } from 'framer-motion'
-import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { useEffect, useRef, type ReactNode } from 'react'
 import { useLang } from '../i18n/lang'
 
 export interface TabDef {
   id: string
   label: string
-}
-
-/** Lee la pestaña activa del hash de la URL y la mantiene sincronizada. */
-export function useTab(tabs: TabDef[], fallback: string) {
-  const valid = (h: string) => tabs.some((t) => t.id === h)
-  const fromHash = () => {
-    const h = window.location.hash.replace('#', '')
-    return valid(h) ? h : fallback
-  }
-  const [active, setActive] = useState<string>(fromHash)
-  useEffect(() => {
-    const onHash = () => {
-      const h = window.location.hash.replace('#', '')
-      if (valid(h)) setActive(h)
-    }
-    window.addEventListener('hashchange', onHash)
-    return () => window.removeEventListener('hashchange', onHash)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-  const select = (id: string) => {
-    setActive(id)
-    history.replaceState(null, '', `#${id}`)
-  }
-  return { active, select }
 }
 
 /** Menú tipo pastilla, pegajoso bajo el nav: cada botón lleva a su sección de la página. Extra opcional a la derecha (pantallas anchas). */
