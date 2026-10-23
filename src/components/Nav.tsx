@@ -16,11 +16,11 @@ export default function Nav({ theme, onToggleTheme }: { theme: Theme; onToggleTh
             e.preventDefault()
             window.scrollTo({ top: 0, behavior: 'smooth' })
           }}
-          className="shrink-0 text-base font-extrabold tracking-tight whitespace-nowrap transition-opacity hover:opacity-80 sm:text-lg"
+          className="min-w-0 truncate text-base font-extrabold tracking-tight transition-opacity hover:opacity-80 sm:text-lg"
         >
           Awesome <span className="text-accent">Resume</span>
         </a>
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           <div role="group" aria-label={t.langLabel} className="flex rounded-full border border-border p-0.5 text-xs font-semibold">
             {LANGS.map((l) => (
               <button
@@ -42,7 +42,7 @@ export default function Nav({ theme, onToggleTheme }: { theme: Theme; onToggleTh
           >
             {theme === 'dark' ? '☀' : '☾'}
           </button>
-          <Link to="/admin" className="text-xs text-fg-subtle hover:text-accent" aria-label={t.adminLabel}>
+          <Link to="/admin" className="hidden text-xs text-fg-subtle hover:text-accent sm:inline" aria-label={t.adminLabel}>
             Admin
           </Link>
         </div>

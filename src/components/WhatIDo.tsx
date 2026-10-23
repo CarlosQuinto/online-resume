@@ -50,10 +50,10 @@ export default function WhatIDo({
     <div>
       <Block first>
         <Heading kicker={t.whatKicker} title={t.whatTitle} />
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:gap-12">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:gap-12">
           <p className="max-w-3xl leading-relaxed text-fg-muted">{summary}</p>
           {stats.length > 0 && (
-            <ul className="grid gap-6 sm:grid-cols-3 sm:gap-0 sm:divide-x sm:divide-border lg:border-l lg:border-border">
+            <ul className="grid grid-cols-1 gap-6 sm:grid-cols-3 sm:gap-0 sm:divide-x sm:divide-border lg:border-l lg:border-border">
               {stats.map((s, i) => (
                 <motion.li key={s.id} variants={fadeUp} custom={i} initial="hidden" animate="show" className="sm:px-6">
                   <span className="text-accent">
@@ -71,7 +71,7 @@ export default function WhatIDo({
       {pillars.length > 0 && (
         <Block>
           <Heading kicker={t.focusKicker} title={t.focusTitle} />
-          <div className="grid gap-5 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
             {pillars.map((p, i) => (
               <motion.article key={p.id} variants={fadeUp} custom={i} initial="hidden" animate="show" className="card flex gap-4 p-6">
                 <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-accent-soft text-accent">
@@ -93,7 +93,7 @@ export default function WhatIDo({
           <Heading kicker={t.stackKicker} title={t.stackTitle} />
           <ul className="divide-y divide-border border-y border-border">
             {groups.map((g) => (
-              <li key={g.id} className="grid gap-3 py-4 md:grid-cols-[15rem_1fr] md:items-center">
+              <li key={g.id} className="grid grid-cols-1 gap-3 py-4 md:grid-cols-[15rem_1fr] md:items-center">
                 <p className="flex items-center gap-3 font-semibold">
                   <span className="text-accent">
                     <Icon name={g.icon} className="h-5 w-5" />
@@ -120,7 +120,7 @@ export default function WhatIDo({
       {certifications.length > 0 && (
         <Block>
           <Heading kicker={t.credKicker} title={t.credTitle} />
-          <ul className="grid gap-x-10 gap-y-7 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="grid grid-cols-1 gap-x-10 gap-y-7 sm:grid-cols-2 lg:grid-cols-3">
             {certifications.map((c) => {
               const inner = (
                 <>

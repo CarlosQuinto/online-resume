@@ -89,8 +89,10 @@
     --shadow-card: 0 1px 0 0 rgb(255 255 255 / 0.04) inset, 0 12px 40px -12px rgb(0 0 0 / 0.6);
   }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; overflow-x: clip; }
   body {
+    /* Red de seguridad: nada puede abrir un desplazamiento horizontal (clip no rompe sticky). */
+    overflow-x: clip;
     background-color: var(--color-bg);
     color: var(--color-fg);
     font-family: var(--font-sans);

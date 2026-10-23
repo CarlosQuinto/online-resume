@@ -84,7 +84,7 @@ function EducationCard({ e, i }: { e: Education; i: number }) {
       initial="hidden"
       whileInView="show"
       viewport={{ once: true }}
-      className={`card grid grid-cols-[auto_1fr] gap-x-4 gap-y-3 border-l-4 p-5 md:grid-cols-[auto_1fr_auto] md:gap-x-5 md:p-6 ${
+      className={`card grid grid-cols-[auto_minmax(0,1fr)] gap-x-4 gap-y-3 border-l-4 p-5 md:grid-cols-[auto_1fr_auto] md:gap-x-5 md:p-6 ${
         ongoing ? 'border-l-accent' : 'border-l-violet'
       }`}
     >
@@ -133,7 +133,7 @@ export default function About({ hobbies, education }: { hobbies: Hobby[]; educat
             <span className="font-semibold text-accent">{t.education}</span>
             <span className="text-fg-subtle"> · {t.educationSub}</span>
           </p>
-          <ul className="grid gap-4">
+          <ul className="grid grid-cols-1 gap-4">
             {education.map((e, i) => (
               <EducationCard key={e.id} e={e} i={i} />
             ))}

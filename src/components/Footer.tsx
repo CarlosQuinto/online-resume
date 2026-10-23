@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import type { Profile } from '../data/schema'
 import { useLang } from '../i18n/lang'
 
@@ -23,6 +24,12 @@ export default function Footer({ profile, updatedAt }: { profile: Profile; updat
               </a>
             </li>
           ))}
+          {/* En móvil el acceso al admin sale de la barra superior y vive aquí. */}
+          <li className="sm:hidden">
+            <Link to="/admin" className="text-sm font-medium text-fg-subtle transition-colors hover:text-accent" aria-label={t.adminLabel}>
+              Admin
+            </Link>
+          </li>
         </ul>
       </div>
     </footer>
