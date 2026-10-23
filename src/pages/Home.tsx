@@ -117,7 +117,11 @@ export default function Home() {
     <>
       <Nav theme={theme} onToggleTheme={toggle} />
       <main>
-        <ProfileHeader profile={data.profile} />
+        <ProfileHeader
+          profile={data.profile}
+          // El generador de PDF se descarga solo al pulsar el botón.
+          onDownloadCv={() => import('../pdf/ResumePdf').then((m) => m.downloadResume(data, t, lang))}
+        />
         <Tabs tabs={tabs} active={active} onSelect={select} />
         <div className="container-wide pt-8 pb-16 lg:pt-12">
           <section id="experiencia">

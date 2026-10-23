@@ -11,6 +11,7 @@
     "deploy": "npm run build && firebase deploy"
   },
   "dependencies": {
+    "@react-pdf/renderer": "^4.9.0",
     "firebase": "^11.10.0",
     "framer-motion": "^12.23.0",
     "react": "^19.1.0",

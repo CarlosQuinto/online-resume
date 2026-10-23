@@ -1,11 +1,25 @@
 import { motion } from 'framer-motion'
+import { useState } from 'react'
 import type { Profile } from '../data/schema'
 import Avatar from './Avatar'
 import { useLang } from '../i18n/lang'
 
 /** Cabecera de perfil al estilo Dribbble: avatar a la izquierda, nombre, ubicación, línea de skills y acciones. */
-export default function ProfileHeader({ profile }: { profile: Profile }) {
+export default function ProfileHeader({ profile, onDownloadCv }: { profile: Profile; onDownloadCv?: () => Promise<void> }) {
   const { t } = useLang()
+  const [cvState, setCvState] = useState<'idle' | 'busy' | 'error'>('idle')
+  const downloadCv = async () => {
+    if (!onDownloadCv || cvState === 'busy') return
+    setCvState('busy')
+    try {
+      await onDownloadCv()
+      setCvState('idle')
+    } catch (err) {
+      console.error(err)
+      setCvState('error')
+      setTimeout(() => setCvState('idle'), 4000)
+    }
+  }
   const email = profile.links.find((l) => l.url.startsWith('mailto:'))
   // WhatsApp (desde el teléfono del perfil) ocupa el lugar de GitHub; GitHub sigue en Contacto y en el pie.
   const digits = profile.phone?.replace(/\D/g, '')
@@ -39,6 +53,21 @@ export default function ProfileHeader({ profile }: { profile: Profile }) {
                 {l.label}
               </a>
             ))}
+            {onDownloadCv && (
+              <button
+                type="button"
+                onClick={downloadCv}
+                disabled={cvState === 'busy'}
+                className="btn-outline gap-2 px-5 py-2.5 text-sm hover:bg-accent-soft disabled:opacity-60"
+              >
+                <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <path d="M12 15V3" />
+                  <path d="m7 10 5 5 5-5" />
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                </svg>
+                {cvState === 'busy' ? t.pdf.generating : cvState === 'error' ? t.pdf.error : t.pdf.download}
+              </button>
+            )}
           </div>
         </div>
       </motion.div>
