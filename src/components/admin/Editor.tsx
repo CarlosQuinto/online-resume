@@ -5,6 +5,7 @@ import { seed } from '../../data/seed'
 import { savePortfolio } from '../../lib/content'
 import { lock, setPin } from '../../lib/admin'
 import { firebaseEnabled } from '../../lib/firebase'
+import { DOC_LIMIT, docBytes, formatKB } from '../../lib/image'
 import { ListEditor, Select, Tags, Text, Toggle, uid } from './fields'
 import CoverCropper from './CoverCropper'
 import AvatarEditor from './AvatarEditor'
@@ -48,6 +49,9 @@ export default function Editor({ initial, onLock }: { initial: PortfolioData; on
   const [status, setStatus] = useState<string | null>(null)
   const [json, setJson] = useState('')
   const untranslated = translationRows(data).filter((r) => r.status !== 'ok').length
+  // Todo (incluidas las imágenes subidas) vive en un documento de Firestore de máx. 1 MB.
+  const size = docBytes(data)
+  const usage = size / DOC_LIMIT
 
   useEffect(() => {
     if (!dirty) setData(materialize(initial))
@@ -59,6 +63,10 @@ export default function Editor({ initial, onLock }: { initial: PortfolioData; on
   }
 
   async function publish() {
+    if (size > DOC_LIMIT) {
+      setStatus(`No cabe: ${formatKB(size)} de 1 MB. Quita o reemplaza alguna imagen subida.`)
+      return
+    }
     setStatus('Guardando…')
     try {
       await savePortfolio(data)
@@ -83,6 +91,12 @@ export default function Editor({ initial, onLock }: { initial: PortfolioData; on
           </div>
           <div className="flex items-center gap-3">
             {status && <span className="text-sm text-fg-muted">{status}</span>}
+            <span
+              title="Espacio usado del documento de Firestore (límite 1 MB). Las imágenes subidas desde tu equipo cuentan aquí."
+              className={`pill font-mono ${usage > 0.95 ? 'border-danger/50 text-danger' : usage > 0.8 ? 'border-amber/60 text-amber' : ''}`}
+            >
+              {formatKB(size)} / 1 MB
+            </span>
             <button
               onClick={publish}
               disabled={!dirty}

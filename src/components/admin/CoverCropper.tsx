@@ -1,12 +1,12 @@
 import { useRef, useState, type PointerEvent } from 'react'
 import { CoverImage } from '../gallery'
 import { DEFAULT_COVER, type Cover, type Coverable } from '../../data/schema'
-import { Text } from './fields'
+import ImageSource from './ImageSource'
 
 const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v))
 
 /**
- * Editor de portada: URL de imagen, color de respaldo y recorte interactivo.
+ * Editor de portada: imagen (subida o URL), color de respaldo y recorte interactivo.
  * Arrastra la imagen para elegir el encuadre y usa el zoom; la vista previa
  * tiene exactamente la proporción 4:3 de la tarjeta.
  */
@@ -51,7 +51,12 @@ export default function CoverCropper<T extends Coverable>({
   return (
     <div className="grid gap-4 rounded-lg border border-border p-3">
       <p className="text-sm font-semibold">Portada de la tarjeta</p>
-      <Text label="URL de la imagen (jpg, png, webp)" value={item.coverUrl ?? ''} onChange={(v) => onChange({ coverUrl: v.trim() })} placeholder="https://…" />
+      <ImageSource
+        url={item.coverUrl ?? ''}
+        maxSide={1000}
+        maxBytes={60_000}
+        onChange={(url, source) => onChange(source === 'url' ? { coverUrl: url } : { coverUrl: url, cover: { ...DEFAULT_COVER } })}
+      />
       <label className="flex items-center gap-3 text-sm text-fg-muted">
         <span className="field-label mb-0">Color de respaldo</span>
         <input type="color" value={item.color ?? '#115E59'} onChange={(e) => onChange({ color: e.target.value })} className="h-8 w-12 cursor-pointer rounded border border-border bg-transparent" />
@@ -103,7 +108,7 @@ export default function CoverCropper<T extends Coverable>({
             Restablecer encuadre
           </button>
           <p className="text-xs text-fg-subtle">
-            La imagen se recorta en proporción 4:3 en la galería y 21:9 en el modal, conservando el mismo punto de foco. Sin URL se usa el color de respaldo con el nombre.
+            La imagen se recorta en proporción 4:3 en la galería y 21:9 en el modal, conservando el mismo punto de foco. Sin imagen se usa el color de respaldo con el nombre. Las imágenes que subes se comprimen a unos 60 KB.
           </p>
         </div>
       </div>
