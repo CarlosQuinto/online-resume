@@ -34,13 +34,6 @@ export default function ProfileHeader({ profile }: { profile: Profile }) {
                 {l.label}
               </a>
             ))}
-            <span className="ml-1 inline-flex items-center gap-2 text-sm text-fg-subtle">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
-              </span>
-              {profile.availability}
-            </span>
           </div>
         </div>
       </motion.div>
