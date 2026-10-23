@@ -48,13 +48,15 @@ export default function Home() {
           onSelect={select}
           right={
             active === 'experiencia' ? (
-              <label className="flex items-center gap-2 text-sm text-fg-muted">
-                <span className="hidden sm:inline">{t.order}</span>
-                <select value={order} onChange={(e) => setOrder(e.target.value as ExpOrder)} className="field w-auto py-1.5 text-sm">
-                  <option value="recent">{t.newest}</option>
-                  <option value="oldest">{t.oldest}</option>
-                </select>
-              </label>
+              <select
+                value={order}
+                onChange={(e) => setOrder(e.target.value as ExpOrder)}
+                aria-label={t.order}
+                className="field w-auto py-1.5 text-sm"
+              >
+                <option value="recent">{t.newest}</option>
+                <option value="oldest">{t.oldest}</option>
+              </select>
             ) : null
           }
         />
