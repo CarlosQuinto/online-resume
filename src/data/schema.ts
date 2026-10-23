@@ -79,13 +79,17 @@ export interface Project extends Coverable {
   featured: boolean
 }
 
-export interface Hobby {
+export interface Hobby extends Coverable {
   id: string
   title: string
   emoji: string
+  /** Etiqueta corta sobre la imagen (p. ej. «Árbitro activo en FENAMAC»). */
   description: string
   detail: string
   accent: 'accent' | 'green' | 'amber' | 'violet'
+  /** Encabezado pequeño sobre el título (p. ej. «Disciplina táctica»). */
+  kicker?: string
+  tags?: string[]
 }
 
 /** Tarjeta "pilar" montada sobre la banda: qué hago, con qué, y datos clave. */

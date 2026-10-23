@@ -13,7 +13,7 @@ import Contact from '../components/Contact'
 import Footer from '../components/Footer'
 import { usePortfolio } from '../hooks/usePortfolio'
 import { useTheme } from '../hooks/useTheme'
-import { seed } from '../data/seed'
+import { withSeedDefaults } from '../data/defaults'
 import { useLang } from '../i18n/lang'
 import { localize } from '../i18n/content'
 
@@ -28,14 +28,10 @@ export default function Home() {
   const { active, select } = useTab(tabs, 'experiencia')
   const [order, setOrder] = useState<ExpOrder>('recent')
   const data = useMemo(() => {
-    const base = { ...raw, pillars: raw.pillars?.length ? raw.pillars : seed.pillars }
+    // Los valores heredados de la semilla se completan antes de traducir, para que también se traduzcan.
+    const base = withSeedDefaults(raw)
     return lang === 'en' ? localize(base) : base
   }, [raw, lang])
-  // Documentos publicados antes de las portadas heredan color/encuadre de la semilla por id.
-  const withDefaults = <T extends { id: string }>(items: T[], defaults: T[]): T[] =>
-    items.map((it) => ({ ...defaults.find((d) => d.id === it.id), ...it }))
-  const experience = withDefaults(data.experience, seed.experience)
-  const projects = withDefaults(data.projects, seed.projects)
 
   const sortSelect =
     active === 'experiencia' ? (
@@ -82,8 +78,8 @@ export default function Home() {
               exit={{ opacity: 0, y: -6 }}
               transition={{ duration: 0.25 }}
             >
-              {active === 'experiencia' && <Experience items={experience} order={order} />}
-              {active === 'proyectos' && <Projects items={projects} />}
+              {active === 'experiencia' && <Experience items={data.experience} order={order} />}
+              {active === 'proyectos' && <Projects items={data.projects} />}
               {active === 'que-hago' && (
                 <div className="grid gap-8" id="panel-que-hago" role="tabpanel" aria-labelledby="tab-que-hago">
                   <p className="max-w-4xl text-lg text-fg-muted">{data.profile.summary}</p>

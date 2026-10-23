@@ -15,6 +15,7 @@ export default function CoverCropper<T extends Coverable>({
   label,
   sublabel,
   onChange,
+  aspect = '4/3',
 }: {
   item: T
   /** Texto grande de la tarjeta sin imagen (empresa o proyecto). */
@@ -22,6 +23,8 @@ export default function CoverCropper<T extends Coverable>({
   /** Línea secundaria del overlay de la vista previa. */
   sublabel?: string
   onChange: (patch: Partial<Coverable>) => void
+  /** Proporción de la tarjeta en el sitio: 4:3 en galerías, 21:9 en hobbies. */
+  aspect?: '4/3' | '21/9'
 }) {
   const cover: Cover = item.cover ?? DEFAULT_COVER
   const box = useRef<HTMLDivElement>(null)
@@ -72,7 +75,7 @@ export default function CoverCropper<T extends Coverable>({
             onPointerMove={onMove}
             onPointerUp={onUp}
             onPointerCancel={onUp}
-            className={`group relative aspect-[4/3] w-full touch-none overflow-hidden rounded-xl border border-border bg-surface-2 shadow-card ${
+            className={`group relative w-full ${aspect === '21/9' ? 'aspect-[21/9]' : 'aspect-[4/3]'} touch-none overflow-hidden rounded-xl border border-border bg-surface-2 shadow-card ${
               item.coverUrl ? (dragging ? 'cursor-grabbing' : 'cursor-grab') : ''
             }`}
           >
@@ -108,7 +111,9 @@ export default function CoverCropper<T extends Coverable>({
             Restablecer encuadre
           </button>
           <p className="text-xs text-fg-subtle">
-            La imagen se recorta en proporción 4:3 en la galería y 21:9 en el modal, conservando el mismo punto de foco. Sin imagen se usa el color de respaldo con el nombre. Las imágenes que subes se comprimen a unos 60 KB.
+            {aspect === '21/9'
+              ? 'La imagen se recorta en proporción 21:9 en la tarjeta.'
+              : 'La imagen se recorta en proporción 4:3 en la galería y 21:9 en el modal, conservando el mismo punto de foco.'} Sin imagen se usa el color de respaldo con el nombre. Las imágenes que subes se comprimen a unos 60 KB.
           </p>
         </div>
       </div>

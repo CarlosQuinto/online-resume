@@ -4,7 +4,7 @@ import { DEFAULT_COVER, type Coverable } from '../data/schema'
 import { useLang } from '../i18n/lang'
 
 /** Oscurece un color hex para el degradado de las tarjetas sin imagen. */
-function shade(hex: string, amount = 0.4) {
+export function shade(hex: string, amount = 0.4) {
   const n = parseInt(hex.replace('#', ''), 16)
   if (Number.isNaN(n)) return '#0B0F14'
   const f = (c: number) => Math.round(c * (1 - amount))

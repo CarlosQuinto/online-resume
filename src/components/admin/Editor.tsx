@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import type { PortfolioData, Recommendation } from '../../data/schema'
+import type { Hobby, PortfolioData, Recommendation } from '../../data/schema'
 import { seed } from '../../data/seed'
+import { withSeedDefaults } from '../../data/defaults'
 import { savePortfolio } from '../../lib/content'
 import { lock, setPin } from '../../lib/admin'
 import { firebaseEnabled } from '../../lib/firebase'
@@ -42,10 +43,11 @@ const tabs: { id: Tab; label: string }[] = [
 
 /**
  * Prepara el documento para editar: quita secciones retiradas del sitio (las mascotas)
- * para que desaparezcan del documento al publicar, y fija las traducciones por ruta.
+ * para que desaparezcan del documento al publicar, completa campos nuevos desde la semilla
+ * y fija las traducciones por ruta.
  */
 const load = (d: PortfolioData) =>
-  materialize(Object.fromEntries(Object.entries(d).filter(([k]) => k !== 'pets')) as unknown as PortfolioData)
+  materialize(withSeedDefaults(Object.fromEntries(Object.entries(d).filter(([k]) => k !== 'pets')) as unknown as PortfolioData))
 
 export default function Editor({ initial, onLock }: { initial: PortfolioData; onLock: () => void }) {
   const [data, setData] = useState<PortfolioData>(() => load(initial))
@@ -342,7 +344,7 @@ export default function Editor({ initial, onLock }: { initial: PortfolioData; on
             <ListEditor
               items={data.hobbies}
               onChange={(hobbies) => patch({ hobbies })}
-              create={() => ({ id: uid('hob'), title: '', emoji: '✨', description: '', detail: '', accent: 'accent' as const })}
+              create={(): Hobby => ({ id: uid('hob'), title: '', emoji: '✨', description: '', detail: '', accent: 'accent', kicker: '', tags: [], coverUrl: '', color: '#115E59' })}
               title={(h) => `${h.emoji} ${h.title}`}
               render={(h, up) => (
                 <>
@@ -350,9 +352,12 @@ export default function Editor({ initial, onLock }: { initial: PortfolioData; on
                     <Text label="Emoji" value={h.emoji} onChange={(v) => up({ emoji: v })} />
                     <Text label="Título" value={h.title} onChange={(v) => up({ title: v })} />
                   </div>
-                  <Text label="Descripción corta" value={h.description} onChange={(v) => up({ description: v })} />
+                  <Text label="Encabezado pequeño (sobre el título)" value={h.kicker ?? ''} onChange={(v) => up({ kicker: v })} placeholder="Disciplina táctica" />
+                  <Text label="Etiqueta sobre la imagen" value={h.description} onChange={(v) => up({ description: v })} placeholder="Árbitro activo en FENAMAC" />
                   <Text label="Detalle" value={h.detail} onChange={(v) => up({ detail: v })} multiline />
-                  <Select label="Color" value={h.accent} options={['accent', 'green', 'amber', 'violet']} onChange={(v) => up({ accent: v })} />
+                  <Tags label="Etiquetas (separa con comas)" value={h.tags ?? []} onChange={(v) => up({ tags: v })} />
+                  <Select label="Color del encabezado y el ícono" value={h.accent} options={['accent', 'green', 'amber', 'violet']} onChange={(v) => up({ accent: v })} />
+                  <CoverCropper item={h} label={h.emoji || h.title} sublabel={h.title} aspect="21/9" onChange={up} />
                 </>
               )}
             />

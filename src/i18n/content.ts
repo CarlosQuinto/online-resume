@@ -26,7 +26,7 @@ const ORDER = [
   'profile', 'experience', 'projects', 'pillars', 'skillGroups', 'certifications', 'education', 'recommendations', 'hobbies',
   'headline', 'tagline', 'summary', 'location', 'availability', 'links', 'label',
   'role', 'title', 'name', 'degree', 'field', 'breed', 'description', 'detail', 'bio', 'note', 'text',
-  'highlights', 'lists', 'items', 'skills', 'stack', 'date',
+  'kicker', 'highlights', 'lists', 'items', 'skills', 'tags', 'stack', 'date',
 ]
 const rank = (k: string) => {
   const i = ORDER.indexOf(k)
